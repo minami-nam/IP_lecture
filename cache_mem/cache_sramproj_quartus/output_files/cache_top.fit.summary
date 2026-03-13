@@ -1,0 +1,11 @@
+I/O Assignment Analysis Status : Successful - Sun Feb  8 12:00:56 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : cache_top
+Top-level Entity Name : cache_256B
+Family : Cyclone V
+Device : 5CGXFC9A6U19C7
+Timing Models : Final
+Total pins : 157 / 264 ( 59 % )
+Total virtual pins : 0
+Total PLLs : 0 / 13 ( 0 % )
+Total DLLs : 0 / 4 ( 0 % )

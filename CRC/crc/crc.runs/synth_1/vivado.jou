@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Thu Mar 12 07:00:36 2026
+# Process ID         : 1308300
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/CRC/crc/crc.runs/synth_1
+# Command line       : vivado -log crc.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source crc.tcl
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/CRC/crc/crc.runs/synth_1/crc.vds
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/CRC/crc/crc.runs/synth_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.124 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 31812 MB
+#-----------------------------------------------------------
+source crc.tcl -notrace

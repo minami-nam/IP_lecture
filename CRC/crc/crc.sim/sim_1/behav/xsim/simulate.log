@@ -1,0 +1,5 @@
+Time resolution is 1 ps
+CRC module turned on.
+CRC-16-CCITT Testing...
+Your CRC-16-CCITT mode is XModem. The CRC value is : 4405
+$finish called at time : 123 ns : File "/home/minami/Coding_IPDesign/IP_lecture/CRC/tb_crc.sv" Line 38

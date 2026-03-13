@@ -1,0 +1,144 @@
+`define SIM
+
+module dram_interface_fix(
+    input   ck_t, ck_c,
+    input   cke,
+    input   csn, actn,
+  	input   [1:0] bg, 
+  	input   [1:0]  ba,
+    input   [17:0]  a,
+
+    inout   [7:0]   dq,
+    inout   dqs_t, dqs_c
+);  
+    
+    localparam  [4:0] ACT = 5'b00111;
+    localparam  [4:0] WR = 5'b01100; 
+    localparam  [4:0] RD = 5'b01101; 
+    localparam  [4:0] MRS = 5'b01000; 
+    localparam  [4:0] PRECHARGE = 5'b01111;  
+    localparam  tRCD=9, tRP=8, tCL=2, tCWL=1;  
+    parameter DQ=8;
+    parameter BG=2, BA=2;
+
+    // {csn, actn, rasn, casn, wen} 
+    wire [4:0]  opcode;
+    wire rasn, casn, wen;
+    assign {rasn, casn, wen} = {a[16], a[15], a[14]}; 
+    assign opcode = {csn, actn, rasn, casn, wen};
+    reg read_op, write_op;
+    reg start;
+    reg [4:0]   opcode_reg;
+    reg [1:0]   bg_reg, ba_reg;
+
+    wire [3:0]  row, col;
+    assign row = a[7:4];
+    assign col = a[3:0];
+
+    // DQS 관련
+    reg [7:0] dq_o;
+    wire dq_oe;
+    assign dq_oe = read_op && (start);
+    assign dqs_t = dq_oe ? ck_t : 'hz;
+    assign dqs_c = dq_oe ? ck_c : 'hz;
+    assign dq = dqs_t ? dq_o : 'hz;
+
+    reg [4:0]   cnt;
+    reg [63:0]  mem[0:15][0:15][0:BG-1][0:BA-1];
+    reg [3:0]   cnt_out;
+
+
+    always @(posedge ck_t, negedge ck_c)  begin
+    if (opcode==ACT) begin
+        opcode_reg <= opcode;
+        bg_reg <= bg;
+        ba_reg <= ba;
+        cnt <= 0;
+    end 
+    else if (opcode_reg==ACT) begin
+        cnt++;
+        if (cnt==tRCD-1) begin
+            cnt <= 0;
+        end
+    end
+    end
+
+    always @(posedge ck_t, negedge ck_c)  begin
+    if (opcode==WR) begin
+        opcode_reg <= opcode;
+        cnt <= 0;
+        write_op <= 1;
+    end
+    else if (opcode_reg==WR) begin
+        cnt++;
+        if (cnt==tCWL-1) begin
+            cnt <= 0;
+            start <= 1;
+        end
+    end
+    end
+
+
+    always @(posedge ck_t, negedge ck_c)  begin
+    if (opcode==RD) begin
+        opcode_reg <= opcode;
+        cnt <= 0;
+        read_op <= 1;
+    end
+    else if (opcode_reg==RD) begin
+        cnt++;
+        if (cnt==tCL-1) begin
+            cnt <= 0;
+            start <= 1;
+        end
+    end
+    end
+
+    always @(posedge ck_t, negedge ck_c)  begin
+    if (start) begin
+        if (write_op) mem[row][col][bg][ba][8*cnt_out +: 8] <= dq;
+        else if (read_op) dq_o <= mem[row][col][bg][ba][8*cnt_out +: 8];
+        cnt_out++;
+        if (cnt_out==DQ-1) begin
+            start <= 0;
+            write_op <= 0;
+            read_op <= 0;
+            cnt_out <= 0;
+            opcode_reg <= PRECHARGE;
+        end
+    end
+
+
+    end
+
+
+
+    always @(posedge ck_t, negedge ck_c)  begin
+    if (opcode_reg==PRECHARGE) begin
+        cnt++;
+        if (cnt==tRP-1) begin
+            cnt <= 0;
+            opcode_reg <= 0;
+        end
+    end
+    end
+
+`ifdef SIM
+    initial begin
+        cnt = 0;
+        mem= 0;
+        cnt_out= 0;
+        read_op= 0; 
+        write_op= 0;
+        start= 0;
+        opcode_reg= 0;
+        bg_reg= 0;
+        ba_reg= 0;
+
+    end
+
+`endif
+
+
+    
+endmodule

@@ -1,0 +1,7 @@
+0.7
+2020.2
+May 21 2025
+22:59:56
+/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/SRAM_wrapper/SRAM_wrapper.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,,,,,,,
+/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/sram_tb.v,1770290933,verilog,,,,tb_SRAM,,,../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef,,,,,
+/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/sram_wrapper.v,1770292988,verilog,,/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/sram_tb.v,,SRAM_wrapper;sram_cell_8x64_asic;sram_cell_8x64_fpga;sram_cell_sim,,,../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef,,,,,

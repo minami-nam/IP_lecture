@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Sun Mar  8 11:30:06 2026
+# Process ID         : 3136137
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.runs/impl_1
+# Command line       : vivado -log ddrctl_v2.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ddrctl_v2.tcl -notrace
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.runs/impl_1/ddrctl_v2.vdi
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.runs/impl_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.158 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 26478 MB
+#-----------------------------------------------------------
+source ddrctl_v2.tcl -notrace

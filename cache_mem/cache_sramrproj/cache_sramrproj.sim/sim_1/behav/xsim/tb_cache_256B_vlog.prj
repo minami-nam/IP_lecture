@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  --include "../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef" \
+"../../../../../cache_cell.sv" \
+"../../../../../cache_top.sv" \
+"../../../../../cache_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

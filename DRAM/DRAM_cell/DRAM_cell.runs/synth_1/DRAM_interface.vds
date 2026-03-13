@@ -1,0 +1,258 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Thu Feb 12 12:37:21 2026
+# Process ID         : 3167640
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell/DRAM_cell.runs/synth_1
+# Command line       : vivado -log DRAM_interface.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source DRAM_interface.tcl
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell/DRAM_cell.runs/synth_1/DRAM_interface.vds
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell/DRAM_cell.runs/synth_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.158 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 30144 MB
+#-----------------------------------------------------------
+source DRAM_interface.tcl -notrace
+Command: synth_design -top DRAM_interface -part xc7z010clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3167803
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1943.109 ; gain = 431.562 ; free physical = 2514 ; free virtual = 27609
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'DRAM_interface' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'DRAM_interface' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell.sv:3]
+WARNING: [Synth 8-11357] Potential Runtime issue for 3D-RAM or RAM from Record/Structs for RAM  mem_reg with 16384 registers
+WARNING: [Synth 8-6014] Unused sequential element write_op_reg was removed.  [/home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell.sv:110]
+WARNING: [Synth 8-7129] Port cke in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port bg[0] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ba[0] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[17] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[13] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[12] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[11] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[10] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[9] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[8] in module DRAM_interface is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2142.078 ; gain = 630.531 ; free physical = 2279 ; free virtual = 27377
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2153.953 ; gain = 642.406 ; free physical = 2283 ; free virtual = 27381
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z010clg400-1
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7z010clg400-1
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2153.953 ; gain = 642.406 ; free physical = 2283 ; free virtual = 27381
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'curr_state_reg' in module 'DRAM_interface'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                              000 |                              000
+               WAIT_tRCD |                              001 |                              001
+                WAIT_tCL |                              010 |                              100
+           DATAOUT_READY |                              011 |                              101
+               WAIT_tCWL |                              100 |                              011
+                WAIT_tRP |                              101 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'curr_state_reg' using encoding 'sequential' in module 'DRAM_interface'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:22 ; elapsed = 00:00:20 . Memory (MB): peak = 2195.906 ; gain = 684.359 ; free physical = 2293 ; free virtual = 27394
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 2     
+	   2 Input    5 Bit       Adders := 1     
+	   2 Input    4 Bit       Adders := 2     
++---Registers : 
+	               64 Bit    Registers := 257   
+	                8 Bit    Registers := 1     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 5     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   6 Input   64 Bit        Muxes := 257   
+	   2 Input   64 Bit        Muxes := 1040  
+	   6 Input    5 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 5     
+	   6 Input    4 Bit        Muxes := 4     
+	   2 Input    4 Bit        Muxes := 4     
+	   6 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 4     
+	   6 Input    1 Bit        Muxes := 10    
+	   2 Input    1 Bit        Muxes := 11    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 80 (col length:40)
+BRAMs: 120 (col length: RAMB18 40 RAMB36 20)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7129] Port cke in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port bg[0] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ba[0] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[17] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[13] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[12] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[11] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[10] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[9] in module DRAM_interface is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[8] in module DRAM_interface is either unconnected or has no load
+INFO: [Synth 8-4471] merging register 'burst_count_reg2_reg[3:0]' into 'burst_count_reg2_reg[3:0]' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell.sv:96]
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:41 ; elapsed = 00:01:02 . Memory (MB): peak = 2336.238 ; gain = 824.691 ; free physical = 688 ; free virtual = 22960
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:01:18 . Memory (MB): peak = 2336.242 ; gain = 824.695 ; free physical = 576 ; free virtual = 22484
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:52 ; elapsed = 00:01:22 . Memory (MB): peak = 2355.391 ; gain = 843.844 ; free physical = 569 ; free virtual = 22240
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:06 ; elapsed = 00:01:36 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 614 ; free virtual = 22072
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:06 ; elapsed = 00:01:36 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 615 ; free virtual = 22073
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:06 ; elapsed = 00:01:37 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 615 ; free virtual = 22073
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:06 ; elapsed = 00:01:37 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 616 ; free virtual = 22074
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:07 ; elapsed = 00:01:38 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 622 ; free virtual = 22080
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:07 ; elapsed = 00:01:38 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 621 ; free virtual = 22080
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |     6|
+|3     |LUT1   |     1|
+|4     |LUT2   |    78|
+|5     |LUT3   |  1909|
+|6     |LUT4   |   168|
+|7     |LUT5   |  1346|
+|8     |LUT6   |  5812|
+|9     |MUXF7  |  2185|
+|10    |MUXF8  |  1088|
+|11    |FDRE   | 16541|
+|12    |IBUF   |    20|
+|13    |IOBUF  |    10|
++------+-------+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       | 29165|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:07 ; elapsed = 00:01:38 . Memory (MB): peak = 2495.297 ; gain = 983.750 ; free physical = 621 ; free virtual = 22080
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 22 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:33 ; elapsed = 00:01:41 . Memory (MB): peak = 2499.211 ; gain = 987.664 ; free physical = 5949 ; free virtual = 27407
+Synthesis Optimization Complete : Time (s): cpu = 00:01:33 ; elapsed = 00:01:41 . Memory (MB): peak = 2499.211 ; gain = 987.664 ; free physical = 5982 ; free virtual = 27413
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.31 ; elapsed = 00:00:00.32 . Memory (MB): peak = 2527.016 ; gain = 0.000 ; free physical = 5967 ; free virtual = 27399
+INFO: [Netlist 29-17] Analyzing 3289 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'DRAM_interface' is not ideal for floorplanning, since the cellview 'DRAM_interface' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2673.602 ; gain = 0.000 ; free physical = 5864 ; free virtual = 27296
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 10 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 10 instances
+
+Synth Design complete | Checksum: 7ef54736
+INFO: [Common 17-83] Releasing license: Synthesis
+17 Infos, 23 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:43 ; elapsed = 00:01:51 . Memory (MB): peak = 2673.637 ; gain = 1162.090 ; free physical = 5863 ; free virtual = 27295
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 7065.131; main = 1820.421; forked = 5667.876
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 12888.691; main = 2673.605; forked = 10556.359
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2697.613 ; gain = 0.000 ; free physical = 5867 ; free virtual = 27300
+INFO: [Common 17-1381] The checkpoint '/home/minami/Coding_IPDesign/IP_lecture/DRAM/DRAM_cell/DRAM_cell.runs/synth_1/DRAM_interface.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file DRAM_interface_utilization_synth.rpt -pb DRAM_interface_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Feb 12 12:39:24 2026...

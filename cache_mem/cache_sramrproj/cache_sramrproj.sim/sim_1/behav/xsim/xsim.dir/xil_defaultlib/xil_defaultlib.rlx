@@ -1,0 +1,8 @@
+0.7
+2020.2
+May 21 2025
+22:59:56
+/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv,1770519739,systemVerilog,,/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv,,mem_cell;tpsram,,uvm,../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef,,,,,
+/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_sramrproj/cache_sramrproj.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,uvm,,,,,,
+/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_tb.sv,1770547664,systemVerilog,,,,tb_cache_256B,,uvm,../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef,,,,,
+/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv,1770547942,systemVerilog,,/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_tb.sv,,cache_256B,,uvm,../../../../../../../../tools/xilinx/2025.1/data/rsb/busdef,,,,,

@@ -1,0 +1,9 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/sram_wrapper.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module SRAM_wrapper
+INFO: [VRFC 10-311] analyzing module sram_cell_8x64_fpga
+INFO: [VRFC 10-311] analyzing module sram_cell_8x64_asic
+INFO: [VRFC 10-311] analyzing module sram_cell_sim
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/sram_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_SRAM
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/minami/Coding_IPDesign/IP_lecture/SRAM_Wrapper/SRAM_wrapper/SRAM_wrapper.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

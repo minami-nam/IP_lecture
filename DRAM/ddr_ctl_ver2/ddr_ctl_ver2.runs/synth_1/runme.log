@@ -1,0 +1,276 @@
+
+*** Running vivado
+    with args -log ddrctl_v2.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source ddrctl_v2.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Sun Mar  8 11:28:06 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source ddrctl_v2.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.srcs/utils_1/imports/synth_1/ddrctl_v2.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.srcs/utils_1/imports/synth_1/ddrctl_v2.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top ddrctl_v2 -part xc7z010clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Device 21-403] Loading part xc7z010clg400-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3134792
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2115.785 ; gain = 440.742 ; free physical = 569 ; free virtual = 24094
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'ddrctl_v2' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'dram' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:185]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:223]
+INFO: [Synth 8-6155] done synthesizing module 'dram' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:185]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:62]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:146]
+INFO: [Synth 8-6155] done synthesizing module 'ddrctl_v2' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:2]
+WARNING: [Synth 8-11357] Potential Runtime issue for 3D-RAM or RAM from Record/Structs for RAM  mem_reg with 16384 registers
+WARNING: [Synth 8-7129] Port cke in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port bg[1] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[17] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[13] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[12] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[11] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[10] in module dram is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2217.723 ; gain = 542.680 ; free physical = 591 ; free virtual = 23987
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2229.598 ; gain = 554.555 ; free physical = 592 ; free virtual = 23988
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2229.598 ; gain = 554.555 ; free physical = 592 ; free virtual = 23988
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.18 . Memory (MB): peak = 2229.598 ; gain = 0.000 ; free physical = 586 ; free virtual = 23982
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2_ooc.xdc]
+Finished Parsing XDC File [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2_ooc.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2360.336 ; gain = 0.000 ; free physical = 587 ; free virtual = 23983
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.42 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2360.371 ; gain = 0.000 ; free physical = 587 ; free virtual = 23983
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2360.371 ; gain = 685.328 ; free physical = 566 ; free virtual = 23962
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z010clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2368.340 ; gain = 693.297 ; free physical = 566 ; free virtual = 23962
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:22 . Memory (MB): peak = 2368.340 ; gain = 693.297 ; free physical = 566 ; free virtual = 23962
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 'n_state_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:63]
+WARNING: [Synth 8-327] inferring latch for variable 'cke_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:41]
+WARNING: [Synth 8-327] inferring latch for variable 'csn_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:51]
+WARNING: [Synth 8-327] inferring latch for variable 'actn_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:51]
+WARNING: [Synth 8-327] inferring latch for variable 'bg_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:51]
+WARNING: [Synth 8-327] inferring latch for variable 'a_reg' [/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv:51]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:24 . Memory (MB): peak = 2368.340 ; gain = 693.297 ; free physical = 573 ; free virtual = 23971
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    5 Bit       Adders := 18    
+	   2 Input    3 Bit       Adders := 1     
++---Registers : 
+	               64 Bit    Registers := 257   
+	                8 Bit    Registers := 2     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 3     
+	                3 Bit    Registers := 2     
+	                1 Bit    Registers := 7     
++---Muxes : 
+	   2 Input   64 Bit        Muxes := 2     
+	   2 Input    5 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 2     
+	   8 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 291   
+	   3 Input    1 Bit        Muxes := 3     
+	   8 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 80 (col length:40)
+BRAMs: 120 (col length: RAMB18 40 RAMB36 20)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port cke in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port bg[1] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[17] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[13] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[12] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[11] in module dram is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[10] in module dram is either unconnected or has no load
+WARNING: [Synth 8-3332] Sequential element (bg_reg[1]) is unused and will be removed from module ddrctl_v2.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:35 ; elapsed = 00:00:37 . Memory (MB): peak = 2368.340 ; gain = 693.297 ; free physical = 686 ; free virtual = 23970
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:43 ; elapsed = 00:00:46 . Memory (MB): peak = 2421.340 ; gain = 746.297 ; free physical = 565 ; free virtual = 23850
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:53 ; elapsed = 00:00:56 . Memory (MB): peak = 2528.348 ; gain = 853.305 ; free physical = 595 ; free virtual = 23750
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:02 ; elapsed = 00:01:06 . Memory (MB): peak = 2562.691 ; gain = 887.648 ; free physical = 567 ; free virtual = 23722
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:09 ; elapsed = 00:01:13 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 597 ; free virtual = 23622
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:09 ; elapsed = 00:01:13 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 603 ; free virtual = 23628
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:11 ; elapsed = 00:01:15 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:11 ; elapsed = 00:01:15 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:11 ; elapsed = 00:01:16 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:11 ; elapsed = 00:01:16 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |BUFG  |     3|
+|2     |LUT1  |     2|
+|3     |LUT2  |   120|
+|4     |LUT3  |   113|
+|5     |LUT4  |   176|
+|6     |LUT5  |    79|
+|7     |LUT6  |  4690|
+|8     |MUXF7 |  2184|
+|9     |MUXF8 |  1088|
+|10    |FDCE  |     9|
+|11    |FDRE  | 16825|
+|12    |LD    |    18|
+|13    |IBUF  |    76|
+|14    |IOBUF |     9|
+|15    |OBUF  |    93|
+|16    |OBUFT |     1|
++------+------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:11 ; elapsed = 00:01:16 . Memory (MB): peak = 2663.473 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 15 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:06 ; elapsed = 00:01:11 . Memory (MB): peak = 2663.473 ; gain = 857.656 ; free physical = 602 ; free virtual = 23627
+Synthesis Optimization Complete : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 2663.480 ; gain = 988.430 ; free physical = 602 ; free virtual = 23627
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.25 ; elapsed = 00:00:00.26 . Memory (MB): peak = 2663.480 ; gain = 0.000 ; free physical = 751 ; free virtual = 23775
+INFO: [Netlist 29-17] Analyzing 3299 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'ddrctl_v2' is not ideal for floorplanning, since the cellview 'dram' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2719.500 ; gain = 0.000 ; free physical = 745 ; free virtual = 23770
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 27 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 9 instances
+  LD => LDCE: 18 instances
+
+Synth Design complete | Checksum: c4a73869
+INFO: [Common 17-83] Releasing license: Synthesis
+27 Infos, 24 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:28 ; elapsed = 00:01:29 . Memory (MB): peak = 2719.535 ; gain = 1203.906 ; free physical = 749 ; free virtual = 23773
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1843.456; main = 1701.309; forked = 219.427
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3551.574; main = 2719.504; forked = 963.879
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2743.512 ; gain = 0.000 ; free physical = 749 ; free virtual = 23774
+INFO: [Common 17-1381] The checkpoint '/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.runs/synth_1/ddrctl_v2.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file ddrctl_v2_utilization_synth.rpt -pb ddrctl_v2_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Mar  8 11:29:43 2026...

@@ -1,0 +1,590 @@
+Analysis & Synthesis report for cache_top
+Sun Feb  8 11:30:28 2026
+Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |cache_256B|now_state
+  9. User-Specified and Inferred Latches
+ 10. Registers Removed During Synthesis
+ 11. General Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for User Entity Instance: Top-level Entity: |cache_256B
+ 14. Parameter Settings for User Entity Instance: tpsram:sram_cell
+ 15. Parameter Settings for User Entity Instance: tpsram:sram_cell|mem_cell:dut
+ 16. Port Connectivity Checks: "tpsram:sram_cell"
+ 17. Post-Synthesis Netlist Statistics for Top Partition
+ 18. Elapsed Time Per Partition
+ 19. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2025  Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Altera and sold by Altera or its authorized distributors.  Please
+refer to the Altera Software License Subscription Agreements 
+on the Quartus Prime software download page.
+
+
+
++-----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                      ;
++---------------------------------+-------------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Sun Feb  8 11:30:28 2026           ;
+; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
+; Revision Name                   ; cache_top                                       ;
+; Top-level Entity Name           ; cache_256B                                      ;
+; Family                          ; Cyclone V                                       ;
+; Logic utilization (in ALMs)     ; N/A                                             ;
+; Total registers                 ; 630                                             ;
+; Total pins                      ; 157                                             ;
+; Total virtual pins              ; 0                                               ;
+; Total block memory bits         ; 0                                               ;
+; Total DSP Blocks                ; 0                                               ;
+; Total HSSI RX PCSs              ; 0                                               ;
+; Total HSSI PMA RX Deserializers ; 0                                               ;
+; Total HSSI TX PCSs              ; 0                                               ;
+; Total HSSI PMA TX Serializers   ; 0                                               ;
+; Total PLLs                      ; 0                                               ;
+; Total DLLs                      ; 0                                               ;
++---------------------------------+-------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; 5CGXFC9A6U19C7     ;                    ;
+; Top-level entity name                                                           ; cache_256B         ; cache_top          ;
+; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation                ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                                   ; Enable             ; Enable             ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 3                  ; 3                  ;
+; Power Optimization During Synthesis                                             ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Automatic Parallel Synthesis                                                    ; On                 ; On                 ;
+; Partial Reconfiguration Bitstream ID                                            ; Off                ; Off                ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 12          ;
+; Maximum allowed            ; 12          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 12          ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
+;     Processor 5            ;   0.0%      ;
+;     Processor 6            ;   0.0%      ;
+;     Processor 7            ;   0.0%      ;
+;     Processor 8            ;   0.0%      ;
+;     Processor 9            ;   0.0%      ;
+;     Processor 10           ;   0.0%      ;
+;     Processors 11-12       ;   0.0%      ;
++----------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                        ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                    ; Library ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------+---------+
+; ../cache_cell.sv                 ; yes             ; User SystemVerilog HDL File  ; /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv ;         ;
+; ../cache_top.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv  ;         ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------+---------+
+
+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimate of Logic utilization (ALMs needed) ; 426       ;
+;                                             ;           ;
+; Combinational ALUT usage for logic          ; 355       ;
+;     -- 7 input functions                    ; 0         ;
+;     -- 6 input functions                    ; 244       ;
+;     -- 5 input functions                    ; 52        ;
+;     -- 4 input functions                    ; 2         ;
+;     -- <=3 input functions                  ; 57        ;
+;                                             ;           ;
+; Dedicated logic registers                   ; 630       ;
+;                                             ;           ;
+; I/O pins                                    ; 157       ;
+;                                             ;           ;
+; Total DSP Blocks                            ; 0         ;
+;                                             ;           ;
+; Maximum fan-out node                        ; clk~input ;
+; Maximum fan-out                             ; 630       ;
+; Total fan-out                               ; 4040      ;
+; Average fan-out                             ; 3.11      ;
++---------------------------------------------+-----------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                          ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                       ; Entity Name ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+; |cache_256B                ; 355 (176)           ; 630 (54)                  ; 0                 ; 0          ; 157  ; 0            ; |cache_256B                               ; cache_256B  ; work         ;
+;    |tpsram:sram_cell|      ; 179 (0)             ; 576 (32)                  ; 0                 ; 0          ; 0    ; 0            ; |cache_256B|tpsram:sram_cell              ; tpsram      ; work         ;
+;       |mem_cell:dut|       ; 179 (179)           ; 544 (544)                 ; 0                 ; 0          ; 0    ; 0            ; |cache_256B|tpsram:sram_cell|mem_cell:dut ; mem_cell    ; work         ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |cache_256B|now_state                                                                                                                                                                                          ;
++------------------------------+---------------------------+------------------------------+--------------------------+--------------------+----------------------+----------------------+-----------------------+----------------+
+; Name                         ; now_state.NEED_WRITE_DRAM ; now_state.WRITE_UPDATE_CACHE ; now_state.NEED_READ_DRAM ; now_state.SEND_CPU ; now_state.READ_WAIT2 ; now_state.READ_WAIT1 ; now_state.CACHE_CHECK ; now_state.IDLE ;
++------------------------------+---------------------------+------------------------------+--------------------------+--------------------+----------------------+----------------------+-----------------------+----------------+
+; now_state.IDLE               ; 0                         ; 0                            ; 0                        ; 0                  ; 0                    ; 0                    ; 0                     ; 0              ;
+; now_state.CACHE_CHECK        ; 0                         ; 0                            ; 0                        ; 0                  ; 0                    ; 0                    ; 1                     ; 1              ;
+; now_state.READ_WAIT1         ; 0                         ; 0                            ; 0                        ; 0                  ; 0                    ; 1                    ; 0                     ; 1              ;
+; now_state.READ_WAIT2         ; 0                         ; 0                            ; 0                        ; 0                  ; 1                    ; 0                    ; 0                     ; 1              ;
+; now_state.SEND_CPU           ; 0                         ; 0                            ; 0                        ; 1                  ; 0                    ; 0                    ; 0                     ; 1              ;
+; now_state.NEED_READ_DRAM     ; 0                         ; 0                            ; 1                        ; 0                  ; 0                    ; 0                    ; 0                     ; 1              ;
+; now_state.WRITE_UPDATE_CACHE ; 0                         ; 1                            ; 0                        ; 0                  ; 0                    ; 0                    ; 0                     ; 1              ;
+; now_state.NEED_WRITE_DRAM    ; 1                         ; 0                            ; 0                        ; 0                  ; 0                    ; 0                    ; 0                     ; 1              ;
++------------------------------+---------------------------+------------------------------+--------------------------+--------------------+----------------------+----------------------+-----------------------+----------------+
+
+
++----------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                ;
++-----------------------------------------------------+---------------------+------------------------+
+; Latch Name                                          ; Latch Enable Signal ; Free of Timing Hazards ;
++-----------------------------------------------------+---------------------+------------------------+
+; write_data_cache_w[0]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[1]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[2]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[3]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[4]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[5]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[6]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[7]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[8]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[9]                               ; Selector0           ; yes                    ;
+; write_data_cache_w[10]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[11]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[12]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[13]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[14]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[15]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[16]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[17]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[18]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[19]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[20]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[21]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[22]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[23]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[24]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[25]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[26]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[27]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[28]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[29]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[30]                              ; Selector0           ; yes                    ;
+; write_data_cache_w[31]                              ; Selector0           ; yes                    ;
+; Number of user-specified and inferred latches = 32  ;                     ;                        ;
++-----------------------------------------------------+---------------------+------------------------+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++--------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                             ;
++---------------------------------------+----------------------------------------+
+; Register name                         ; Reason for Removal                     ;
++---------------------------------------+----------------------------------------+
+; now_state~2                           ; Lost fanout                            ;
+; now_state~3                           ; Lost fanout                            ;
+; now_state~4                           ; Lost fanout                            ;
+; now_state~5                           ; Lost fanout                            ;
+; now_state.WRITE_UPDATE_CACHE          ; Stuck at GND due to stuck port data_in ;
+; now_state.NEED_WRITE_DRAM             ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 6 ;                                        ;
++---------------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 630   ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 32    ;
+; Number of registers using Asynchronous Clear ; 48    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 580   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output        ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[0][0]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[1][0]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[2][0]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[3][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[4][0]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[5][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[6][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[7][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[8][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[9][1]       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[10][1]      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[11][1]      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[12][0]      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[13][0]      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[14][0]      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cache_256B|table_reg[15][0]      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |cache_256B|now_state.CACHE_CHECK ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |cache_256B|o_mem_wdata           ;
+; 16:1               ; 3 bits    ; 30 LEs        ; 30 LEs               ; 0 LEs                  ; No         ; |cache_256B|Mux4                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |cache_256B ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; MEM_SIZE       ; 256   ; Signed Integer                                    ;
+; BLK_SIZE       ; 4     ; Signed Integer                                    ;
+; CACHE_SIZE     ; 16    ; Signed Integer                                    ;
+; INDEX          ; 4     ; Signed Integer                                    ;
+; OFFSET         ; 2     ; Signed Integer                                    ;
+; TAG            ; 2     ; Signed Integer                                    ;
+; DATA_WIDTH     ; 32    ; Signed Integer                                    ;
+; ADDR_WIDTH     ; 8     ; Signed Integer                                    ;
+; CELL_DEPTH     ; 16    ; Signed Integer                                    ;
+; COUNTER        ; 10    ; Signed Integer                                    ;
+; BIT_COUNTER    ; 4     ; Signed Integer                                    ;
+; BIT_TABLE      ; 6     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: tpsram:sram_cell ;
++----------------+-------+--------------------------------------+
+; Parameter Name ; Value ; Type                                 ;
++----------------+-------+--------------------------------------+
+; WIDTH          ; 32    ; Signed Integer                       ;
+; DEPTH          ; 16    ; Signed Integer                       ;
+; MEM_ADDR       ; 4     ; Signed Integer                       ;
++----------------+-------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: tpsram:sram_cell|mem_cell:dut ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; WIDTH          ; 32    ; Signed Integer                                    ;
+; DEPTH          ; 16    ; Signed Integer                                    ;
+; MEM_ADDR       ; 4     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "tpsram:sram_cell"                                                                                                                                                               ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port ; Type  ; Severity ; Details                                                                                                                                                                          ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; ra   ; Input ; Warning  ; Input port expression (8 bits) is wider than the input port (4 bits) it drives.  The 4 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; wa   ; Input ; Warning  ; Input port expression (8 bits) is wider than the input port (4 bits) it drives.  The 4 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 630                         ;
+;     CLR               ; 16                          ;
+;     ENA               ; 516                         ;
+;     ENA CLR           ; 32                          ;
+;     ENA SLD           ; 32                          ;
+;     plain             ; 34                          ;
+; arriav_lcell_comb     ; 356                         ;
+;     normal            ; 356                         ;
+;         0 data inputs ; 1                           ;
+;         2 data inputs ; 12                          ;
+;         3 data inputs ; 45                          ;
+;         4 data inputs ; 2                           ;
+;         5 data inputs ; 52                          ;
+;         6 data inputs ; 244                         ;
+; boundary_port         ; 157                         ;
+;                       ;                             ;
+; Max LUT depth         ; 4.00                        ;
+; Average LUT depth     ; 2.24                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:01     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+    Info: Processing started: Sun Feb  8 11:30:16 2026
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off cache_256B -c cache_top
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Info (12021): Found 2 design units, including 2 entities, in source file /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv
+    Info (12023): Found entity 1: tpsram File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv Line: 1
+    Info (12023): Found entity 2: mem_cell File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv Line: 30
+Info (12021): Found 1 design units, including 1 entities, in source file /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_tb.sv
+    Info (12023): Found entity 1: tb_cache_256B File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_tb.sv Line: 5
+Info (12021): Found 1 design units, including 1 entities, in source file /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv
+    Info (12023): Found entity 1: cache_256B File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 4
+Info (12127): Elaborating entity "cache_256B" for the top level hierarchy
+Warning (10036): Verilog HDL or VHDL warning at cache_top.sv(43): object "offset_addr" assigned a value but never read File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 43
+Warning (10036): Verilog HDL or VHDL warning at cache_top.sv(47): object "index_addr_mem" assigned a value but never read File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 47
+Warning (10036): Verilog HDL or VHDL warning at cache_top.sv(48): object "offset_addr_mem" assigned a value but never read File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 48
+Warning (10036): Verilog HDL or VHDL warning at cache_top.sv(49): object "tag_addr_mem" assigned a value but never read File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 49
+Warning (10036): Verilog HDL or VHDL warning at cache_top.sv(59): object "table_counter" assigned a value but never read File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 59
+Warning (10230): Verilog HDL assignment warning at cache_top.sv(72): truncated value with size 32 to match size of target (1) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 72
+Warning (10230): Verilog HDL assignment warning at cache_top.sv(123): truncated value with size 32 to match size of target (4) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 123
+Info (10264): Verilog HDL Case Statement information at cache_top.sv(151): all case item expressions in this case statement are onehot File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 151
+Warning (10240): Verilog HDL Always Construct warning at cache_top.sv(144): inferring latch(es) for variable "write_data_cache_w", which holds its previous value in one or more paths through the always construct File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[0]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[1]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[2]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[3]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[4]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[5]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[6]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[7]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[8]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[9]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[10]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[11]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[12]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[13]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[14]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[15]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[16]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[17]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[18]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[19]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[20]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[21]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[22]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[23]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[24]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[25]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[26]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[27]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[28]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[29]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[30]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (10041): Inferred latch for "write_data_cache_w[31]" at cache_top.sv(144) File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 144
+Info (12128): Elaborating entity "tpsram" for hierarchy "tpsram:sram_cell" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 238
+Info (12128): Elaborating entity "mem_cell" for hierarchy "tpsram:sram_cell|mem_cell:dut" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv Line: 23
+Info (276014): Found 1 instances of uninferred RAM logic
+    Info (276007): RAM logic "tpsram:sram_cell|mem_cell:dut|midreg" is uninferred due to asynchronous read logic File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv Line: 45
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "o_mem_wdata[0]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[1]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[2]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[3]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[4]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[5]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[6]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[7]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[8]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[9]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[10]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[11]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[12]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[13]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[14]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[15]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[16]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[17]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[18]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[19]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[20]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[21]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[22]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[23]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[24]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[25]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[26]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[27]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[28]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[29]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[30]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+    Warning (13410): Pin "o_mem_wdata[31]" is stuck at GND File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 35
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 4 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 36 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "i_mem_raddr[4]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 34
+    Warning (15610): No output dependent on input pin "i_mem_raddr[5]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 34
+    Warning (15610): No output dependent on input pin "i_mem_raddr[6]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 34
+    Warning (15610): No output dependent on input pin "i_mem_raddr[7]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 34
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[0]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[1]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[2]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[3]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[4]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[5]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[6]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[7]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[8]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[9]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[10]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[11]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[12]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[13]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[14]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[15]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[16]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[17]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[18]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[19]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[20]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[21]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[22]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[23]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[24]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[25]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[26]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[27]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[28]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[29]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[30]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+    Warning (15610): No output dependent on input pin "i_cpu_wdata[31]" File: /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv Line: 26
+Info (21057): Implemented 1056 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 85 input pins
+    Info (21059): Implemented 72 output pins
+    Info (21061): Implemented 899 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 80 warnings
+    Info: Peak virtual memory: 526 megabytes
+    Info: Processing ended: Sun Feb  8 11:30:28 2026
+    Info: Elapsed time: 00:00:12
+    Info: Total CPU time (on all processors): 00:00:27
+
+

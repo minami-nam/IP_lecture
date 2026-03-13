@@ -1,0 +1,28 @@
+
+*** Running vivado
+    with args -log ddrctl_v2.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source ddrctl_v2.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Sun Mar  8 11:33:19 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source ddrctl_v2.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.srcs/utils_1/imports/synth_1/ddrctl_v2.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2/ddr_ctl_ver2.srcs/utils_1/imports/synth_1/ddrctl_v2.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top ddrctl_v2 -part xc7z100ffv1156-2
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z100'
+WARNING: [Common 17-348] Failed to get the license for feature 'Synthesis' and/or device 'xc7z100'. Explanation: The license feature Synthesis could not be found.
+Resolution: Check the status of your licenses in the Vivado License Manager. For debug help search Xilinx Support for "Licensing FAQ". 
+2 Infos, 1 Warnings, 0 Critical Warnings and 1 Errors encountered.
+synth_design failed
+ERROR: [Common 17-345] A valid license was not found for feature 'Synthesis' and/or device 'xc7z100'. Please run the Vivado License Manager for assistance in determining
+which features and devices are licensed for your system.
+Resolution: Check the status of your licenses in the Vivado License Manager. For debug help search Xilinx Support for "Licensing FAQ". If you are using a license server, verify that the license server is up and running a version of the xilinx daemon that is compatible with the version of Xilinx software that you are using. Note: Vivado 2021.1 and later versions require upgrading your license server tools to the Flex 11.17.2.0 versions. Please confirm with your license admin that the correct version of the license server tools are installed.
+INFO: [Common 17-206] Exiting Vivado at Sun Mar  8 11:33:25 2026...

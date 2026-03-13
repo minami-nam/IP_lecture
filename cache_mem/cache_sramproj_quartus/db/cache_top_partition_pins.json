@@ -1,0 +1,365 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "o_cpu_rdata[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[7]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[8]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[9]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[10]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[11]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[12]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[13]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[14]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[15]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[16]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[17]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[18]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[19]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[20]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[21]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[22]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[23]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[24]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[25]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[26]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[27]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[28]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[29]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[30]",
+					"strict" : false
+				},
+				{
+					"name" : "o_cpu_rdata[31]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_mem_waddr[7]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[0]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_ack",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[1]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[2]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[3]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[4]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[5]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[6]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[7]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[8]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[9]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[10]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[11]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[12]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[13]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[14]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[15]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[16]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[17]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[18]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[19]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[20]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[21]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[22]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[23]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[24]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[25]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[26]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[27]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[28]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[29]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[30]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_rdata[31]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[0]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[1]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[2]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[3]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[4]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[5]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[6]",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_addr[7]",
+					"strict" : false
+				},
+				{
+					"name" : "rst_n",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_req",
+					"strict" : false
+				},
+				{
+					"name" : "i_cpu_write",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_raddr[2]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_raddr[3]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_raddr[0]",
+					"strict" : false
+				},
+				{
+					"name" : "i_mem_raddr[1]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,8 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tpsram
+INFO: [VRFC 10-311] analyzing module mem_cell
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cache_256B
+WARNING: [VRFC 10-3380] identifier 'ADDR_WIDTH' is used before its declaration [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:11]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_cache_256B

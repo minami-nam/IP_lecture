@@ -1,0 +1,7 @@
+Time resolution is 1 ps
+Writing Test Passed
+Reading Test Passed
+Feed Forward (Bypass) Test Start
+SUCCESS: Port A data forwarded to Port B!
+SUCCESS: Port B data forwarded to Port A!
+$finish called at time : 154 ns : File "/home/minami/Coding_IPDesign/IP_lecture/dual_port_sram/tb_DPSRAM.sv" Line 99

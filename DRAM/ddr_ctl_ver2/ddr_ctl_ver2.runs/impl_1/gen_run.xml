@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7z010clg400-1" LaunchTime="1772969281">
+  <File Type="PL_UNMASK_RCDO_FILE" Name="ddrctl_v2_pld_unmask.rcdo"/>
+  <File Type="PL_UNMASK_MARKER_RCDO_FILE" Name="ddrctl_v2_pld_unmask_markers.rcdo"/>
+  <File Type="PL_MASK_RCDO_FILE" Name="ddrctl_v2_pld_mask.rcdo"/>
+  <File Type="PL_MARKER_RCDO_FILE" Name="ddrctl_v2_pld_markers.rcdo"/>
+  <File Type="PL-CLEAR-RCDO-FILE" Name="ddrctl_v2_pld_clear.rcdo"/>
+  <File Type="PL_UNMASK_RNPI_FILE" Name="ddrctl_v2_pld_unmask.rnpi"/>
+  <File Type="PL_SHUTDOWN_RNPI_FILE" Name="ddrctl_v2_pld_shutdown.rnpi"/>
+  <File Type="PL_MASK_RNPI_FILE" Name="ddrctl_v2_pld_mask.rnpi"/>
+  <File Type="PL_MARKER_RNPI_FILE" Name="ddrctl_v2_pld_markers.rnpi"/>
+  <File Type="BOOT_MARKER_RNPI_FILE" Name="ddrctl_v2_boot_markers.rnpi"/>
+  <File Type="PL_RNPI_FILE" Name="ddrctl_v2_pld.rnpi"/>
+  <File Type="BOOT_RNPI_FILE" Name="ddrctl_v2_boot.rnpi"/>
+  <File Type="MARKER-RNPI-FILE" Name="ddrctl_v2_markers.rnpi"/>
+  <File Type="PL-RCDO-FILE" Name="ddrctl_v2_pld.rcdo"/>
+  <File Type="MARKER-RCDO-FILE" Name="ddrctl_v2_markers.rcdo"/>
+  <File Type="RCDO-FILE" Name="ddrctl_v2.rcdo"/>
+  <File Type="PL-LTX-FILE" Name="ddrctl_v2_pld.ltx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="ddrctl_v2_timing_summary_postroute_physopted.rpx"/>
+  <File Type="BITSTR-MSK" Name="ddrctl_v2.msk"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="ddrctl_v2_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="ddrctl_v2_bus_skew_routed.rpx"/>
+  <File Type="ROUTE-BUS-SKEW" Name="ddrctl_v2_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="ddrctl_v2_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="ddrctl_v2_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="ddrctl_v2_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="ddrctl_v2_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="ddrctl_v2_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-DRC" Name="ddrctl_v2_drc_routed.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="ddrctl_v2_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="ddrctl_v2_power_routed.rpx"/>
+  <File Type="ROUTE-PWR" Name="ddrctl_v2_power_routed.rpt"/>
+  <File Type="BG-DRC" Name="ddrctl_v2.drc"/>
+  <File Type="ROUTE-STATUS-PB" Name="ddrctl_v2_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="ddrctl_v2_route_status.rpt"/>
+  <File Type="BITSTR-BMM" Name="ddrctl_v2_bd.bmm"/>
+  <File Type="ROUTE-TIMING-RPX" Name="ddrctl_v2_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="ddrctl_v2_timing_summary_routed.rpt"/>
+  <File Type="BG-BGN" Name="ddrctl_v2.bgn"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="ddrctl_v2_methodology_drc_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="ddrctl_v2_reports.tcl"/>
+  <File Type="PA-TCL" Name="ddrctl_v2.tcl"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="ddrctl_v2_methodology_drc_routed.rpt"/>
+  <File Type="PLACE-CTRL" Name="ddrctl_v2_control_sets_placed.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="ddrctl_v2_timing_summary_postroute_physopted.rpt"/>
+  <File Type="BITSTR-MMI" Name="ddrctl_v2.mmi"/>
+  <File Type="BITSTR-NKY" Name="ddrctl_v2.nky"/>
+  <File Type="PLACE-UTIL" Name="ddrctl_v2_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="ddrctl_v2_utilization_placed.pb"/>
+  <File Type="OPT-DRC" Name="ddrctl_v2_drc_opted.rpt"/>
+  <File Type="PLACE-IO" Name="ddrctl_v2_io_placed.rpt"/>
+  <File Type="BG-BIN" Name="ddrctl_v2.bin"/>
+  <File Type="BITSTR-RBT" Name="ddrctl_v2.rbt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="ddrctl_v2_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="ddrctl_v2_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="ddrctl_v2_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="ddrctl_v2_bus_skew_postroute_physopted.pb"/>
+  <File Type="RDI-RDI" Name="ddrctl_v2.vdi"/>
+  <File Type="PDI-FILE" Name="ddrctl_v2.pdi"/>
+  <File Type="BG-BIT" Name="ddrctl_v2.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <File Type="BITSTR-SYSDEF" Name="ddrctl_v2.sysdef"/>
+  <File Type="MMI-FILE" Name="ddrctl_v2.mmi"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="ddrctl_v2.ltx"/>
+  <File Type="BIF-FILE" Name="ddrctl_v2.bif"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="BOOT-LTX-FILE" Name="ddrctl_v2_boot.ltx"/>
+  <File Type="OPT-HWDEF" Name="ddrctl_v2.hwdef"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="ddrctl_v2_incremental_reuse_pre_placed.rpt"/>
+  <File Type="ROUTE-DCP" Name="ddrctl_v2_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="ddrctl_v2_routed_error.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="ddrctl_v2_routed_bb.dcp"/>
+  <File Type="ROUTE-TIMING-PB" Name="ddrctl_v2_timing_summary_routed.pb"/>
+  <File Type="OPT-DCP" Name="ddrctl_v2_opt.dcp"/>
+  <File Type="PLACE-DCP" Name="ddrctl_v2_placed.dcp"/>
+  <File Type="PWROPT-DCP" Name="ddrctl_v2_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="ddrctl_v2_postplace_pwropt.dcp"/>
+  <File Type="PHYSOPT-DCP" Name="ddrctl_v2_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="ddrctl_v2_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="ddrctl_v2_postroute_physopt_bb.dcp"/>
+  <File Type="BOOT-PDI-FILE" Name="ddrctl_v2_boot.pdi"/>
+  <File Type="PL-PDI-FILE" Name="ddrctl_v2_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="ddrctl_v2.rcfi"/>
+  <File Type="CFI_FILE" Name="ddrctl_v2.cfi"/>
+  <File Type="RNPI_FILE" Name="ddrctl_v2.rnpi"/>
+  <File Type="NPI_FILE" Name="ddrctl_v2.npi"/>
+  <File Type="RBD_FILE" Name="ddrctl_v2.rbd"/>
+  <File Type="ROUTE-RQS" Name="ddrctl_v2_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="ddrctl_v2_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="BOOT-BIF-FILE" Name="ddrctl_v2_boot.bif"/>
+  <File Type="PL-BIF-FILE" Name="ddrctl_v2_pld.bif"/>
+  <File Type="LTX-FILE" Name="ddrctl_v2.ltx"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../ddr_ctl_ver2.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../tb_ddrctl.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="ddrctl_v2"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PPRDIR/../ddr_ctl_ver2_ooc.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/ddrctl_v2.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+    <Step Id="write_device_image"/>
+  </Strategy>
+</GenRun>

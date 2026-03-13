@@ -1,0 +1,3 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/minami/Coding_IPDesign/IP_lecture/CRC/crc/crc.sim/sim_1/synth/timing/xsim/tb_crc_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module crc
+INFO: [VRFC 10-311] analyzing module glbl

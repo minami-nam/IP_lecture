@@ -1,0 +1,5 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/DRAM/ddr_ctl_ver2.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddrctl_v2
+INFO: [VRFC 10-311] analyzing module dram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/DRAM/tb_ddrctl.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_ddrctl

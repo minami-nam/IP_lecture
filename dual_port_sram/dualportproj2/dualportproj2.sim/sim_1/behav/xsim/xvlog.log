@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/dual_port_sram/DPSRAM_mine.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dpsram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/dual_port_sram/tb_DPSRAM.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_dpsram

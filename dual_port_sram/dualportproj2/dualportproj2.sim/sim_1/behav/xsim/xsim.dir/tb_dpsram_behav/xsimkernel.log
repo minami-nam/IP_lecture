@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_dpsram_behav/xsimk -simmode gui -wdb tb_dpsram_behav.wdb -simrunnum 0 -socket 46987
+Design successfully loaded
+Design Loading Memory Usage: 179012 KB (Peak: 179068 KB)
+Design Loading CPU Usage: 2240 ms
+Simulation completed
+Simulation Memory Usage: 261008 KB (Peak: 318280 KB)
+Simulation CPU Usage: 2260 ms

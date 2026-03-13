@@ -1,0 +1,330 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Sun Feb  8 10:59:40 2026
+# Process ID         : 1744645
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_sramrproj/cache_sramrproj.runs/synth_1
+# Command line       : vivado -log cache_256B.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source cache_256B.tcl
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_sramrproj/cache_sramrproj.runs/synth_1/cache_256B.vds
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_sramrproj/cache_sramrproj.runs/synth_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.158 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 28814 MB
+#-----------------------------------------------------------
+source cache_256B.tcl -notrace
+Command: synth_design -top cache_256B -part xc7z012sclg485-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z012s'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z012s'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 1744804
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1943.508 ; gain = 431.047 ; free physical = 713 ; free virtual = 26505
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-6901] identifier 'ADDR_WIDTH' is used before its declaration [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cache_256B' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'tpsram' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:1]
+	Parameter WIDTH bound to: 32 - type: integer 
+	Parameter DEPTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'mem_cell' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:30]
+	Parameter WIDTH bound to: 32 - type: integer 
+	Parameter DEPTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'mem_cell' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:30]
+INFO: [Synth 8-6155] done synthesizing module 'tpsram' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:1]
+WARNING: [Synth 8-689] width (8) of port connection 'ra' does not match port width (4) of module 'tpsram' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:237]
+WARNING: [Synth 8-689] width (8) of port connection 'wa' does not match port width (4) of module 'tpsram' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:238]
+INFO: [Synth 8-6155] done synthesizing module 'cache_256B' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:4]
+WARNING: [Synth 8-7137] Register now_state_reg in module cache_256B has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_top.sv:133]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2019.477 ; gain = 507.016 ; free physical = 611 ; free virtual = 26404
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2034.320 ; gain = 521.859 ; free physical = 611 ; free virtual = 26404
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z012sclg485-1
+INFO: [Device 21-403] Loading part xc7z012sclg485-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2034.320 ; gain = 521.859 ; free physical = 610 ; free virtual = 26403
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2053.305 ; gain = 540.844 ; free physical = 586 ; free virtual = 26380
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    4 Bit       Adders := 16    
++---Registers : 
+	               32 Bit    Registers := 2     
+	                7 Bit    Registers := 16    
+	                4 Bit    Registers := 1     
++---RAMs : 
+	              512 Bit	(16 X 32 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 6     
+	   8 Input   32 Bit        Muxes := 3     
+	   2 Input    8 Bit        Muxes := 5     
+	   8 Input    8 Bit        Muxes := 2     
+	   2 Input    7 Bit        Muxes := 80    
+	   2 Input    4 Bit        Muxes := 12    
+	   8 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 120 (col length:60)
+BRAMs: 144 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port i_mem_raddr[7] in module cache_256B is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_mem_raddr[6] in module cache_256B is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_mem_raddr[5] in module cache_256B is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_mem_raddr[4] in module cache_256B is either unconnected or has no load
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[31] with 1st driver pin 'sram_cell/rd_reg[31]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[31] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[31] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[30] with 1st driver pin 'sram_cell/rd_reg[30]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[30] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[30] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[29] with 1st driver pin 'sram_cell/rd_reg[29]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[29] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[29] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[28] with 1st driver pin 'sram_cell/rd_reg[28]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[28] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[28] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[27] with 1st driver pin 'sram_cell/rd_reg[27]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[27] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[27] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[26] with 1st driver pin 'sram_cell/rd_reg[26]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[26] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[26] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[25] with 1st driver pin 'sram_cell/rd_reg[25]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[25] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[25] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[24] with 1st driver pin 'sram_cell/rd_reg[24]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[24] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[24] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[23] with 1st driver pin 'sram_cell/rd_reg[23]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[23] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[23] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[22] with 1st driver pin 'sram_cell/rd_reg[22]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[22] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[22] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[21] with 1st driver pin 'sram_cell/rd_reg[21]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[21] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[21] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[20] with 1st driver pin 'sram_cell/rd_reg[20]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[20] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[20] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[19] with 1st driver pin 'sram_cell/rd_reg[19]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[19] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[19] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[18] with 1st driver pin 'sram_cell/rd_reg[18]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[18] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[18] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[17] with 1st driver pin 'sram_cell/rd_reg[17]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[17] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[17] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[16] with 1st driver pin 'sram_cell/rd_reg[16]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[16] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[16] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[15] with 1st driver pin 'sram_cell/rd_reg[15]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[15] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[15] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[14] with 1st driver pin 'sram_cell/rd_reg[14]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[14] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[14] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[13] with 1st driver pin 'sram_cell/rd_reg[13]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[13] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[13] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[12] with 1st driver pin 'sram_cell/rd_reg[12]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[12] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[12] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[11] with 1st driver pin 'sram_cell/rd_reg[11]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[11] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[11] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[10] with 1st driver pin 'sram_cell/rd_reg[10]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[10] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[10] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[9] with 1st driver pin 'sram_cell/rd_reg[9]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[9] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[9] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[8] with 1st driver pin 'sram_cell/rd_reg[8]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[8] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[8] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[7] with 1st driver pin 'sram_cell/rd_reg[7]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[7] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[7] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[6] with 1st driver pin 'sram_cell/rd_reg[6]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[6] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[6] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[5] with 1st driver pin 'sram_cell/rd_reg[5]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[5] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[5] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[4] with 1st driver pin 'sram_cell/rd_reg[4]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[4] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[4] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[3] with 1st driver pin 'sram_cell/rd_reg[3]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[3] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[3] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[2] with 1st driver pin 'sram_cell/rd_reg[2]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[2] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[2] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[1] with 1st driver pin 'sram_cell/rd_reg[1]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[1] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[1] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[0] with 1st driver pin 'sram_cell/rd_reg[0]/Q' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin read_data_cache_w[0] with 2nd driver pin 'GND' [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net read_data_cache_w[0] is connected to at least one constant driver which has been preserved, other driver is ignored [/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_cell.sv:20]
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2200.328 ; gain = 687.867 ; free physical = 555 ; free virtual = 26224
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2206.266 ; gain = 693.805 ; free physical = 555 ; free virtual = 26224
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2206.266 ; gain = 693.805 ; free physical = 555 ; free virtual = 26224
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |BUFG  |     1|
+|2     |LUT1  |     1|
+|3     |LUT2  |     8|
+|4     |LUT4  |    10|
+|5     |LUT5  |    71|
+|6     |LUT6  |    67|
+|7     |MUXF7 |     4|
+|8     |MUXF8 |     2|
+|9     |FDCE  |    48|
+|10    |FDRE  |     3|
+|11    |IBUF  |    77|
+|12    |OBUF  |    72|
++------+------+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |   364|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 552 ; free virtual = 26091
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 96 critical warnings and 9 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.078 ; gain = 858.617 ; free physical = 544 ; free virtual = 26083
+Synthesis Optimization Complete : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2371.086 ; gain = 858.617 ; free physical = 545 ; free virtual = 26083
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2385.953 ; gain = 0.000 ; free physical = 542 ; free virtual = 26081
+INFO: [Netlist 29-17] Analyzing 6 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2518.598 ; gain = 0.000 ; free physical = 614 ; free virtual = 26153
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 1df8eb56
+INFO: [Common 17-83] Releasing license: Synthesis
+18 Infos, 9 Warnings, 96 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:29 ; elapsed = 00:00:26 . Memory (MB): peak = 2518.633 ; gain = 1006.172 ; free physical = 614 ; free virtual = 26153
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1792.008; main = 1690.867; forked = 273.102
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3310.133; main = 2518.602; forked = 963.863
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2542.609 ; gain = 0.000 ; free physical = 614 ; free virtual = 26153
+INFO: [Common 17-1381] The checkpoint '/home/minami/Coding_IPDesign/IP_lecture/cache_mem/cache_sramrproj/cache_sramrproj.runs/synth_1/cache_256B.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file cache_256B_utilization_synth.rpt -pb cache_256B_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Feb  8 11:00:13 2026...

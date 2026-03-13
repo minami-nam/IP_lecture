@@ -1,0 +1,129 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "dq[0]",
+					"strict" : false
+				},
+				{
+					"name" : "dqs_t",
+					"strict" : false
+				},
+				{
+					"name" : "dqs_c",
+					"strict" : false
+				},
+				{
+					"name" : "dq[1]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[2]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[3]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[4]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[5]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[6]",
+					"strict" : false
+				},
+				{
+					"name" : "dq[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ck_t",
+					"strict" : false
+				},
+				{
+					"name" : "ck_c",
+					"strict" : false
+				},
+				{
+					"name" : "burst",
+					"strict" : false
+				},
+				{
+					"name" : "csn",
+					"strict" : false
+				},
+				{
+					"name" : "burst_count[1]",
+					"strict" : false
+				},
+				{
+					"name" : "burst_count[0]",
+					"strict" : false
+				},
+				{
+					"name" : "burst_count[3]",
+					"strict" : false
+				},
+				{
+					"name" : "burst_count[2]",
+					"strict" : false
+				},
+				{
+					"name" : "a[14]",
+					"strict" : false
+				},
+				{
+					"name" : "a[16]",
+					"strict" : false
+				},
+				{
+					"name" : "a[15]",
+					"strict" : false
+				},
+				{
+					"name" : "actn",
+					"strict" : false
+				},
+				{
+					"name" : "a[0]",
+					"strict" : false
+				},
+				{
+					"name" : "a[1]",
+					"strict" : false
+				},
+				{
+					"name" : "a[2]",
+					"strict" : false
+				},
+				{
+					"name" : "a[3]",
+					"strict" : false
+				},
+				{
+					"name" : "a[6]",
+					"strict" : false
+				},
+				{
+					"name" : "a[7]",
+					"strict" : false
+				},
+				{
+					"name" : "a[4]",
+					"strict" : false
+				},
+				{
+					"name" : "a[5]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
