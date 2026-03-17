@@ -1,0 +1,4 @@
+Time resolution is 1 ps
+Testing...
+Test Succeeded : Output 13c996 is vaild.
+$finish called at time : 61 ns : File "/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/tb_hamming.sv" Line 41
