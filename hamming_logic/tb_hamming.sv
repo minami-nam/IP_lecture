@@ -37,8 +37,8 @@ module tb_hamming_logic_encoder;
         wait(!o_available);
 
         // B 값이 정상적으로 출력되는지 Log로 띄워주는 Code
-        if (B==21'b100111100100110010110) $display("Test Succeeded : Output %h is vaild.", B);
-        else $display("Test Failed : Output : %h", B);
+        if (B==21'b100111100100110010110) $display("Test Succeeded : Output %b is vaild.", B);
+        else $display("Test Failed : Output : %b", B);
 
         #10;
         $finish;

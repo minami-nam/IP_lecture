@@ -1,4 +1,4 @@
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module hamming_logic_encoder
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/tb_hamming.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb_hamming_logic_encoder

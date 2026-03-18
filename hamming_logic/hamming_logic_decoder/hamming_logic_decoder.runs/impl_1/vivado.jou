@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Wed Mar 18 08:16:17 2026
+# Process ID         : 736870
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_logic_decoder/hamming_logic_decoder.runs/impl_1
+# Command line       : vivado -log hamming_logic_decoder.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source hamming_logic_decoder.tcl -notrace
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_logic_decoder/hamming_logic_decoder.runs/impl_1/hamming_logic_decoder.vdi
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_logic_decoder/hamming_logic_decoder.runs/impl_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.172 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 32437 MB
+#-----------------------------------------------------------
+source hamming_logic_decoder.tcl -notrace

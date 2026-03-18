@@ -6,13 +6,11 @@ Using 8 slave threads.
 WARNING: [XSIM 43-3431] One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by AMD, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running xelab with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3818] variable 'b_reg' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:23]
-WARNING: [VRFC 10-2921] 'b_reg' driven by this always_ff block should not be driven by any other process [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:41]
-WARNING: [VRFC 10-3818] variable 'flag' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:24]
-WARNING: [VRFC 10-3818] variable 'mem' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:25]
-WARNING: [VRFC 10-3818] variable 'cnt' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:26]
-WARNING: [VRFC 10-2921] 'cnt' driven by this always_ff block should not be driven by any other process [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:77]
-WARNING: [VRFC 10-3818] variable 'o_available_reg' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming.sv:27]
+WARNING: [VRFC 10-3818] variable 'b_reg' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv:13]
+WARNING: [VRFC 10-2921] 'b_reg' driven by this always_ff block should not be driven by any other process [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv:31]
+WARNING: [VRFC 10-3818] variable 'flag' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv:16]
+WARNING: [VRFC 10-3818] variable 'mem' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv:17]
+WARNING: [VRFC 10-3818] variable 'o_available_reg' is driven by invalid combination of procedural drivers [/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_encoder.sv:15]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4100] "/home/minami/Coding_IPDesign/IP_lecture/hamming_logic/hamming_logic_proj/hamming_logic_proj.sim/sim_1/behav/xsim/glbl.v" Line 6. Module glbl has a timescale but at least one module in design doesn't have timescale.
