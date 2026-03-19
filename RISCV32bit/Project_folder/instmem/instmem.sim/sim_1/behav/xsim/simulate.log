@@ -1,0 +1,5 @@
+Time resolution is 1 ps
+HIT : faceface
+HIT : defdefac
+Empty
+$finish called at time : 43 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/tb_inst_mem.sv" Line 57

@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Thu Mar 19 08:32:33 2026
+# Process ID         : 1138343
+# Current directory  : /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1
+# Command line       : vivado -log inst_mem.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source inst_mem.tcl
+# Log file           : /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1/inst_mem.vds
+# Journal file       : /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1/vivado.jou
+# Running On         : minamidev
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : AMD EPYC 7551P 32-Core Processor
+# CPU Frequency      : 1996.172 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 12
+# Host memory        : 33653 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 37948 MB
+# Available Virtual  : 32098 MB
+#-----------------------------------------------------------
+source inst_mem.tcl -notrace
