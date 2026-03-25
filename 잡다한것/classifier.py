@@ -20,7 +20,7 @@ class extraction_mdl(nn.Module):
 
 def layer_extract(in_dim, out_dim):
     layer = [
-        nn.Conv2d(in_dim, out_dim,3,padding=1),
+        nn.Conv2d(in_dim, out_dim, 3, padding=1),
         nn.LeakyReLU(0.02),
         nn.BatchNorm2d(num_features=out_dim)
     ]
@@ -47,17 +47,19 @@ class multi_tone_curve(nn.Module):
         updated_s = (0.25+ratio_w1)*s + self.r1
         updated_v = (0.25+ratio_w2)*v + self.r2
 
-        concat = torch.cat((updated_h, updated_s, updated_v), dim=1)  
+         
 
-        return concat
+        return updated_h, updated_s, updated_v
     
-class total_variation_loss(nn.Module):
+class customized_tv_loss(nn.Module):
     def __init__(self):
         super().__init__()
-    def forward(self, x):
+    def forward(self, x, y):
         d1 = x[:, :, :, :-1] - x[:, :, :, 1:]
         d2 = x[:, :, :-1, :] - x[:, :, :1, :]
         
-        value = (torch.mean(torch.abs(d1)) + torch.mean(torch.abs(d2)))/2
+        t1 = y[:, :, :, :-1] - y[:, :, :, 1:]
+        t2 = y[:, :, :-1, :] - y[:, :, :1, :] 
+        value = (torch.mean(torch.abs(d1-t1)) + torch.mean(torch.abs(d2-t2)))/2
         return value
 
