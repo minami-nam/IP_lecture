@@ -54,4 +54,10 @@ class multi_tone_curve(nn.Module):
 class total_variation_loss(nn.Module):
     def __init__(self):
         super().__init__()
+    def forward(self, x):
+        d1 = x[:, :, :, :-1] - x[:, :, :, 1:]
+        d2 = x[:, :, :-1, :] - x[:, :, :1, :]
+        
+        value = (torch.mean(torch.abs(d1)) + torch.mean(torch.abs(d2)))/2
+        return value
 
