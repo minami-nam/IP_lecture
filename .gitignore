@@ -2,4 +2,5 @@
 *.txt
 *.model
 *.csv
-*.png
+잡다한것/datasets/input/
+잡다한것/datasets/target/
