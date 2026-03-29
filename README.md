@@ -53,6 +53,12 @@
 
 ### 4. Image Enhancement using Gaussian Filter and CNN Model
 > **"저사양 환경 속 Low-Light Image Enhancement를 위한 CNN 기반 Model 생성"**
+
+| Before (원본 이미지) | After (모델 적용 후) |
+| :---: | :---: |
+| ![입력](/잡다한것/datasets/inference/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
+
+
 - **Main Idea**
   - Gaussian Filter를 이용한 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 Tone Curve 고안.
 - **Additional Idea**
