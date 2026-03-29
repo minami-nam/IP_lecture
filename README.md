@@ -51,6 +51,16 @@
 
 ---
 
+### 4. Image Enhancement using Gaussian Filter and CNN Model
+> **"저사양 환경 속 Low-Light Image Enhancement를 위한 CNN 기반 Model 생성"**
+- **Main Idea**
+  - Gaussian Filter를 이용한 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 Tone Curve 고안.
+- **Additional Idea**
+  - 높은 연산량을 요구하는 Conv2D + Activation Function Layer를 적게 사용하기 위하여, CNN이 Tone Curve를 직접 수정할 수 있게 모델을 설계함.
+  - 추가적으로, Pixel 별 인접 Pixel 간 grad 값을 계산하여, Target Image의 그것과 비교하여 차이를 Loss로 설계함.
+
+---
+
 ## 📚 Tech Stack & Skills
 
 | 분류 | 기술 및 도구 |
