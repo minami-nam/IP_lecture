@@ -13,7 +13,8 @@ class extraction_mdl(nn.Module):
         self.out_dim=out_dim
 
         self.layer = nn.Sequential(
-            *layer_extract(in_dim, 8),
+            *layer_extract(in_dim, 4),
+            *layer_extract(4, 8),
             *layer_extract(8,16),
             *layer_extract(16,32),
             *layer_extract(32,64),
@@ -47,21 +48,21 @@ class extraction_detail(nn.Module):
         res = self.layer(x)
         return res
     
-class decomposition(nn.Module):
-    def __init__(self):
-        super().__init__()  
-        self.layer = nn.Sequential(
-            nn.AvgPool2d(3,1,1),
-            nn.AvgPool2d(3,1,1),
-            nn.AvgPool2d(3,1,1),
-            nn.AvgPool2d(3,1,1),
-            nn.AvgPool2d(3,1,1),
-        )
+# class decomposition(nn.Module):
+#     def __init__(self):
+#         super().__init__()  
+#         self.layer = nn.Sequential(
+#             nn.AvgPool2d(3,1,1),
+#             nn.AvgPool2d(3,1,1),
+#             nn.AvgPool2d(3,1,1),
+#             nn.AvgPool2d(3,1,1),
+#             nn.AvgPool2d(3,1,1),
+#         )
 
-    def forward(self, x):
-        lo_freq = self.layer(x)
-        hi_freq = x - self.layer(x)
-        return lo_freq, hi_freq
+#     def forward(self, x):
+#         lo_freq = self.layer(x)
+#         hi_freq = x - self.layer(x)
+#         return lo_freq, hi_freq
     
 class gaussian_net(nn.Module):
     def __init__(self):
@@ -75,10 +76,6 @@ class gaussian_net(nn.Module):
 class color_curve(nn.Module):
     def __init__(self):
         super().__init__()
-        self.w1 = nn.Parameter(torch.tensor(1.0))
-        self.w2 = nn.Parameter(torch.tensor(1.0))
-        self.w3 = nn.Parameter(torch.tensor(1.0))
-        self.w4 = nn.Parameter(torch.tensor(1.0))
 
     def forward(self, original_sv, curve_params):
         # S용 커브 파라미터와 V용 커브 파라미터 분리
@@ -189,3 +186,17 @@ class grad_loss(nn.Module):
         dh2 = torch.mean(torch.abs(dx2-dy2))
         
         return dh1+dh2
+
+class tv_loss(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        batch_size = x.size()[0]
+        h_x = x.size()[2]
+        w_x = x.size()[3]
+
+        tv_h = torch.pow((x[:, :, 1:, :] - x[:, :, :h_x-1, :]), 2).sum()
+        tv_w = torch.pow((x[:, :, :, 1:] - x[:, :, :, :w_x-1]), 2).sum()
+
+        return torch.mean(tv_h / h_x + tv_w / w_x)

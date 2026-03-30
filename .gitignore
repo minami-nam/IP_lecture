@@ -2,5 +2,7 @@
 *.txt
 *.model
 *.csv
-잡다한것/datasets/input/
-잡다한것/datasets/target/
+
+잡다한것/datasets/
+잡다한것/__pycache__/
+잡다한것/runs/

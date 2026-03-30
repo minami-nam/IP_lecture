@@ -52,18 +52,26 @@
 ---
 
 ### 4. Image Enhancement using Gaussian Filter and CNN Model
-> **"저사양 환경 속 Low-Light Image Enhancement를 위한 CNN 기반 Model 생성"**
+> **"경량 Low-Light Image Enhancement를 위한 CNN 기반 Model 설계"**
 
 | Before (원본 이미지) | After (모델 적용 후) |
 | :---: | :---: |
 | ![입력](/잡다한것/datasets/inference/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
 
+| Before (TV Loss 적용 전) | After (TV Loss 적용 후) |
+| :---: | :---: |
+| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
+
+| 전체적인 Model Diagram |
+| :---: |
+| ![diagram](/잡다한것/Enhancement_proj/diagram.png)|
 
 - **Main Idea**
-  - Gaussian Filter를 이용한 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 Tone Curve 고안.
+  - Gaussian Filter를 이용한 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 CNN 기반 모델 고안.
 - **Additional Idea**
-  - 높은 연산량을 요구하는 Conv2D + Activation Function Layer를 적게 사용하기 위하여, CNN이 Tone Curve를 직접 수정할 수 있게 모델을 설계함.
-  - 추가적으로, Pixel 별 인접 Pixel 간 grad 값을 계산하여, Target Image의 그것과 비교하여 차이를 Loss로 설계함.
+  - Pixel 별 인접 Pixel 간 grad 값을 계산하여, Target Image의 그것과 비교하여 차이를 Loss로 설계함. 
+  - 계단 현상 방지를 위한 Total Variation Loss를 설계하고, 이를 Tone Curve에 적용하여 자연스러운 색감을 출력할 수 있게 유도함.
+  - SSIM의 특성 중 하나인 값이 작아질수록 Target과 유사한 이미지라는 특성을 이용하여, (1-SSIM)을 이용한 SSIM Loss 설계.
 
 ---
 
