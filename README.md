@@ -1,5 +1,6 @@
 # 🚀 Intro
-### 안녕하세요, 해당 repository는 개인적인 학습 기록 용도로 사용 중입니다. 지속적으로 업데이트 중입니다! 
+### 안녕하세요, 해당 repository는 개인적인 학습 기록 용도로 사용 중입니다.      
+### 지속적으로 업데이트 중이며, Verilog 이외에도 Python과 같은 타 분야 프로젝트 결과물 또한 게시할 예정입니다.
 
 ---
 
@@ -60,7 +61,7 @@
 
 | Before (TV Loss 적용 전) | After (TV Loss 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
+| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![tv 적용](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
 
 | 전체적인 Model Diagram |
 | :---: |
