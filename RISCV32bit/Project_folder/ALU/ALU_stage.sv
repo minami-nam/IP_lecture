@@ -1,4 +1,4 @@
-`define SIM
+`define FPGA
 module ALU_stage(
     // input data
     input [31:0] RD1E,
@@ -7,7 +7,7 @@ module ALU_stage(
     input [31:0] PCE,
     // input [4:0] Rs1E,
     // input [4:0] Rs2E,
-    // input [4:0] RdE,
+    input [4:0] RdE,
     input [24:0] ImmExtE,
     input [31:0] PCPlus4E,
     
@@ -23,6 +23,7 @@ module ALU_stage(
     input MemWriteE,
     input [2:0] ALUControlE,
     input ALUSrcE,
+    input clk, rstn,
 
     // output ctl
     output reg RegWriteM,
@@ -35,7 +36,7 @@ module ALU_stage(
     output reg [31:0] ALUResultM,
     output reg [4:0] RdM,
     output reg [31:0] PCPlus4M,
-    output [31:0] PCTargetE,
+    output reg [31:0] PCTargetE,
     output reg [31:0] WriteDataM
 );  
     wire [31:0] SrcAE, SrcBE, WriteDataE;
@@ -89,8 +90,10 @@ module ALU_stage(
     end
 
     // PC Target 관련 
-    assign PCTargetE = PCE + ImmExtE;
-
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) PCTargetE <= 0; 
+        else PCTargetE <= PCE + ImmExtE;
+    end
     // WriteDataM 관련
     always @(posedge clk or negedge rstn) begin
         if (!rstn) WriteDataM <= 0;
@@ -117,6 +120,21 @@ module ALU_stage(
     always @(posedge clk) begin
         MemWriteM <= MemWriteE;
     end   
+
+    `ifdef SIM
+        initial begin
+            RegWriteM = 0;
+            ResultSrcM = 0;
+            MemWriteM = 0;
+            
+            // output data
+            ALUResultM = 0;
+            RdM = 0;
+            PCPlus4M = 0;
+            PCTargetE = 0;
+            WriteDataM = 0;
+        end
+    `endif
 
 
 endmodule
@@ -184,19 +202,8 @@ module in3_mux(
     output [31:0] out
 );
 
-    reg [31:0] mem;
-
-    always @(*) begin
-        case(sel)
-            0 : out = data1;
-            1 : out = data2;
-            2 : out = data3;
-            default : out = 0;
-        endcase
-    end
-
-    `ifdef SIM 
-        initial mem = 0;
-    `endif
+    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'hz;
 endmodule
+
+
 
