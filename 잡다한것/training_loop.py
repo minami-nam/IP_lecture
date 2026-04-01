@@ -97,7 +97,7 @@ def main():
             s_loss = sharpness_loss(x=pred, y=target_img)
             total_variation_loss = totalv_loss(x=curve)
 
-            loss = c_loss + 8*similar_loss + 10*s_loss + 0.008*total_variation_loss
+            loss = c_loss + 8*similar_loss + 10*s_loss + 0.005*total_variation_loss
 
             loss.backward()
             optimizer.step()

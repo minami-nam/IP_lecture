@@ -68,8 +68,9 @@
 | ![diagram](/잡다한것/Enhancement_proj/diagram.png)|
 
 - **Main Idea**
-  - Gaussian Filter를 이용한 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 CNN 기반 모델 고안.
+  - Gaussian Filter를 이용한 출력 이미지의 Texture Degradation 방지 및 자연스러운 Image Enhancement를 위한 CNN 기반 모델 고안.
 - **Additional Idea**
+  - RGB를 HSV로 변환하여 원본 이미지의 색은 보존하면서 Saturation 및 Value만 자연스럽게 조절.
   - Pixel 별 인접 Pixel 간 grad 값을 계산하여, Target Image의 그것과 비교하여 차이를 Loss로 설계함. 
   - 계단 현상 방지를 위한 Total Variation Loss를 설계하고, 이를 Tone Curve에 적용하여 자연스러운 색감을 출력할 수 있게 유도함.
   - SSIM의 특성 중 하나인 값이 작아질수록 Target과 유사한 이미지라는 특성을 이용하여, (1-SSIM)을 이용한 SSIM Loss 설계.
