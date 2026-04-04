@@ -21,7 +21,7 @@ module ALU_stage(
     input RegWriteE,
     input [1:0] ResultSrcE,
     input MemWriteE,
-    input [2:0] ALUControlE,
+    input [3:0] ALUControlE,
     input ALUSrcE,
     input clk, rstn,
 
@@ -63,16 +63,33 @@ module ALU_stage(
     assign SrcBE = (ALUSrcE==1) ? ImmExtE : WriteDataE;
 
 
-    // ALU 호출 관련
-    wire [31:0] wire_ALUresult;
+    // ALU 호출 및 ctl 관련
+    wire [2:0] wire_ALUCtl_arith, wire_ALUCtl_logic;
+    assign wire_ALUCtl_arith = ALUControlE[3] ? ALUcontrolE[2:0] : 0;
+    assign wire_ALUCtl_logic = !ALUControlE[3] ? ALUControlE[2:0] : 0; 
 
-    ALU alu(
+    wire ZeroE_arith, ZeroE_logic;
+    assign ZeroE = ALUControlE[3] ? ZeroE_arith : ZeroE_logic;
+
+    wire [31:0] wire_ALUresult, wire_ALUresult_arith, wire_ALUresult_logic;
+    assign wire_ALUresult = ALUControlE[3] ? wire_ALUCtl_arith : wire_ALUCtl_logic;
+
+    ALU_Arithmetic alu_arith(
         .SrcAE(SrcAE),
         .SrcBE(SrcBE),
-        .ALUControlE(ALUControlE),
+        .ALUControlE(wire_ALUCtl_arith),
 
-        .ALUResult(wire_ALUresult),
-        .ZeroE(ZeroE)
+        .ALUResult(wire_ALUresult_arith),
+        .ZeroE(ZeroE_arith)
+    );
+
+    ALU_Logical alu_logic(
+        .SrcAE(SrcAE),
+        .SrcBE(SrcBE),
+        .ALUControlE(wire_ALUCtl_logic),
+
+        .ALUResult(wire_ALUresult_logic),
+        .ZeroE(ZeroE_logic)
     );
 
 
@@ -140,7 +157,67 @@ module ALU_stage(
 endmodule
 
 
-module ALU(
+module ALU_Logical(
+    input [31:0] SrcAE,
+    input [31:0] SrcBE,
+    input [2:0] ALUControlE,
+
+    output reg [31:0] ALUResult,
+    output reg ZeroE
+);
+    localparam  sSll= 1;
+    localparam  sSrl= 2;
+    localparam  sSlt= 3;
+    localparam  sSltu= 4;
+    localparam  sXOR= 5;
+    localparam  sOR= 6;
+    localparam  sAND= 7;
+
+
+    wire [31:0] Sll, Srl, Slt, Sltu, XOR, OR, AND;
+    wire [31:0] sltu_ae, sltu_be;
+
+
+    assign Sll = SrcAE << SrcBE;
+    assign Srl = SrcAE >> SrcBE;
+    assign Slt = (SrcAE-SrcBE>0) ? 0 : 1;
+    assign sltu_ae = (SrcAE[31]) ? -SrcAE : SrcAE;
+    assign sltu_be = (SrcBE[31]) ? -SrcBE : SrcBE;
+    assign Sltu = (sltu_ae-sltu_be>0) ? 0 : 1; 
+    assign XOR = SrcAE ^ SrcBE;
+    assign OR = SrcAE | SrcBE;
+    assign AND = SrcAE & SrcBE;
+
+    
+    // Case 구문으로 입력에 맞게 선택 후 출력함.
+    always @(*) begin
+        case(ALUControlE)
+            default : ALUResult = 0;
+            sSll : ALUResult = Sll;
+            sSrl : ALUResult = Srl;
+            sSlt : ALUResult = Slt;
+            sSltu : ALUResult = Sltu;
+            sXOR : ALUResult = XOR;
+            sOR : ALUResult = OR;
+            sAND : ALUResult = AND;
+        endcase
+
+        if (ALUResult==0) ZeroE = 1;
+        else ZeroE = 0;
+    end
+
+
+    `ifdef SIM
+        initial begin
+            ALUResult = 0;
+            ZeroE = 0;
+        end
+    `endif
+
+endmodule
+
+
+module ALU_Arithmetic(
     input [31:0] SrcAE,
     input [31:0] SrcBE,
     input [2:0] ALUControlE,
@@ -150,17 +227,17 @@ module ALU(
 );
     localparam sADD = 1;
     localparam sSUB = 2;
-    localparam sMUL = 3;
-    localparam sDIV = 4;
+    localparam sSla = 3;
+    localparam sSra = 4;
     localparam sINC = 5;
     localparam sDEC = 6;
     localparam sNEG = 7;
-    wire [31:0] ADD, SUB, MUL, DIV, INC, DEC, NEG;
+    wire [31:0] ADD, SUB, Sla, Sra, INC, DEC, NEG;
 
     assign ADD = SrcAE + SrcBE;
     assign SUB = SrcAE - SrcBE;
-    assign MUL = SrcAE * SrcBE;
-    assign DIV = SrcAE / SrcBE;
+    assign Sla = SrcAE <<< SrcBE;
+    assign Sra = SrcAE >>> SrcBE;
     assign INC = SrcAE + 1;
     assign DEC = SrcAE - 1;
     assign NEG = ~SrcAE + 1;
@@ -172,8 +249,8 @@ module ALU(
             default : ALUResult = 0;
             sADD : ALUResult = ADD;
             sSUB : ALUResult = SUB;
-            sMUL : ALUResult = MUL;
-            sDIV : ALUResult = DIV;
+            sSla : ALUResult = Sla;
+            sSra : ALUResult = Sra;
             sINC : ALUResult = INC;
             sDEC : ALUResult = DEC;
             sNEG : ALUResult = NEG;
@@ -192,6 +269,7 @@ module ALU(
     `endif
 
 endmodule
+
 
 module in3_mux(
     input [31:0] data1,
