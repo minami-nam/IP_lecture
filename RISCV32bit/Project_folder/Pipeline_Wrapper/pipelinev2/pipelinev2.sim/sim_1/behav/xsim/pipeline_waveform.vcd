@@ -1,0 +1,16 @@
+$date
+   Wed Apr  8 07:33:41 2026
+$end
+
+$version
+  2025.1.0
+  $dumpfile ("pipeline_waveform.vcd") 
+$end
+
+$timescale
+  1ps
+$end
+
+$enddefinitions $end
+$dumpvars
+$end

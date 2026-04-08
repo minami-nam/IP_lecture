@@ -1,13 +1,13 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
-| Date         : Tue Apr  7 12:54:38 2026
+| Date         : Wed Apr  8 12:03:29 2026
 | Host         : minamidev running 64-bit Ubuntu 24.04.4 LTS
-| Command      : report_utilization -file sc_riscv_wrapper_utilization_synth.rpt -pb sc_riscv_wrapper_utilization_synth.pb
-| Design       : sc_riscv_wrapper
+| Command      : report_utilization -file opt_report_utilization_0.rpt -pb opt_report_utilization_0.pb
+| Design       : real_wrapper
 | Device       : xczu5eg-fbvb900-1-e
 | Speed File   : -1
-| Design State : Synthesized
+| Design State : Optimized
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 Utilization Design Information
@@ -32,8 +32,8 @@ Table of Contents
 +----------------------------+------+-------+------------+-----------+-------+
 |          Site Type         | Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*                  | 1464 |     0 |          0 |    117120 |  1.25 |
-|   LUT as Logic             |  912 |     0 |          0 |    117120 |  0.78 |
+| CLB LUTs*                  | 1480 |     0 |          0 |    117120 |  1.26 |
+|   LUT as Logic             |  928 |     0 |          0 |    117120 |  0.79 |
 |   LUT as Memory            |  552 |     0 |          0 |     57600 |  0.96 |
 |     LUT as Distributed RAM |  552 |     0 |            |           |       |
 |     LUT as Shift Register  |    0 |     0 |            |           |       |
@@ -100,7 +100,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +------------------+------+-------+------------+-----------+-------+
 |     Site Type    | Used | Fixed | Prohibited | Available | Util% |
 +------------------+------+-------+------------+-----------+-------+
-| Bonded IOB       |  126 |     0 |          0 |       204 | 61.76 |
+| Bonded IOB       |    0 |     0 |          0 |       204 |  0.00 |
 |   HPIOB_M        |    0 |     0 |          0 |        72 |  0.00 |
 |   HPIOB_S        |    0 |     0 |          0 |        72 |  0.00 |
 |   HDIOB_M        |    0 |     0 |          0 |        24 |  0.00 |
@@ -171,25 +171,22 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
+| LUT6     |  552 |                 CLB |
 | RAMS64E1 |  512 |                 CLB |
-| LUT6     |  434 |                 CLB |
 | MUXF7    |  256 |                 CLB |
 | FDCE     |  245 |            Register |
 | FDRE     |  233 |            Register |
-| LUT5     |  185 |                 CLB |
-| LUT4     |  172 |                 CLB |
-| LUT3     |  155 |                 CLB |
+| LUT5     |  166 |                 CLB |
 | MUXF8    |  128 |                 CLB |
-| LUT2     |   90 |                 CLB |
-| INBUF    |   83 |                 I/O |
-| IBUFCTRL |   83 |              Others |
+| LUT4     |  127 |                 CLB |
+| LUT3     |  106 |                 CLB |
+| LUT2     |   84 |                 CLB |
 | RAMD32   |   68 |                 CLB |
 | MUXF9    |   64 |                 CLB |
-| OBUF     |   43 |                 I/O |
-| LUT1     |   34 |                 CLB |
 | CARRY8   |   24 |                 CLB |
 | FDSE     |   20 |            Register |
 | RAMS32   |   12 |                 CLB |
+| LUT1     |    2 |                 CLB |
 | RAMB36E2 |    1 |            BLOCKRAM |
 | FDPE     |    1 |            Register |
 | BUFGCE   |    1 |               Clock |
