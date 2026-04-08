@@ -18,10 +18,15 @@
  - Testbench에서 각각 module의 입력과 출력을 선언해놓은 typedef enum type의 변수를 생성한 후, module의 입력과 출력을 그 변수와 연결시켜주면, 이후 simulation에서 변수명.port_name의 값을 enum 내부에서 정의한 문자열로 출력할 수 있다.    
  - foreach - end 문법을 학습함. foreach는 for 구문처럼 (int i;...) 로 정의하는 것이 아니라, 변수명과 iterator로 선언할 수 있다. 이는 우리가 typedef로 선언한 변수들을 반복적으로 실행시키는데 있어 for 보다 간결하게 Code를 작성할 수 있다는 장점이 있다.
  - class - endclass 문법을 학습함. class는 내부에 여러 개의 변수를 담고, function 및 constraint까지 동시에 포함할 수 있는, 파이썬의 class와 비슷하다고 생각하면 된다. class는 Non-Synthesizable하기에 chip design 과정에서는 사용할 수 없다. rand bit와 같은 변수 선언과 .randomize()의 사용으로 변수가 으로 random한 값을 참조하게 할 수 있다.         
- - constraint 사용법을 학습함. constraint의 경우에는 규칙이라고 생각하면 편하며, class과 같이 사용하면 매우 편리하다. 여러가지 method (inside, dist 등)가 존재하여 규칙을 생성하는데 도움이 된다.     
+ - constraint 사용법을 학습함. constraint의 경우에는 규칙이라고 생각하면 편하며, class과 같이 사용하면 매우 편리하다. 여러가지 method (inside, dist 등)가 존재하여 규칙을 생성하는데 도움이 된다. 특이한 점은 begin - end 구문이 아닌 {} 구문을 사용하여 규칙을 정의한다는 점이다.
 
 > **설계 관련**
- - clock gating을 진행할 때, 예를 들어 assign local_clk = en ? clk : 0; 으로 정의할 경우 Slack 등으로 인해 clk를 정상적으로 받지 못하는 상황이 발생할 수 있다. 이를 해결하기 위해서는 always_comb 구문을 이용하여 if (en) local_clk = clk; 와 같은 방식으로 gating을 진행시켜줘야 clk를 정상적으로 gating할 수 있다.             
+ - clock gating을 진행할 때, 예를 들어 assign local_clk = en ? clk : 0; 으로 정의할 경우 Slack 등으로 인해 clk를 정상적으로 받지 못하는 상황이 발생할 수 있다. 이를 해결하기 위해서는 always_comb 구문을 이용하여 if (en) local_clk = clk; 와 같은 방식으로 gating을 진행시켜줘야 clk를 정상적으로 gating할 수 있다. 
+
+> **Synthesis/Implementation 관련**
+ - Synthesis/Implementation을 진행할 때, Settings 항목에서 Vivado의 합성 규칙을 지정해줄 수 있다.         
+ - Implementation을 통한 Timing Analysis / Power Consumption 측정 시 wrapper를 이용하여 내부 module에게 BUFG로 정제된 CLK 신호를 받을 수 있게 만들어야 한다. (즉, module과 clk 핀 직결 금지)      
+ - OOC (out of context)를 사용할 경우, 반드시 Settings 항목에서 -mode out_of_context를 입력했는지 확인하고, .xdc 파일 또한 out_of_context 용도로 설정되었는지, get_ports 'port_name' 부분에서 port_name이 wrapper의 port_name과 일치하는지 확인해야 한다. 
 
 ---
 ### 개선/수정점 기록 :
