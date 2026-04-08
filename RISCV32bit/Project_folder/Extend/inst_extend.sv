@@ -1,6 +1,6 @@
-`define FPGA
+`define SIM
 module inst_extend(
-  input [24:0] inst,
+  input [31:0] inst,
   input [2:0] ImmSrcD,  // 이 부분은 수정
 
   output [31:0] ImmExtD  
@@ -14,44 +14,36 @@ module inst_extend(
     localparam int J_type = 5;
     localparam int UNKNOWN = 6;
 
-    // output을 위한 reg/wire 설정
     reg [31:0] mem;
     assign ImmExtD = mem;
 
-    // S type
-    wire [6:0] s_ins1; 
-    wire [4:0] s_ins2;
-
-    assign s_ins1 = inst[24:18];    // 7bits
-    assign s_ins2 = inst[4:0];      // 5bits
-
-    // B type
-    wire [12:0] b_inst;
-    assign b_inst = {inst[24], inst[0], inst[23:18], inst[4:1], 1'b0};
-
-    // J type 
-    wire [20:0] j_inst;
-    assign j_inst = {inst[24], inst[12:5], inst[13], inst[23:14], 1'b0};
-
-
-    // 올바른 값을 mem에 할당
+    // RISC-V 공식 스펙에 맞춘 깔끔한 비트 슬라이싱!
     always @(*) begin
         case(ImmSrcD)
-            IDLE : mem = {{7{1'b0}}, inst}; 
-            // addi, lw
-            I_type : mem = {{7{inst[24]}}, inst}; 
-            S_type : mem = {{20{inst[24]}}, s_ins1, s_ins2}; 
-            B_type : mem = {{19{inst[24]}}, b_inst};
-            U_type : mem = {inst[24:5], {12{1'b0}}};
-            J_type : mem = {{11{inst[24]}}, j_inst};
-            UNKNOWN : mem = 0;
-            default : mem = 'hzzzz;
+            IDLE : mem = 32'b0; 
+            
+            // 💡 I-type (addi, lw 등): 상위 12비트 [31:20]만 쏙 빼서 부호 확장!
+            I_type : mem = {{20{inst[31]}}, inst[31:20]}; 
+            
+            // 💡 S-type (sw): [31:25]와 [11:7]을 합쳐서 부호 확장
+            S_type : mem = {{20{inst[31]}}, inst[31:25], inst[11:7]}; 
+            
+            // 💡 B-type (beq 등): 복잡하게 섞인 비트들을 재조합 (맨 끝은 무조건 0)
+            B_type : mem = {{20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0};
+            
+            // 💡 U-type (lui 등): [31:12]를 그대로 쓰고 하위 12비트는 0으로 채움
+            U_type : mem = {inst[31:12], 12'b0};
+            
+            // 💡 J-type (jal): 20비트 값을 재조합하여 부호 확장
+            J_type : mem = {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0};
+            
+            UNKNOWN : mem = 32'b0;
+            default : mem = 32'b0;
         endcase
     end
 
     `ifdef SIM
         initial mem = 0;
     `endif
-
 
 endmodule

@@ -10,9 +10,10 @@ module control_unit(
     output logic       MemWriteD,
     output logic       JumpD,
     output logic       BranchD,
-    output logic [3:0] ALUControlD, // 오타 수정 (ALUContolD -> ALUControlD)
+    output logic [3:0] ALUControlD, 
     output logic       ALUSrcD,
-    output logic [2:0] ImmSrcD
+    output logic [2:0] ImmSrcD,
+    output logic ignoreSrcAE
 );
     // Opcode만 enum.
     opcode_type op_type;
@@ -45,8 +46,9 @@ module control_unit(
     // System 관련
     wire is_system = (op_type == System) & ((funct3 == F3_CSRRW) | (funct3 == F3_CSRRS) | (funct3 == F3_CSRRC) | (funct3 == F3_CSRRWI) | (funct3 == F3_CSRRSI) | (funct3 == F3_CSRRCI));
 
-    // 기타 (추후 추가용)
+    // 기타 
     wire is_lui   = (op_type == U_type_LUI);
+    assign ignoreSrcAE = is_lui;
     wire is_auipc = (op_type == U_type_AUIPC);
     wire is_fence = (op_type == Fence);
 

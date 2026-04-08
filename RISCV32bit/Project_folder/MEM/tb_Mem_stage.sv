@@ -40,7 +40,8 @@ module tb_mem_stage;
         ALUResultM = 32'h0000_0111;
         rstn = 1'b0;
 
-        @(posedge clk);
+        @(negedge clk);
+
 
         RegWriteM = 1'b1;
         ResultSrcM = 2'b00;
@@ -51,7 +52,7 @@ module tb_mem_stage;
         ALUResultM = 32'h0000_0111;
         rstn = 1'b1;
 
-        repeat(2) @(posedge clk);
+        @(negedge clk);
 
         if (ResultW==ALUResultM) $display("Successfully Feed Forwarded : %8h", ResultW);
         else $display("Feed Forward Test Failed : %8h", ResultW);
@@ -68,7 +69,7 @@ module tb_mem_stage;
         ALUResultM = 32'h0000_0111;
         rstn = 1'b1;
         
-        repeat(2) @(posedge clk);
+        @(negedge clk);
 
         if (ResultW==dut.ReadDataW) $display("Read Successfully. : %8h", ResultW);
         else $display("Read Failed : %8h", ResultW);

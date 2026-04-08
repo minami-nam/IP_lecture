@@ -61,7 +61,7 @@
 
 | Before (TV Loss 적용 전) | After (TV Loss 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![tv 적용](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
+| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![적용](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
 
 | 전체적인 Model Diagram |
 | :---: |
@@ -75,6 +75,15 @@
   - 계단 현상 방지를 위한 Total Variation Loss를 설계하고, 이를 Tone Curve에 적용하여 자연스러운 색감을 출력할 수 있게 유도함.
   - SSIM의 특성 중 하나인 값이 작아질수록 Target과 유사한 이미지라는 특성을 이용하여, (1-SSIM)을 이용한 SSIM Loss 설계.
 
+---
+
+### 5. RISC-V 5 Stage Pipeline 설계
+> **"RISC-V 명령어 호환 Pipeline 설계"**
+- **설계 과정 요약**
+ - Instruction Fetch, Instruction Decoder, Execute, Memory, WriteBack 총 5개의 Stage로 나누어 In-Order Pipeline을 구현하였으며, RISC-V에서 사용하는 명령어 규칙을 참고하여 설계 진행. Instruction Memory와 Register File에 강제로 값을 작성하여 Simulation 과정에서 도움을 줄 수 있는 Port 추가.
+
+ - Hazard 발생 감지 및 처리가 가능한 Hazard Detection Unit을 추가하여 Forwarding 및 Flush 기능 구현.
+ 
 ---
 
 ## 📚 Tech Stack & Skills

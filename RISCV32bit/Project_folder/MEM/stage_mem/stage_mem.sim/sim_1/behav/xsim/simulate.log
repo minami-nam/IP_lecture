@@ -4,4 +4,4 @@ Successfully Feed Forwarded : 00000111
 Data was written successfully. : abcddcba
 Read Successfully. : abcddcba
 ---------- TEST FINISHED ----------
-$finish called at time : 45 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/tb_Mem_stage.sv" Line 79
+$finish called at time : 33 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/tb_Mem_stage.sv" Line 80

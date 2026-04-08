@@ -18,25 +18,21 @@ module mem_wrapper(
 );  
 
     // ALUResultM 관련
-    reg [63:0] reg_ALUResultM;
+    reg [31:0] reg_ALUResultM;
     wire [31:0] wire_ALURM_mux;
-    assign wire_ALURM_mux = reg_ALUResultM[63:32]; 
+    assign wire_ALURM_mux = reg_ALUResultM; 
 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) reg_ALUResultM <= 0; 
-        else begin
-            reg_ALUResultM[31:0] <= ALUResultM;
-            reg_ALUResultM[63:32] <= reg_ALUResultM[31:0];
-        end
+        else reg_ALUResultM <= ALUResultM;
     end
 
     // ResultSrcW와 MUX I/O 조절 
     // Delay 필요      
-    reg [3:0] RSrcW;
-    reg [63:0] PCP4W;
+    reg [1:0] RSrcW;
+    reg [31:0] PCP4W;
 
     wire [31:0] PCPlus4W;
-    wire [1:0] ResultSrcW;  
 
     // Data Memory 관련
     wire [31:0] ReadDataW;
@@ -52,38 +48,32 @@ module mem_wrapper(
 
 
     // RSrcW - ResultSrcW
-    assign ResultSrcW = RSrcW[3:2];
+    
+    wire [1:0] ResultSrcW;
+    assign ResultSrcW = RSrcW;
     always @(posedge clk or negedge rstn) begin
         if (!rstn) RSrcW <= 0;
-        else begin
-            RSrcW[1:0] <= ResultSrcM;
-            RSrcW[3:2] <= RSrcW[1:0];
-        end
+        else RSrcW <= ResultSrcM;
     end
 
 
 
 
     // PCPlus4M - PCPlus4W 관련
-    assign PCPlus4W = PCP4W[63:32];
+    
+    assign PCPlus4W = PCP4W;
     always @(posedge clk or negedge rstn) begin
         if (!rstn) PCP4W <= 0;
-        else begin
-            PCP4W[31:0] <= PCPlus4M;
-            PCP4W[63:32] <= PCP4W[31:0]; 
-        end
+        else PCP4W <= PCPlus4M;
     end
 
     // RegWrite 관련 
-    reg [1:0] RWriteW;
-    assign RegWriteW = RWriteW[1];
+    reg RWriteW;
+    assign RegWriteW = RWriteW;
 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) RWriteW <= 0;
-        else begin
-            RWriteW[0] <= RegWriteM;
-            RWriteW[1] <= RWriteW[0]; 
-        end
+        else RWriteW <= RegWriteM;
     end
 
 
@@ -103,15 +93,12 @@ module mem_wrapper(
 
     // RdW 관련
 
-    reg [9:0] reg_RdW;
-    assign RdW = reg_RdW[9:5];
+    reg [4:0] reg_RdW;
+    assign RdW = reg_RdW;
 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) reg_RdW <= 0;
-        else begin
-            reg_RdW[9:5] <= reg_RdW[4:0];
-            reg_RdW[4:0] <= RdM;
-        end
+        else reg_RdW[4:0] <= RdM;
     end
 
     `ifdef SIM
@@ -140,12 +127,12 @@ module data_mem(
 
     // Data 이동 관련 서술
     always @(posedge clk) begin
-        if (WE) data_reg[A] <= WD;
+        if (WE) data_reg[A>>2] <= WD;
 
-        else    data_reg[A] <= data_reg[A];
+        else data_reg[A>>2] <= data_reg[A>>2];
     end
 
-    assign RD = (!WE) ? data_reg[A] : 'hzzzz_zzzz;
+    assign RD = (!WE) ? data_reg[A>>2] : 'h0000_0000;
 
     `ifdef SIM 
         initial begin
@@ -158,14 +145,14 @@ module data_mem(
 endmodule
 
 
-module in3_mux(
-    input [31:0] data1,
-    input [31:0] data2,
-    input [31:0] data3,
-    input [1:0] sel,
+//module in3_mux(
+//    input [31:0] data1,
+//    input [31:0] data2,
+//    input [31:0] data3,
+//    input [1:0] sel,
 
-    output [31:0] out
-);
+//    output [31:0] out
+//);
 
-    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'hz;
-endmodule
+//    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'h0;
+//endmodule

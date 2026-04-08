@@ -1,4 +1,4 @@
-`define FPGA
+`define SIM
 module ALU_stage(
     // input data
     input [31:0] RD1E,
@@ -8,13 +8,16 @@ module ALU_stage(
     // input [4:0] Rs1E,
     // input [4:0] Rs2E,
     input [4:0] RdE,
-    input [24:0] ImmExtE,
+    input [31:0] ImmExtE,
     input [31:0] PCPlus4E,
     
     // Need Muxing
     input [31:0] ResultW,
     input [1:0] ForwardAE,
     input [1:0] ForwardBE,
+    input JumpE,
+    // LUI 구현을 위해 추가.
+    input ignoreSrcAE,
 
 
     // input ctl
@@ -39,7 +42,7 @@ module ALU_stage(
     output reg [31:0] PCTargetE,
     output reg [31:0] WriteDataM
 );  
-    wire [31:0] SrcAE, SrcBE, WriteDataE;
+    wire [31:0] SrcAE, SrcBE, ori_SrcAE, WriteDataE;
 
     // Muxing 관련
     in3_mux mx1(
@@ -48,7 +51,7 @@ module ALU_stage(
         .data3(ALUResultM),
         .sel(ForwardAE),
 
-        .out(SrcAE)
+        .out(ori_SrcAE)
     );
 
     in3_mux mx2(
@@ -60,22 +63,24 @@ module ALU_stage(
         .out(WriteDataE)
     );
 
-    assign SrcBE = (ALUSrcE==1) ? ImmExtE : WriteDataE;
+    assign SrcAE = (ignoreSrcAE) ? 0 : ori_SrcAE;
+    assign SrcBE = (ALUSrcE==1 | ignoreSrcAE) ? ImmExtE : WriteDataE;
 
 
     // ALU 호출 및 ctl 관련
     wire [2:0] wire_ALUCtl_arith, wire_ALUCtl_logic;
-    assign wire_ALUCtl_arith = ALUControlE[3] ? ALUcontrolE[2:0] : 0;
+    assign wire_ALUCtl_arith = ALUControlE[3] ? ALUControlE[2:0] : 0;
     assign wire_ALUCtl_logic = !ALUControlE[3] ? ALUControlE[2:0] : 0; 
 
     wire ZeroE_arith, ZeroE_logic;
     assign ZeroE = ALUControlE[3] ? ZeroE_arith : ZeroE_logic;
 
     wire [31:0] wire_ALUresult, wire_ALUresult_arith, wire_ALUresult_logic;
-    assign wire_ALUresult = ALUControlE[3] ? wire_ALUCtl_arith : wire_ALUCtl_logic;
+    assign wire_ALUresult = ALUControlE[3] ? wire_ALUresult_arith : wire_ALUresult_logic;
 
     ALU_Arithmetic alu_arith(
         .SrcAE(SrcAE),
+
         .SrcBE(SrcBE),
         .ALUControlE(wire_ALUCtl_arith),
 
@@ -85,6 +90,7 @@ module ALU_stage(
 
     ALU_Logical alu_logic(
         .SrcAE(SrcAE),
+
         .SrcBE(SrcBE),
         .ALUControlE(wire_ALUCtl_logic),
 
@@ -109,7 +115,10 @@ module ALU_stage(
     // PC Target 관련 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) PCTargetE <= 0; 
-        else PCTargetE <= PCE + ImmExtE;
+        else begin
+            if (ALUControlE==3'b001 & JumpE) PCTargetE <= wire_ALUresult;
+            else PCTargetE <= PCE + ImmExtE;
+        end
     end
     // WriteDataM 관련
     always @(posedge clk or negedge rstn) begin
@@ -221,7 +230,6 @@ module ALU_Arithmetic(
     input [31:0] SrcAE,
     input [31:0] SrcBE,
     input [2:0] ALUControlE,
-
     output reg [31:0] ALUResult,
     output reg ZeroE
 );
@@ -280,7 +288,7 @@ module in3_mux(
     output [31:0] out
 );
 
-    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'hz;
+    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'h0;
 endmodule
 
 

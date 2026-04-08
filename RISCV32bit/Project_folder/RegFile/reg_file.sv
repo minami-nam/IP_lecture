@@ -3,7 +3,7 @@ module reg_file(
     input [4:0] i_addr1,
     input [4:0] i_addr2,
     input [4:0] i_addr3,    // Write
-    input clk_n,
+    input clk,
     input WE,
     input [31:0] i_wd1,
 
@@ -12,20 +12,15 @@ module reg_file(
     output reg [31:0] o_rd2
 );
     reg [31:0] register[0:31];
-    reg [4:0] i_addr_reg[0:2];
     
     // WE 신호가 들어올 때 동작 (Timing은 Control Module에서 작성하기)
-    always @(negedge clk_n) begin
-        i_addr_reg[0] <= i_addr3;
-        for (int i=0; i<2; i++) begin
-            i_addr_reg[i+1] <= i_addr_reg[i];
-        end
-        if (WE) register[i_addr_reg[2]] <= i_wd1; 
-        else register[i_addr_reg[2]] <= register[i_addr_reg[2]];
+    always @(posedge clk) begin
+        if (WE) register[i_addr3] <= i_wd1; 
+        else register[i_addr3] <= register[i_addr3];
     end
 
     // 정상적인 Read
-    always @(negedge clk_n) begin
+    always @(posedge clk) begin
         o_rd1 <= register[i_addr1];
         o_rd2 <= register[i_addr2];
     end
@@ -36,9 +31,6 @@ module reg_file(
             o_rd2 = 0;
             for (int j=0; j<32; j++) begin
                 register[j] = 0;
-            end
-            for (int h=0; h<3; h++) begin
-                i_addr_reg[h] = 0;
             end
         end
     `endif
@@ -53,7 +45,7 @@ module reg_id
     input [4:0] Rs1D,
     input [4:0] Rs2D,
     input [4:0] RdD,
-    input [24:0]ImmExtD,
+    input [31:0]ImmExtD,
 
 
     // Control 부분
@@ -62,9 +54,10 @@ module reg_id
     input MemWriteD,
     input JumpD,
     input BranchD,
-    input [2:0] ALUControlD,
+    input [3:0] ALUControlD,
     input ALUSrcD,
-    input [1:0] ImmSrcD,
+
+    
 
     // 기타
     input rstn,
@@ -73,6 +66,7 @@ module reg_id
     // Comb logic으로 설계 (이미 Register File에서 reg에 대해 Delay가 발생하기 때문에.)
     input [31:0] RD1,
     input [31:0] RD2,
+    input [31:0] PCPlus4D,
     output reg [31:0] RD1E,
     output reg [31:0] RD2E,
 
@@ -82,7 +76,7 @@ module reg_id
     output reg [4:0] Rs1E,
     output reg [4:0] Rs2E,
     output reg [4:0] RdE,
-    output reg [24:0]ImmExtE,
+    output reg [31:0]ImmExtE,
 
     // Control 부분
     output reg RegWriteE,
@@ -90,20 +84,14 @@ module reg_id
     output reg MemWriteE,
     output reg JumpE,
     output reg BranchE,
-    output reg [2:0] ALUControlE,
+    output reg [3:0] ALUControlE,
     output reg ALUSrcE,
-    output reg [1:0] ImmSrcE
+    output reg [31:0] PCPlus4E
 );
     // Sequential Logic 출력 관리 
-    always @(posedge clk or negedge rstn) begin
-        if (!rstn) begin
-            // Data 부분
-            PCE<=0;
-            Rs1E<=0;
-            Rs2E<=0;
-            RdE<=0;
-            ImmExtE<=0;
+    always @(posedge clk) begin
 
+        if (!rstn) begin
             // Control 부분
             RegWriteE<=0;
             ResultSrcE<=0;
@@ -112,7 +100,6 @@ module reg_id
             BranchE<=0;
             ALUControlE<=0;
             ALUSrcE<=0;
-            ImmSrcE<=0;
         end
         else begin
             // Data 부분
@@ -121,6 +108,7 @@ module reg_id
             Rs2E<=Rs2D;
             RdE<=RdD;
             ImmExtE<=ImmExtD;
+            PCPlus4E <= PCPlus4D;
 
             // Control 부분
             RegWriteE<=RegWriteD;
@@ -130,8 +118,9 @@ module reg_id
             BranchE<=BranchD;
             ALUControlE<=ALUControlD;
             ALUSrcE<=ALUSrcD;
-            ImmSrcE<=ImmSrcD;
+            // ImmSrcE<=ImmSrcD;
         end
+        
     end
     // Combinational Logic이 필요한 Data 출력 관련 (Regfile로 인한 Delay)
     always @(*) begin
@@ -153,6 +142,7 @@ module reg_id
             Rs2E=0;
             RdE=0;
             ImmExtE=0;
+            PCPlus4E = 0;
 
             // Control 부분
             RegWriteE=0;
@@ -162,7 +152,7 @@ module reg_id
             BranchE=0;
             ALUControlE=0;
             ALUSrcE=0;
-            ImmSrcE=0;       
+            // ImmSrcE=0;       
         end
     `endif
 
