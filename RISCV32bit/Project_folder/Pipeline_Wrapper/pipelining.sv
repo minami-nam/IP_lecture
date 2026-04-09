@@ -162,6 +162,11 @@ module sc_riscv_wrapper(
     assign Jump = JumpE;
     assign Branch = BranchE;
 
+    wire ignoreSrcAE_D, ignoreSrcAE_E;
+    wire PC_SrcAE_D, PC_SrcAE_E;
+    wire [2:0] LS_opcodeD, LS_opcodeE, LS_opcodeM;
+    wire MemReadD, MemReadE, MemReadM;
+    
 
     reg_id reg_id(
         // Data 부분
@@ -179,6 +184,10 @@ module sc_riscv_wrapper(
         .ALUControlD(ALUControlD),
         .ALUSrcD(ALUSrcD),
         .PCPlus4D(PCPlus4D),
+        .PC_SrcAE_D(PC_SrcAE_D),
+        .ignoreSrcAE_D(ignoreSrcAE_D),
+        .MemReadD(MemReadD),
+        .LS_opcodeD(LS_opcodeD),
         // 기타
         .rstn(flush_selE),
         .clk(clk),
@@ -202,11 +211,16 @@ module sc_riscv_wrapper(
         .BranchE(BranchE),
         .ALUControlE(ALUControlE),
         .ALUSrcE(ALUSrcE),
-        .PCPlus4E(PCPlus4E)
+        .PCPlus4E(PCPlus4E),
+        .ignoreSrcAE_E(ignoreSrcAE_E),
+        .PC_SrcAE_E(PC_SrcAE_E),
+        .MemReadE(MemReadE),
+        .LS_opcodeE(LS_opcodeE)
     );
 
 
-    wire ignoreSrcAE;
+
+
     // Controller
     control_unit ctlunit(
         .op(op),
@@ -217,11 +231,14 @@ module sc_riscv_wrapper(
         .ResultSrcD(ResultSrcD),
         .MemWriteD(MemWriteD),
         .JumpD(JumpD),
-        .ignoreSrcAE(ignoreSrcAE),
+        .ignoreSrcAE_D(ignoreSrcAE_D),
+        .PC_SrcAE_D(PC_SrcAE_D),
         .BranchD(BranchD),
         .ALUControlD(ALUControlD),
         .ALUSrcD(ALUSrcD),
-        .ImmSrcD(ImmSrcD)
+        .ImmSrcD(ImmSrcD),
+        .LS_opcodeD(LS_opcodeD),
+        .MemReadD(MemReadD)
     );
 
 
@@ -290,9 +307,12 @@ module sc_riscv_wrapper(
         .MemWriteE(MemWriteE),
         .ALUControlE(ALUControlE),
         .ALUSrcE(ALUSrcE),
-        .ignoreSrcAE(ignoreSrcAE),
+        .ignoreSrcAE_E(ignoreSrcAE_E),
+        .PC_SrcAE_E(PC_SrcAE_E),
         .clk(clk), 
         .rstn(stage_FORCERESET_n),
+        .MemReadE(MemReadE),
+        .LS_opcodeE(LS_opcodeE),
 
         // output ctl
         .RegWriteM(RegWriteM),
@@ -305,7 +325,9 @@ module sc_riscv_wrapper(
         .RdM(RdM),
         .PCPlus4M(PCPlus4M),
         .PCTargetE(PCTargetE),
-        .WriteDataM(WriteDataM)        
+        .WriteDataM(WriteDataM),
+        .MemReadM(MemReadM),
+        .LS_opcodeM(LS_opcodeM)        
     );
 
     // Memory Stage
@@ -317,6 +339,8 @@ module sc_riscv_wrapper(
         .PCPlus4M(PCPlus4M),
         .WriteDataM(WriteDataM),
         .ALUResultM(ALUResultM),
+        .MemReadM(MemReadM),
+        .LS_opcodeM(LS_opcodeM),  
 
         .clk(clk), 
         .rstn(stage_FORCERESET_n),

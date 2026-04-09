@@ -13,7 +13,10 @@ module control_unit(
     output logic [3:0] ALUControlD, 
     output logic       ALUSrcD,
     output logic [2:0] ImmSrcD,
-    output logic ignoreSrcAE
+    output logic    ignoreSrcAE_D,
+    output logic    PC_SrcAE_D,
+    output logic    MemReadD,
+    output logic [2:0] LS_opcodeD
 );
     // Opcode만 enum.
     opcode_type op_type;
@@ -38,19 +41,23 @@ module control_unit(
     // Load 및 Store 관련
     wire is_load  = (op_type == I_type_LOAD) & ((funct3 == F3_LB) | (funct3 == F3_LH) | (funct3 == F3_LW) | (funct3 == F3_LBU) | (funct3 == F3_LHU));
     wire is_store = (op_type == S_type)      & ((funct3 == F3_SB) | (funct3 == F3_SH) | (funct3 == F3_SW));
+    assign LS_opcodeD = (is_load | is_store) ? funct3 : 0; 
+    assign MemReadD = is_load;
     
     // Branch 및 Jump 관련
     wire is_branch = (op_type == B_type) & ((funct3 == F3_BEQ) | (funct3 == F3_BNE) | (funct3 == F3_BLT) | (funct3 == F3_BGE) | (funct3 == F3_BLTU) | (funct3 == F3_BGEU));
-    wire is_jump   = (op_type == I_type_JALR) | (op_type == J_type); // JAL도 Jump에 포함되도록 추가 권장
+    wire is_jump   = (op_type == I_type_JALR) | (op_type == J_type); 
 
     // System 관련
     wire is_system = (op_type == System) & ((funct3 == F3_CSRRW) | (funct3 == F3_CSRRS) | (funct3 == F3_CSRRC) | (funct3 == F3_CSRRWI) | (funct3 == F3_CSRRSI) | (funct3 == F3_CSRRCI));
 
     // 기타 
     wire is_lui   = (op_type == U_type_LUI);
-    assign ignoreSrcAE = is_lui;
+    assign ignoreSrcAE_D = is_lui;
     wire is_auipc = (op_type == U_type_AUIPC);
+    assign PC_SrcAE_D = is_auipc;
     wire is_fence = (op_type == Fence);
+    
 
     // -----------------------------------------------------------------------
     // 출력 제어 신호 할당

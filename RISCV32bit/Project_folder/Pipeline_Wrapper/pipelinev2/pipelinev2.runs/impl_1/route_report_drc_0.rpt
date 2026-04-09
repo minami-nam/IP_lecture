@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
-| Date         : Wed Apr  8 12:05:09 2026
+| Date         : Thu Apr  9 06:54:51 2026
 | Host         : minamidev running 64-bit Ubuntu 24.04.4 LTS
 | Command      : report_drc -file route_report_drc_0.rpt -pb route_report_drc_0.pb -rpx route_report_drc_0.rpx
 | Design       : real_wrapper
@@ -35,9 +35,7 @@ Table of Contents
 -----------------
 RTSTAT-10#1 Warning
 No routable loads  
-6 net(s) have no routable loads. The problem bus(es) and/or net(s) are dut/instmem/is_imm, dut/mem_stage/ForwardBE_out[0],
-dut/multi_alu_stage/ForwardAE_out[1:0],
-dut/multi_alu_stage/ForwardBE_out[0], dut/reg_id/is_hazard.
+2 net(s) have no routable loads. The problem bus(es) and/or net(s) are dut/instmem/is_imm, dut/reg_id/is_hazard.
 Related violations: <none>
 
 

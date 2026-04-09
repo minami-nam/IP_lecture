@@ -79,7 +79,7 @@ package tb_task_list;
             2'b00 : $display("ALUResult is out.");
             2'b01 : $display("Reading Data Mem...");
             2'b10 : $display("Reading Program Counter...");
-            2'b11 : $display("NEED DEBUGGING");
+            2'b11 : $display("Storing Data or Need Debugging");
         endcase
         
     endtask 

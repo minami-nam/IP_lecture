@@ -16,14 +16,18 @@ module ALU_stage(
     input [1:0] ForwardAE,
     input [1:0] ForwardBE,
     input JumpE,
-    // LUI 구현을 위해 추가.
-    input ignoreSrcAE,
+    // LS / U type 구현을 위해 추가.
+    input ignoreSrcAE_E,
+    input PC_SrcAE_E,
+    input [2:0] LS_opcodeE,
+
 
 
     // input ctl
     input RegWriteE,
     input [1:0] ResultSrcE,
     input MemWriteE,
+    input MemReadE,
     input [3:0] ALUControlE,
     input ALUSrcE,
     input clk, rstn,
@@ -33,6 +37,8 @@ module ALU_stage(
     output reg [1:0] ResultSrcM,
     output reg MemWriteM,
     output ZeroE,
+    output reg [2:0] LS_opcodeM,
+    output reg MemReadM,
     
 
     // output data
@@ -41,6 +47,7 @@ module ALU_stage(
     output reg [31:0] PCPlus4M,
     output reg [31:0] PCTargetE,
     output reg [31:0] WriteDataM
+
 );  
     wire [31:0] SrcAE, SrcBE, ori_SrcAE, WriteDataE;
 
@@ -63,8 +70,8 @@ module ALU_stage(
         .out(WriteDataE)
     );
 
-    assign SrcAE = (ignoreSrcAE) ? 0 : ori_SrcAE;
-    assign SrcBE = (ALUSrcE==1 | ignoreSrcAE) ? ImmExtE : WriteDataE;
+    assign SrcAE = (PC_SrcAE_E) ? PCPlus4E : (ignoreSrcAE_E) ? 0 : ori_SrcAE;
+    assign SrcBE = (ALUSrcE==1 | ignoreSrcAE_E | PC_SrcAE_E) ? ImmExtE : WriteDataE;
 
 
     // ALU 호출 및 ctl 관련
@@ -145,7 +152,17 @@ module ALU_stage(
     // MemWriteE
     always @(posedge clk) begin
         MemWriteM <= MemWriteE;
-    end   
+    end
+
+    // MemReadE
+    always @(posedge clk) begin
+        MemReadM <= MemReadE;
+    end
+
+    // LS_opcodeE
+    always @(posedge clk) begin
+        LS_opcodeM <= LS_opcodeE;
+    end       
 
     `ifdef SIM
         initial begin
@@ -159,6 +176,8 @@ module ALU_stage(
             PCPlus4M = 0;
             PCTargetE = 0;
             WriteDataM = 0;
+            LS_opcodeM = 0;
+            MemReadM = 0;
         end
     `endif
 
@@ -184,15 +203,12 @@ module ALU_Logical(
 
 
     wire [31:0] Sll, Srl, Slt, Sltu, XOR, OR, AND;
-    wire [31:0] sltu_ae, sltu_be;
 
 
     assign Sll = SrcAE << SrcBE;
     assign Srl = SrcAE >> SrcBE;
-    assign Slt = (SrcAE-SrcBE>0) ? 0 : 1;
-    assign sltu_ae = (SrcAE[31]) ? -SrcAE : SrcAE;
-    assign sltu_be = (SrcBE[31]) ? -SrcBE : SrcBE;
-    assign Sltu = (sltu_ae-sltu_be>0) ? 0 : 1; 
+    assign Slt = ($signed(SrcAE) < $signed(SrcBE)) ? 32'd1 : 32'd0;
+    assign Sltu = (SrcAE < SrcBE) ? 32'd1 : 32'd0;
     assign XOR = SrcAE ^ SrcBE;
     assign OR = SrcAE | SrcBE;
     assign AND = SrcAE & SrcBE;

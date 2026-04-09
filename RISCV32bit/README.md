@@ -32,7 +32,10 @@
 ### 개선/수정점 기록 :
 > **수정점 관련 내역**
  - U-Type LUI 명령어 지원 추가. (ignoreSrcAE wire 추가). 해당 명령어는 inst[31:12], 12'b0 값을 그대로 Rd로 보내는 명령임.       
- 해당 명령은 ignoreSrcAE I/O를 Control 단 및 ALU Stage 단에 추가하여 ALU Stage 내부에서 SrcAE의 값을 0으로 만들고, SrcBE의 값은 ImmExtE 값을 선택할 수 있게 mux로 구성함.   
+ 해당 명령은 ignoreSrcAE I/O를 Control 단 및 ID/ALU Stage 단에 추가하여 ALU Stage 내부에서 SrcAE의 값을 0으로 만들고, SrcBE의 값은 ImmExtE 값을 선택할 수 있게 mux로 구성함.
+ - U-type AUIPC 명령어 지원 추가. (PC_SrcAE wire 추가.) 해당 명령어는 PC 값에 Imm 값을 더하여 Rd에 쓰는 명령임.      
+ 해당 명령은 기존의 SrcAE 조건문에 PC_SrcAE 입력을 조건으로 추가하여 구현함.    
+ - Load 및 Store 명령 중 LW, SW를 제외한 다른 명령어를 구현함. Load와 Store 명령어가 나올 경우 Control에서 MemWrite, MemRead 신호를 적절히 전송하고, funct3 값 또한 전송시켜 각 명령에 맞는 적절한 Load/Store를 MEM Stage에서 진행할 수 있게 설계함. 추가적으로, Store 명령어 구현을 위해 하위 memory 모듈을 Bit Slicing하여 저장할 수 있게 수정하였음. Load는 하위 memory 모듈에서 32bit를 통째로 들고와 상위 MEM Stage 내부에서 처리하는 방식으로 구현함.   
 
 > **개선점 관련 내역**
  - 원래 기존의 5 stage Pipeline에서는 ALU가 1개지만, 해당 Code에서는 산술 연산을 담당하는 ALU_arith와 논리 연산을 담당하는 ALU_logic를 나누어 배치하고, 기존의 ALUSrcE의 비트 수를 1bit 늘려 연산 별로 무슨 ALU를 사용할지 선택할 수 있게 구성함.     

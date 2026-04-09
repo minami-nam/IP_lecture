@@ -154,6 +154,8 @@ module tb_sc_riscv_wrapper;
     tb_output_set sti_output;
 
     opcode_type op_detect;
+    func_I_LOAD_3bit fi3;
+    func_S_3bit fs3;
 
     sc_riscv_wrapper dut(
         .clk(clk),
@@ -199,7 +201,11 @@ module tb_sc_riscv_wrapper;
             instruction_in[i] = create_inst.get_machine_code();
             sti_input.instmem_FORCEWINST = instruction_in[i];
             op_detect = opcode_type'(instruction_in[i][6:0]);
+            fs3 = func_S_3bit'(instruction_in[i][14:12]);
+            fi3 = func_I_LOAD_3bit'(instruction_in[i][14:12]);
             $display("Inst Type : %s", op_detect.name());
+            if (op_detect==`S_type)  $display("Inst Type : %s", fs3.name());
+            else if (op_detect==7'b0000011) $display("Inst Type : %s", fi3.name());
             @(posedge clk);
             inst_insert_and_wait(sti_input);
             #1;

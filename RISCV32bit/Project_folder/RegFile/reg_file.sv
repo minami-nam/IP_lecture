@@ -52,10 +52,14 @@ module reg_id
     input RegWriteD,
     input [1:0] ResultSrcD,
     input MemWriteD,
+    input MemReadD,
     input JumpD,
     input BranchD,
     input [3:0] ALUControlD,
     input ALUSrcD,
+    input   ignoreSrcAE_D,
+    input      PC_SrcAE_D, 
+    input [2:0] LS_opcodeD,
 
     
 
@@ -69,6 +73,7 @@ module reg_id
     input [31:0] PCPlus4D,
     output reg [31:0] RD1E,
     output reg [31:0] RD2E,
+
 
     // Sequential logic으로 설계 (Register File을 거치지 않는 경우)
     // Data 부분
@@ -86,7 +91,11 @@ module reg_id
     output reg BranchE,
     output reg [3:0] ALUControlE,
     output reg ALUSrcE,
-    output reg [31:0] PCPlus4E
+    output reg [31:0] PCPlus4E,
+    output reg   MemReadE,
+    output reg  [2:0] LS_opcodeE,
+    output reg   ignoreSrcAE_E,
+    output reg      PC_SrcAE_E  
 );
     // Sequential Logic 출력 관리 
     always @(posedge clk) begin
@@ -100,6 +109,10 @@ module reg_id
             BranchE<=0;
             ALUControlE<=0;
             ALUSrcE<=0;
+            MemReadE<=0;
+            LS_opcodeE<=0;
+            ignoreSrcAE_E <= 0;
+            PC_SrcAE_E <= 0;
         end
         else begin
             // Data 부분
@@ -119,6 +132,10 @@ module reg_id
             ALUControlE<=ALUControlD;
             ALUSrcE<=ALUSrcD;
             // ImmSrcE<=ImmSrcD;
+            MemReadE<=MemReadD;
+            LS_opcodeE<=LS_opcodeD;
+            ignoreSrcAE_E <= ignoreSrcAE_D;
+            PC_SrcAE_E <= PC_SrcAE_D;
         end
         
     end
@@ -152,7 +169,11 @@ module reg_id
             BranchE=0;
             ALUControlE=0;
             ALUSrcE=0;
-            // ImmSrcE=0;       
+            // ImmSrcE=0;   
+            MemReadE=0;
+            LS_opcodeE=0;
+            ignoreSrcAE_E=0;
+            PC_SrcAE_E=0;   
         end
     `endif
 

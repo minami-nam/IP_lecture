@@ -1,5 +1,9 @@
 `define SIM
-
+`define LB 0
+`define LH 1
+`define LW 2
+`define LBU 4
+`define LHU 5
 module mem_wrapper(
     input RegWriteM,
     input [1:0] ResultSrcM,
@@ -8,6 +12,8 @@ module mem_wrapper(
     input [31:0] PCPlus4M,
     input [31:0] WriteDataM,
     input [31:0] ALUResultM,
+    input [2:0] LS_opcodeM,
+    input MemReadM,
 
     input clk, rstn,
 
@@ -34,11 +40,13 @@ module mem_wrapper(
 
     wire [31:0] PCPlus4W;
 
+    wire [1:0] WE_memcase;
+     assign WE_memcase = (LS_opcodeM==`LW&MemWriteM) ? 2'b11 : ((LS_opcodeM==`LHU&MemWriteM)|(LS_opcodeM==`LH&MemWriteM)) ? 2'b10 : (MemWriteM) ? 2'b01 : 2'b00;
     // Data Memory 관련
-    wire [31:0] ReadDataW;
+    wire [31:0] ReadDataW, ReadDataW_Fix;
     data_mem dm(
         .A(ALUResultM),
-        .WE(MemWriteM),
+        .WE(WE_memcase),
         .clk(clk),
         .WD(WriteDataM),
         .RD(ReadDataW)
@@ -76,15 +84,52 @@ module mem_wrapper(
         else RWriteW <= RegWriteM;
     end
 
+    reg [31:0] data_extracted;
+    always @(*) begin
+        data_extracted = 0;
+        if (MemReadM) begin
+            if (LS_opcodeM==`LB) begin
+                case (ALUResultM[1:0])
+                    2'b00 : data_extracted = {{24{ReadDataW[7]}},ReadDataW[7:0]};
+                    2'b01 : data_extracted = {{24{ReadDataW[15]}},ReadDataW[15:8]};
+                    2'b10 : data_extracted = {{24{ReadDataW[23]}},ReadDataW[23:16]};
+                    2'b11 : data_extracted = {{24{ReadDataW[31]}},ReadDataW[31:24]};
+                endcase
+            end
+            else if (LS_opcodeM==`LH) begin
+                case(ALUResultM[1])
+                    1'b0 : data_extracted = {{16{ReadDataW[15]}},ReadDataW[15:0]};
+                    1'b1 : data_extracted = {{16{ReadDataW[31]}},ReadDataW[31:16]};
+                endcase
+            end
+            else if (LS_opcodeM==`LW) begin
+                data_extracted = ReadDataW;
+            end
+            else if (LS_opcodeM==`LBU) begin
+                case (ALUResultM[1:0])
+                    2'b00 : data_extracted = {24'b0,ReadDataW[7:0]};
+                    2'b01 : data_extracted = {24'b0,ReadDataW[15:8]};
+                    2'b10 : data_extracted = {24'b0,ReadDataW[23:16]};
+                    2'b11 : data_extracted = {24'b0,ReadDataW[31:24]};
+                endcase
+            end
+            else if (LS_opcodeM==`LHU) begin
+                case(ALUResultM[1])
+                    1'b0 : data_extracted = {16'b0,ReadDataW[15:0]};
+                    1'b1 : data_extracted = {16'b0,ReadDataW[31:16]};
+                endcase
+            end
+        end
+    end
+
+   
 
 
-
-
-
+    assign ReadDataW_Fix = data_extracted;
     // Muxing 관련 I/O 조절
     in3_mux rd_mux(
         .data1(wire_ALURM_mux),
-        .data2(ReadDataW),
+        .data2(ReadDataW_Fix),
         .data3(PCPlus4W),
         .sel(ResultSrcW),
         .out(ResultW)
@@ -108,6 +153,7 @@ module mem_wrapper(
             RSrcW = 0;
             PCP4W = 0;
             reg_ALUResultM = 0;
+            data_extracted = 0;
         end
     `endif 
 
@@ -117,7 +163,8 @@ endmodule
 module data_mem(
     input [31:0] A,
     input [31:0] WD,
-    input clk, WE,
+    input clk, 
+    input [1:0] WE,
     
     output [31:0] RD
 );
@@ -127,12 +174,27 @@ module data_mem(
 
     // Data 이동 관련 서술
     always @(posedge clk) begin
-        if (WE) data_reg[A>>2] <= WD;
-
-        else data_reg[A>>2] <= data_reg[A>>2];
+        case(WE)
+            2'b00 : data_reg[A>>2] <= data_reg[A>>2]; 
+            2'b01 : begin
+                case(A%4)
+                    0 : data_reg[A>>2][7:0] <= WD[7:0];
+                    1 : data_reg[A>>2][15:8] <= WD[7:0];
+                    2 : data_reg[A>>2][23:16] <= WD[7:0];
+                    3 : data_reg[A>>2][31:24] <= WD[7:0];
+                endcase
+            end
+            2'b10 : begin
+                case(A%2)
+                    0 : data_reg[A>>2][15:0] <= WD[15:0];
+                    1 : data_reg[A>>2][31:16] <= WD[15:0];
+                endcase
+            end
+            2'b11 : data_reg[A>>2] <= WD;
+        endcase
     end
 
-    assign RD = (!WE) ? data_reg[A>>2] : 'h0000_0000;
+    assign RD = (WE==2'b00) ? data_reg[A>>2] : 'h0000_0000;
 
     `ifdef SIM 
         initial begin
