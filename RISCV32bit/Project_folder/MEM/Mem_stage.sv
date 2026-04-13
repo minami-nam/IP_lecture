@@ -207,14 +207,14 @@ module data_mem(
 endmodule
 
 
-//module in3_mux(
-//    input [31:0] data1,
-//    input [31:0] data2,
-//    input [31:0] data3,
-//    input [1:0] sel,
+module in3_mux(
+    input [31:0] data1,
+    input [31:0] data2,
+    input [31:0] data3,
+    input [1:0] sel,
 
-//    output [31:0] out
-//);
+    output [31:0] out
+);
 
-//    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'h0;
-//endmodule
+    assign out = (sel==2'b00) ? data1 : (sel==2'b01) ? data2 : (sel==2'b10) ? data3 : 'h0;
+endmodule

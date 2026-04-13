@@ -16,13 +16,12 @@ module reg_file(
     // WE 신호가 들어올 때 동작 (Timing은 Control Module에서 작성하기)
     always @(posedge clk) begin
         if (WE) register[i_addr3] <= i_wd1; 
-        else register[i_addr3] <= register[i_addr3];
     end
 
     // 정상적인 Read
-    always @(posedge clk) begin
-        o_rd1 <= register[i_addr1];
-        o_rd2 <= register[i_addr2];
+    always @(*) begin
+        o_rd1 = register[i_addr1];
+        o_rd2 = register[i_addr2];
     end
     
     `ifdef SIM 
@@ -139,10 +138,16 @@ module reg_id
         end
         
     end
-    // Combinational Logic이 필요한 Data 출력 관련 (Regfile로 인한 Delay)
-    always @(*) begin
-        RD1E = RD1;
-        RD2E = RD2;
+    // 수정. RISCV에서 출력은 combinational Logic 혹은 assign 구문으로 처리함.
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+            RD1E <= 0;
+            RD2E <= 0;
+        end
+        else begin
+            RD1E <= RD1;
+            RD2E <= RD2;
+        end
     end
 
 

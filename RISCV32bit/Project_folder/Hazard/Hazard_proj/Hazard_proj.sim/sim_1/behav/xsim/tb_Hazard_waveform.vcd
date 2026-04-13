@@ -1,5 +1,5 @@
 $date
-   Sun Apr  5 05:46:46 2026
+   Sat Apr 11 05:23:26 2026
 $end
 
 $version
@@ -21,7 +21,7 @@ $var wire 5 % RdE [4:0] $end
 $var wire 1 & ZeroE $end
 $var wire 1 ' JumpE $end
 $var wire 1 ( BranchE $end
-$var wire 1 ) ResultSrcE $end
+$var wire 2 ) ResultSrcE [1:0] $end
 $var wire 5 * RdM [4:0] $end
 $var wire 5 + RdW [4:0] $end
 $var wire 1 , RegWriteM $end
@@ -32,10 +32,13 @@ $var wire 1 0 FlushD $end
 $var wire 1 1 FlushE $end
 $var wire 2 2 ForwardAE [1:0] $end
 $var wire 2 3 ForwardBE [1:0] $end
-$var wire 1 4 pc_en_n $end
-$var wire 1 5 is_structural $end
-$var wire 4 6 is_RAW [3:0] $end
-$var wire 1 7 PCSrcE $end
+$var wire 1 4 pc_en $end
+$var wire 1 5 match_1E_M $end
+$var wire 1 6 match_2E_M $end
+$var wire 1 7 match_1E_W $end
+$var wire 1 8 match_2E_W $end
+$var wire 1 9 PCSrcE $end
+$var wire 1 : lwstall $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
@@ -50,7 +53,7 @@ bx %
 x&
 x'
 x(
-x)
+bzx )
 bx *
 bx +
 x,
@@ -63,8 +66,11 @@ bx 2
 bx 3
 x4
 x5
-bx 6
+x6
 x7
+x8
+x9
+x:
 $end
 
 #1
@@ -76,21 +82,24 @@ b10110 %
 0&
 0'
 0(
-0)
+bz0 )
 b11010 *
 b11110 +
 1,
 0-
-0.
-0/
+1.
+1/
 00
 01
 b0 2
 b0 3
-14
-15
-b0 6
+04
+05
+06
 07
+08
+09
+0:
 
 #5
 b1001 !
@@ -98,12 +107,11 @@ b1010 "
 b10110 #
 b11000 $
 b10100 %
-1)
+bz1 )
 b11000 *
 b11100 +
 b10 3
-05
-b100 6
+16
 
 #9
 b110 !
@@ -115,7 +123,8 @@ b10110 +
 1-
 b1 2
 b0 3
-b10 6
+06
+17
 
 #13
 b10110 !
@@ -123,15 +132,15 @@ b11000 "
 b10010 %
 1&
 1(
-0)
+bz0 )
 b10110 *
 b11010 +
 1,
 0-
-1.
 10
 11
 b10 2
-04
-b1000 6
-17
+14
+15
+07
+19

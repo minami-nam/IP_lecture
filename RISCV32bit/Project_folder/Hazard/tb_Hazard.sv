@@ -25,7 +25,7 @@ module tb_hazard;
     logic FlushE;
     logic [1:0] ForwardAE;
     logic [1:0] ForwardBE;
-    logic pc_en_n;
+    logic pc_en;
 
     input_reg_list input_register [4] = '{
         '{Rs1D : `STRUCTURAL_1D, Rs2D : `STRUCTURAL_2D, Rs1E : 5, Rs2E : 6, RdE : `STRUCTURAL_1D, RdM : `STRUCTURAL_1D+4, RdW : `STRUCTURAL_1D+8},    // Structural Hazard
@@ -67,7 +67,7 @@ module tb_hazard;
         .FlushE(FlushE),
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
-        .pc_en_n(pc_en_n)
+        .pc_en(pc_en)
     );
 
     initial begin
@@ -85,7 +85,7 @@ module tb_hazard;
             if (StallID_n!=1) $display("ID stage is stalled");
             if (FlushD==1) $display("ID stage is flushed");
             if (FlushE==1) $display("EX stage is flushed");
-            if (pc_en_n!=1) $display("Program Counter is disabled");
+            if (pc_en!=1) $display("Program Counter is disabled");
             
             case(ForwardAE)
                 `RD1E : $display("RD1E is selected");

@@ -2,15 +2,21 @@
 
 
 module tb_inst_mem;
-    reg [31:0] addr;
-    reg clk;
-    reg rstn;
-    reg i_req;
+    logic [31:0] addr;
+    logic clk;
+    logic rstn;
+    logic en;
+    logic i_req;
+    logic [31:0] i_inst;
+    logic [31:0] PCPlus4F;
 
-    wire [31:0] inst;
-    wire o_none;
+    
 
-    parameter int PC = 2 ** 32;
+    logic [31:0] inst;
+    // logic [31:0] o_pc;
+    logic [31:0] PCD;
+    logic [31:0] PCPlus4D;
+
 
     inst_mem dut(.*);
 
@@ -19,9 +25,9 @@ module tb_inst_mem;
 
     initial begin
         @(posedge clk);
-        dut.mem[256] = 32'hFACEFACE;
-        dut.mem[257] = 32'hDEFDEFAC;
-        dut.mem[258] = 32'h0;
+        dut.mem[65] = 32'hFACEFACE;
+        dut.mem[66] = 32'hDEFDEFAC;
+        dut.mem[67] = 32'h0;
     end  
 
 
@@ -29,29 +35,42 @@ module tb_inst_mem;
         rstn = 0;
         addr = 0;
         i_req = 0;
+        i_inst = 0;
+        en = 0;
+        PCPlus4F = 0;
 
         repeat (2) @(posedge clk);
+        $display("Initializing...");
         rstn = 1;
-        addr = 32'd256;
-        i_req = 1;
+        addr = 32'd260;
+        en = 1;
+        i_req = 0;
         @(posedge clk);
-        addr = 32'd257;
 
-
-        @(posedge clk);
-        addr = 32'd258;
         if (inst==32'hFACEFACE) $display("HIT : %h", inst);
         else $display("MISS : %h", inst);
-
+        addr = 32'd264;
+        PCPlus4F = 4;
 
         @(posedge clk);
-
         if (inst==32'hDEFDEFAC) $display("HIT : %h", inst);
         else $display("MISS : %h", inst);
 
+        addr = 32'd268;
+        PCPlus4F = 8;
+
         @(posedge clk);
-        if (o_none) $display("Empty");
+
+        @(posedge clk);
+        if (inst==0) $display("Empty");
         else $display("Corruption ERROR : %h", inst);
+
+        i_req = 1;
+        addr = 32'd100;
+        i_inst = 32'hDACB_DACB;
+        @(posedge clk);
+        if (dut.mem[25]==32'hDACB_DACB) $display("Match");
+        else $display("Error occurred : %h", dut.mem[100]);
 
         #10;
         $finish;

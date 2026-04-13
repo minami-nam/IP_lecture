@@ -58,8 +58,7 @@ if {$::dispatch::connected} {
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param checkpoint.writeSynthRtdsInDcp 1
 set_param general.usePosixSpawnForFork 1
-set_param synth.incrementalSynthesisCache ./.Xil/Vivado-1076896-minamidev/incrSyn
-set_msg_config -id {Common 17-41} -limit 10000000
+set_param synth.incrementalSynthesisCache ./.Xil/Vivado-2134348-minamidev/incrSyn
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -76,7 +75,10 @@ set_property ip_output_repo /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/P
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_verilog -library xil_defaultlib -sv /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/inst_mem.sv
+read_verilog -library xil_defaultlib -sv {
+  /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/tb_inst_mem.sv
+  /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/inst_mem.sv
+}
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -87,6 +89,8 @@ foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.srcs/utils_1/imports/synth_1/inst_mem.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

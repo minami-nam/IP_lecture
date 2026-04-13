@@ -3,8 +3,8 @@
 # SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Thu Mar 19 08:32:33 2026
-# Process ID         : 1138343
+# Start of session at: Fri Apr 10 07:37:29 2026
+# Process ID         : 2219444
 # Current directory  : /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1
 # Command line       : vivado -log inst_mem.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source inst_mem.tcl
 # Log file           : /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1/inst_mem.vds
@@ -19,70 +19,43 @@
 # Host memory        : 33653 MB
 # Swap memory        : 4294 MB
 # Total Virtual      : 37948 MB
-# Available Virtual  : 32098 MB
+# Available Virtual  : 32093 MB
 #-----------------------------------------------------------
 source inst_mem.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.srcs/utils_1/imports/synth_1/inst_mem.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.srcs/utils_1/imports/synth_1/inst_mem.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
 Command: synth_design -top inst_mem -part xc7z010clg400-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 1138492
+INFO: [Synth 8-7075] Helper process launched with PID 2219593
 ---------------------------------------------------------------------------------
-Starting Synthesize : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1942.535 ; gain = 427.078 ; free physical = 19608 ; free virtual = 29477
+Starting Synthesize : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1945.965 ; gain = 431.508 ; free physical = 11960 ; free virtual = 29474
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'inst_mem' [/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/inst_mem.sv:3]
-INFO: [Synth 8-6155] done synthesizing module 'inst_mem' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/inst_mem.sv:3]
-WARNING: [Synth 8-3848] Net mem in module/entity inst_mem does not have driver. [/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/inst_mem.sv:14]
-WARNING: [Synth 8-7129] Port addr[31] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[30] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[29] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[28] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[27] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[26] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[25] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[24] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[23] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[22] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[21] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[20] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[19] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[18] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[17] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[16] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[15] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[14] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[13] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[12] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[11] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[10] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[9] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[8] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[7] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[6] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[5] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[4] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[3] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[2] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[1] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[0] in module inst_mem is either unconnected or has no load
+INFO: [Synth 8-6157] synthesizing module 'inst_mem' [/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/inst_mem.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'inst_mem' (0#1) [/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/inst_mem.sv:3]
+WARNING: [Synth 8-7129] Port rstn in module inst_mem is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Synthesize : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2015.473 ; gain = 500.016 ; free physical = 19532 ; free virtual = 29401
+Finished Synthesize : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2019.934 ; gain = 505.477 ; free physical = 11889 ; free virtual = 29404
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2033.285 ; gain = 517.828 ; free physical = 19552 ; free virtual = 29422
+Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2037.746 ; gain = 523.289 ; free physical = 11879 ; free virtual = 29394
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z010clg400-1
----------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7z010clg400-1
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2033.285 ; gain = 517.828 ; free physical = 19552 ; free virtual = 29422
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2037.746 ; gain = 523.289 ; free physical = 11879 ; free virtual = 29394
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2042.191 ; gain = 526.734 ; free physical = 19552 ; free virtual = 29423
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2043.684 ; gain = 529.227 ; free physical = 11872 ; free virtual = 29387
 ---------------------------------------------------------------------------------
 No constraint files found.
 ---------------------------------------------------------------------------------
@@ -90,11 +63,9 @@ Start RTL Component Statistics
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Registers : 
-	               32 Bit    Registers := 2     
-	                1 Bit    Registers := 1     
-+---Muxes : 
-	   2 Input   32 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 1     
+	               32 Bit    Registers := 3     
++---RAMs : 
+	              32K Bit	(1024 X 32 bit)          RAMs := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -112,53 +83,52 @@ No constraint files found.
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-7129] Port addr[31] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[30] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[29] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[28] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[27] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[26] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[25] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[24] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[23] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[22] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[21] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[20] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[19] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[18] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[17] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[16] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[15] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[14] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[13] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[12] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[11] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[10] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[9] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[8] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[7] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[6] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[5] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[4] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[3] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[2] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[1] in module inst_mem is either unconnected or has no load
-WARNING: [Synth 8-7129] Port addr[0] in module inst_mem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rstn in module inst_mem is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2143.066 ; gain = 627.609 ; free physical = 19457 ; free virtual = 29330
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2166.527 ; gain = 652.070 ; free physical = 11795 ; free virtual = 29313
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Preliminary Mapping Report (see note below)
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|inst_mem    | mem_reg    | 1 K x 32(NO_CHANGE)    | W | R |                        |   |   | Port A           | 0      | 1      | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 No constraint files found.
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2166.879 ; gain = 651.422 ; free physical = 19449 ; free virtual = 29323
+Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2181.402 ; gain = 666.945 ; free physical = 11787 ; free virtual = 29306
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|inst_mem    | mem_reg    | 1 K x 32(NO_CHANGE)    | W | R |                        |   |   | Port A           | 0      | 1      | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-7052] The timing for the instance mem_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2166.879 ; gain = 651.422 ; free physical = 19441 ; free virtual = 29315
+Finished Technology Mapping : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2181.402 ; gain = 666.945 ; free physical = 11787 ; free virtual = 29306
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -176,37 +146,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2353.215 ; gain = 838.758 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2353.215 ; gain = 838.758 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2353.215 ; gain = 838.758 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2353.215 ; gain = 838.758 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2356.184 ; gain = 841.727 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2356.184 ; gain = 841.727 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -219,44 +189,47 @@ Report BlackBoxes:
 +-+--------------+----------+
 
 Report Cell Usage: 
-+------+-----+------+
-|      |Cell |Count |
-+------+-----+------+
-|1     |BUFG |     1|
-|2     |LUT1 |     1|
-|3     |FDCE |     1|
-|4     |IBUF |     2|
-|5     |OBUF |    33|
-+------+-----+------+
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |BUFG     |     1|
+|2     |LUT2     |     1|
+|3     |RAMB36E1 |     1|
+|4     |FDRE     |    64|
+|5     |IBUF     |    99|
+|6     |OBUF     |    96|
++------+---------+------+
 
 Report Instance Areas: 
 +------+---------+-------+------+
 |      |Instance |Module |Cells |
 +------+---------+-------+------+
-|1     |top      |       |    38|
+|1     |top      |       |   262|
 +------+---------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2356.184 ; gain = 841.727 ; free physical = 11633 ; free virtual = 29152
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 66 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.691 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
-Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2339.699 ; gain = 824.234 ; free physical = 19322 ; free virtual = 29195
+Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2356.184 ; gain = 841.727 ; free physical = 11632 ; free virtual = 29150
+Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 2356.191 ; gain = 841.727 ; free physical = 11632 ; free virtual = 29150
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2353.566 ; gain = 0.000 ; free physical = 19307 ; free virtual = 29180
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2367.090 ; gain = 0.000 ; free physical = 11622 ; free virtual = 29140
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2448.160 ; gain = 0.000 ; free physical = 19380 ; free virtual = 29253
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2460.652 ; gain = 0.000 ; free physical = 11713 ; free virtual = 29231
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: 43dc8583
+Synth Design complete | Checksum: 440e9f5d
 INFO: [Common 17-83] Releasing license: Synthesis
-12 Infos, 66 Warnings, 0 Critical Warnings and 0 Errors encountered.
+19 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:24 . Memory (MB): peak = 2448.195 ; gain = 932.738 ; free physical = 19380 ; free virtual = 29253
-INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1655.904; main = 1655.904; forked = 274.647
-INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3014.969; main = 2448.164; forked = 963.867
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2456.164 ; gain = 0.000 ; free physical = 19380 ; free virtual = 29253
+synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:24 . Memory (MB): peak = 2460.688 ; gain = 946.230 ; free physical = 11713 ; free virtual = 29231
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1671.533; main = 1671.533; forked = 274.801
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3019.430; main = 2460.656; forked = 963.867
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2468.656 ; gain = 0.000 ; free physical = 11713 ; free virtual = 29231
 INFO: [Common 17-1381] The checkpoint '/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/instmem.runs/synth_1/inst_mem.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file inst_mem_utilization_synth.rpt -pb inst_mem_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Mar 19 08:33:03 2026...
+INFO: [Common 17-206] Exiting Vivado at Fri Apr 10 07:38:00 2026...

@@ -45,7 +45,7 @@ module ALU_stage(
     output reg [31:0] ALUResultM,
     output reg [4:0] RdM,
     output reg [31:0] PCPlus4M,
-    output reg [31:0] PCTargetE,
+    output      [31:0] PCTargetE,
     output reg [31:0] WriteDataM
 
 );  
@@ -70,7 +70,7 @@ module ALU_stage(
         .out(WriteDataE)
     );
 
-    assign SrcAE = (PC_SrcAE_E) ? PCPlus4E : (ignoreSrcAE_E) ? 0 : ori_SrcAE;
+    assign SrcAE = (PC_SrcAE_E) ? PCE : (ignoreSrcAE_E) ? 0 : ori_SrcAE;
     assign SrcBE = (ALUSrcE==1 | ignoreSrcAE_E | PC_SrcAE_E) ? ImmExtE : WriteDataE;
 
 
@@ -120,13 +120,8 @@ module ALU_stage(
     end
 
     // PC Target 관련 
-    always @(posedge clk or negedge rstn) begin
-        if (!rstn) PCTargetE <= 0; 
-        else begin
-            if (ALUControlE==3'b001 & JumpE) PCTargetE <= wire_ALUresult;
-            else PCTargetE <= PCE + ImmExtE;
-        end
-    end
+    assign PCTargetE =  (ALUSrcE & JumpE) ? wire_ALUresult : (PCE + ImmExtE);
+
     // WriteDataM 관련
     always @(posedge clk or negedge rstn) begin
         if (!rstn) WriteDataM <= 0;
@@ -140,28 +135,33 @@ module ALU_stage(
     end
 
     // RegWriteM
-    always @(posedge clk) begin
-        RegWriteM <= RegWriteE;
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) RegWriteM <= 0;
+        else RegWriteM <= RegWriteE;
     end
 
     // ResultSrcM
-    always @(posedge clk) begin
-        ResultSrcM <= ResultSrcE;
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) ResultSrcM <= 0;
+        else ResultSrcM <= ResultSrcE;
     end
 
     // MemWriteE
-    always @(posedge clk) begin
-        MemWriteM <= MemWriteE;
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) MemWriteM <= 0;        
+        else MemWriteM <= MemWriteE;
     end
 
     // MemReadE
-    always @(posedge clk) begin
-        MemReadM <= MemReadE;
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn ) MemReadM<= 0;
+        else MemReadM <= MemReadE;
     end
 
     // LS_opcodeE
-    always @(posedge clk) begin
-        LS_opcodeM <= LS_opcodeE;
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) LS_opcodeM <= 0;
+        else LS_opcodeM <= LS_opcodeE;
     end       
 
     `ifdef SIM
@@ -174,7 +174,7 @@ module ALU_stage(
             ALUResultM = 0;
             RdM = 0;
             PCPlus4M = 0;
-            PCTargetE = 0;
+            // PCTargetE = 0;
             WriteDataM = 0;
             LS_opcodeM = 0;
             MemReadM = 0;
@@ -191,7 +191,7 @@ module ALU_Logical(
     input [2:0] ALUControlE,
 
     output reg [31:0] ALUResult,
-    output reg ZeroE
+    output ZeroE
 );
     localparam  sSll= 1;
     localparam  sSrl= 2;
@@ -227,15 +227,14 @@ module ALU_Logical(
             sAND : ALUResult = AND;
         endcase
 
-        if (ALUResult==0) ZeroE = 1;
-        else ZeroE = 0;
+        // if (ALUResult==0) ZeroE = 1;
+        // else ZeroE = 0;
     end
 
-
+    assign ZeroE = (ALUResult==0);
     `ifdef SIM
         initial begin
             ALUResult = 0;
-            ZeroE = 0;
         end
     `endif
 
@@ -247,24 +246,24 @@ module ALU_Arithmetic(
     input [31:0] SrcBE,
     input [2:0] ALUControlE,
     output reg [31:0] ALUResult,
-    output reg ZeroE
+    output ZeroE
 );
     localparam sADD = 1;
     localparam sSUB = 2;
     localparam sSla = 3;
     localparam sSra = 4;
-    localparam sINC = 5;
-    localparam sDEC = 6;
-    localparam sNEG = 7;
-    wire [31:0] ADD, SUB, Sla, Sra, INC, DEC, NEG;
+    localparam sMUL = 5;
+    localparam sDIV = 6;
+    localparam sREM = 7;
+    wire [31:0] ADD, SUB, Sla, Sra, MUL, DIV, REM;
 
     assign ADD = SrcAE + SrcBE;
     assign SUB = SrcAE - SrcBE;
     assign Sla = SrcAE <<< SrcBE;
-    assign Sra = SrcAE >>> SrcBE;
-    assign INC = SrcAE + 1;
-    assign DEC = SrcAE - 1;
-    assign NEG = ~SrcAE + 1;
+    assign Sra = $signed(SrcAE) >>> SrcBE[4:0];
+    assign MUL = SrcAE * SrcBE;
+    assign DIV = SrcAE / SrcBE;
+    assign REM = SrcAE % SrcBE;
 
     
     // Case 구문으로 입력에 맞게 선택 후 출력함.
@@ -275,20 +274,20 @@ module ALU_Arithmetic(
             sSUB : ALUResult = SUB;
             sSla : ALUResult = Sla;
             sSra : ALUResult = Sra;
-            sINC : ALUResult = INC;
-            sDEC : ALUResult = DEC;
-            sNEG : ALUResult = NEG;
+            sMUL : ALUResult = MUL;
+            sDIV : ALUResult = DIV;
+            sREM : ALUResult = REM;
         endcase
 
-        if (ALUResult==0) ZeroE = 1;
-        else ZeroE = 0;
+        // if (ALUResult==0) ZeroE = 1;
+        // else ZeroE = 0;
     end
 
+    assign ZeroE = (ALUResult==0);
 
     `ifdef SIM
         initial begin
             ALUResult = 0;
-            ZeroE = 0;
         end
     `endif
 

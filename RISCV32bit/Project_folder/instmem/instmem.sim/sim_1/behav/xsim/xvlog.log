@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/inst_mem.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module inst_mem
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/tb_inst_mem.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_inst_mem
