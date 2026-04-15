@@ -16,18 +16,18 @@ module tb_inst_extend;
 
 
     typedef struct packed {
-        logic [24:0] inst;
+        logic [31:0] inst;
         logic [2:0] ImmSrcD;
     }  i_ports;
 
     i_ports case_lists[7] = '{
-        '{inst : 25'h1234567, ImmSrcD : 0}, // IDLE
-        '{inst : 25'h1234321, ImmSrcD : 1}, // I_type        
-        '{inst : 25'h0123321, ImmSrcD : 2}, // S_type 
-        '{inst : 25'h0301113, ImmSrcD : 3}, // B_type 
-        '{inst : 25'h0202231, ImmSrcD : 4}, // U_type 0001 0000 0001 0001 0001 0000 0000 0000
-        '{inst : 25'h1209209, ImmSrcD : 5}, // J_type 
-        '{inst : 25'h1123123, ImmSrcD : 6}  // UNKNOWN
+        '{inst : 32'h01234567, ImmSrcD : 0}, // IDLE    [FIXED]
+        '{inst : 32'h01234321, ImmSrcD : 1}, // I_type  [FIXED]
+        '{inst : 32'h00123321, ImmSrcD : 2}, // S_type  [FIXED]
+        '{inst : 32'h00301113, ImmSrcD : 3}, // B_type  [FIXED]
+        '{inst : 32'h00202231, ImmSrcD : 4}, // U_type  [FIXED]
+        '{inst : 32'h01209209, ImmSrcD : 5}, // J_type  [FIXED]
+        '{inst : 32'h01123123, ImmSrcD : 6}  // UNKNOWN [FIXED]
     };
     
     i_ports input_cases;
@@ -50,37 +50,37 @@ module tb_inst_extend;
             #3;
             case(i)
                 IDLE : begin
-                    if (ImmExtD==32'h01234567) $display("Passed IDLE State");
+                    if (ImmExtD == 32'h00000000) $display("Passed IDLE State");      // [FIXED] 0 → 32'h00000000
                     else $display("Failed IDLE State, %0h", ImmExtD);
                 end
                 I_type : begin
-                    if (ImmExtD==32'hFF234321) $display("Passed I TYPE State");
+                    if (ImmExtD == 32'h00000012) $display("Passed I TYPE State");    // [FIXED]
                     else $display("Failed I TYPE State, %0h", ImmExtD);
                 end
                 S_type : begin
-                    if (ImmExtD==32'h00000081) $display("Passed S TYPE State");
+                    if (ImmExtD == 32'h00000006) $display("Passed S TYPE State");    // [FIXED]
                     else $display("Failed S TYPE State, %0h", ImmExtD);
                 end
                 B_type : begin
-                    if (ImmExtD==32'h00000992) $display("Passed B TYPE State");
+                    if (ImmExtD == 32'h00000002) $display("Passed B TYPE State");    // [FIXED]
                     else $display("Failed B TYPE State, %0h", ImmExtD);
                 end
                 U_type : begin
-                    if (ImmExtD==32'h10111000) $display("Passed U TYPE State");
+                    if (ImmExtD == 32'h00202000) $display("Passed U TYPE State");    // [FIXED]
                     else $display("Failed U TYPE State, %0h", ImmExtD);
                 end
                 J_type : begin
-                    if (ImmExtD==32'hFFF90104) $display("Passed J TYPE State");
+                    if (ImmExtD == 32'h00009012) $display("Passed J TYPE State");    // [FIXED]
                     else $display("Failed J TYPE State, %0h", ImmExtD);
                 end
                 UNKNOWN : begin
-                    if (ImmExtD==32'h00000000) $display("Passed UNKNOWN TYPE State");
+                    if (ImmExtD == 32'h00000000) $display("Passed UNKNOWN TYPE State");
                     else $display("Failed UNKNOWN TYPE State, %0h", ImmExtD);
                 end
                 default : begin
-                    if (ImmExtD==32'hzzzz_zzzz) $display("Passed Default State");
+                    if (ImmExtD == 32'hzzzzzzzz) $display("Passed Default State");
                     else $display("Failed Default TYPE State, %0h", ImmExtD);
-                end 
+                end
             endcase
             #1;
         end

@@ -1,7 +1,14 @@
 Time resolution is 1 ps
 reset...
-Successfully Feed Forwarded : 00000111
-Data was written successfully. : abcddcba
-Read Successfully. : abcddcba
+Successfully Feed Forwarded : 00000132
+Data was written successfully. : 0000dcba
+DEBUG | data_reg[0x4C]: dcba0000
+DEBUG | RSrcW: 1
+DEBUG | ReadDataW: dcba0000
+DEBUG | ReadDataW_Fix: ffffdcba
+DEBUG | ResultSrcW: 1
+DEBUG | ResultW: ffffdcba
+DEBUG | exp: ffffdcba
+Read Successfully. : ffffdcba
 ---------- TEST FINISHED ----------
-$finish called at time : 33 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/tb_Mem_stage.sv" Line 80
+$finish called at time : 45 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/tb_Mem_stage.sv" Line 164

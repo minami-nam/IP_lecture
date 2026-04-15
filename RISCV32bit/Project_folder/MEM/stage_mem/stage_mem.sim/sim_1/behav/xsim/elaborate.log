@@ -8,12 +8,12 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 3. Module mem_wrapper doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 116. Module data_mem doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 147. Module in3_mux doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 3. Module mem_wrapper doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 116. Module data_mem doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 147. Module in3_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 7. Module mem_wrapper doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 163. Module data_mem doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 210. Module in3_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 7. Module mem_wrapper doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 163. Module data_mem doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/MEM/Mem_stage.sv" Line 210. Module in3_mux doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.data_mem

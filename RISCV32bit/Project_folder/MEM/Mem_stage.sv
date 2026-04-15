@@ -41,7 +41,7 @@ module mem_wrapper(
     wire [31:0] PCPlus4W;
 
     wire [1:0] WE_memcase;
-     assign WE_memcase = (LS_opcodeM==`LW&MemWriteM) ? 2'b11 : ((LS_opcodeM==`LHU&MemWriteM)|(LS_opcodeM==`LH&MemWriteM)) ? 2'b10 : (MemWriteM) ? 2'b01 : 2'b00;
+    assign WE_memcase = (LS_opcodeM==`LW&MemWriteM) ? 2'b11 : ((LS_opcodeM==`LHU&MemWriteM)|(LS_opcodeM==`LH&MemWriteM)) ? 2'b10 : (MemWriteM) ? 2'b01 : 2'b00;
     // Data Memory 관련
     wire [31:0] ReadDataW, ReadDataW_Fix;
     data_mem dm(
@@ -177,7 +177,7 @@ module data_mem(
         case(WE)
             2'b00 : data_reg[A>>2] <= data_reg[A>>2]; 
             2'b01 : begin
-                case(A%4)
+                case(A[1:0])
                     0 : data_reg[A>>2][7:0] <= WD[7:0];
                     1 : data_reg[A>>2][15:8] <= WD[7:0];
                     2 : data_reg[A>>2][23:16] <= WD[7:0];
@@ -185,7 +185,7 @@ module data_mem(
                 endcase
             end
             2'b10 : begin
-                case(A%2)
+                case(A[1])
                     0 : data_reg[A>>2][15:0] <= WD[15:0];
                     1 : data_reg[A>>2][31:16] <= WD[15:0];
                 endcase

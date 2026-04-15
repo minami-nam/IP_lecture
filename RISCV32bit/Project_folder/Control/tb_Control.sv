@@ -16,6 +16,10 @@ module tb_Control;
     logic [3:0] ALUControlD;
     logic ALUSrcD;
     logic [2:0] ImmSrcD;
+    logic    ignoreSrcAE_D;
+    logic    PC_SrcAE_D;
+    logic    MemReadD;
+    logic [2:0] LS_opcodeD;
 
 
 
@@ -88,7 +92,11 @@ module tb_Control;
         .BranchD(BranchD),
         .ALUControlD(ALUControlD),
         .ALUSrcD(ALUSrcD),
-        .ImmSrcD(ImmSrcD)
+        .ImmSrcD(ImmSrcD),
+        .ignoreSrcAE_D(ignoreSrcAE_D),
+        .PC_SrcAE_D(PC_SrcAE_D),
+        .MemReadD(MemReadD),
+        .LS_opcodeD(LS_opcodeD)
     );
 
     initial begin
@@ -109,8 +117,14 @@ module tb_Control;
             #4;
 
             $display("OUTPUT RESULT : Register Write : %0b, Result Select : %0b, Memory Write : %0b, JUMP : %0b, Branch : %0b, ALU Control : %0b, ALU Select : %0b, Immediate Value : %0b", RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, ImmSrcD);
+            if ((real_input.op==`I_type_JALR)&(ResultSrcD==2'b10)) $display("JALR detected and it works.");
+            else if ((real_input.op==`I_type_JALR)&(ResultSrcD!=2'b10)) $display("JALR detected and it failed to work.");
 
+            if ((real_input.op==`U_type_LUI)&(ignoreSrcAE_D)) $display("LUI detected and it works.");
+            else if ((real_input.op==`U_type_LUI)&(!ignoreSrcAE_D)) $display("LUI detected and it failed to work.");  
 
+            if ((real_input.op==`U_type_AUIPC)&(PC_SrcAE_D)) $display("AUIPC detected and it works.");
+            else if ((real_input.op==`U_type_AUIPC)&(!PC_SrcAE_D)) $display("AUIPC detected and it failed to work.");                
             #1;
         end 
 
