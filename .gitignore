@@ -1,33 +1,116 @@
-*.arrow
-*.txt
-*.model
-*.csv
-*.log
+############################################
+# 1. OS / Editor
+############################################
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+############################################
+# 2. Python
+############################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+*.egg
+*.egg-info/
+dist/
+build/
+
+venv/
+.env/
+.venv/
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+############################################
+# 3. Jupyter Notebook
+############################################
+.ipynb_checkpoints/
+
+############################################
+# 4. Vivado / FPGA (핵심)
+############################################
+
+# Vivado project cache / temp
 *.jou
-*.bit
-*.mcs
-*.xpr
-*.lpr
-*.wdf
-*.db
-*.dcp
-*.tcl
-*.vds
-*.xml
-*.bat
+*.log
+*.str
 *.pb
-*.rst
-*.sh
-*.ini
-*.dbq
-*.prj
-*.dbg
-*.mem
-*.reloc
-xsim.*
-*.wpc
 *.wdb
-*.tcl
+*.wcfg
+
+# Run directories
+*.runs/
+*.sim/
+*.cache/
+*.hw/
+*.ip_user_files/
+
+# Generated project files
+*.xpr
+*.bit
+*.bin
+*.ltx
+
+# Synthesis / Implementation reports
+*.rpt
+*.dcp
+
+# Simulation outputs
+*.vcd
+*.wlf
+
+# Backup files
+*.backup
+*.bak
+
+############################################
+# 5. ModelSim / QuestaSim
+############################################
+work/
+transcript
+vsim.wlf
+*.vstf
+
+############################################
+# 6. Verilog/SystemVerilog 일반
+############################################
+
+# Generated netlist / synthesis outputs
+*.edf
+*.ngc
+*.ngd
+*.sdf
+
+############################################
+# 7. 기타 빌드 산출물
+############################################
+out/
+build/
+release/
+debug/
+
+############################################
+# 8. 로그 / 임시 파일
+############################################
+*.log
+*.tmp
+*.temp
+
+############################################
+# 9. 데이터 (필요 시 선택)
+############################################
+# dataset/
+# *.h5
+# *.pth
+# *.pt
 
 
 잡다한것/datasets/
