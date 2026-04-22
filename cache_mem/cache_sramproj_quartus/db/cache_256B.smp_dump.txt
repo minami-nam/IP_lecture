@@ -1,0 +1,11 @@
+
+State Machine - |cache_256B|now_state
+Name now_state.NEED_WRITE_DRAM now_state.WRITE_UPDATE_CACHE now_state.NEED_READ_DRAM now_state.SEND_CPU now_state.READ_WAIT2 now_state.READ_WAIT1 now_state.CACHE_CHECK now_state.IDLE 
+now_state.IDLE 0 0 0 0 0 0 0 0 
+now_state.CACHE_CHECK 0 0 0 0 0 0 1 1 
+now_state.READ_WAIT1 0 0 0 0 0 1 0 1 
+now_state.READ_WAIT2 0 0 0 0 1 0 0 1 
+now_state.SEND_CPU 0 0 0 1 0 0 0 1 
+now_state.NEED_READ_DRAM 0 0 1 0 0 0 0 1 
+now_state.WRITE_UPDATE_CACHE 0 1 0 0 0 0 0 1 
+now_state.NEED_WRITE_DRAM 1 0 0 0 0 0 0 1 

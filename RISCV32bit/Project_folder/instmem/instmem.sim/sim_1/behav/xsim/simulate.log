@@ -1,7 +1,0 @@
-Time resolution is 1 ps
-Initializing...
-HIT : faceface
-HIT : defdefac
-Empty
-Match
-$finish called at time : 49 ps : File "/home/minami/Coding_IPDesign/IP_lecture/RISCV32bit/Project_folder/instmem/tb_inst_mem.sv" Line 76

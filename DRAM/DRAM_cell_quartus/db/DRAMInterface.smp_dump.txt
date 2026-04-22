@@ -1,0 +1,9 @@
+
+State Machine - |DRAM_interface|curr_state
+Name curr_state.DATAOUT_READY curr_state.WAIT_tCL curr_state.WAIT_tCWL curr_state.WAIT_tRP curr_state.WAIT_tRCD curr_state.IDLE 
+curr_state.IDLE 0 0 0 0 0 0 
+curr_state.WAIT_tRCD 0 0 0 0 1 1 
+curr_state.WAIT_tRP 0 0 0 1 0 1 
+curr_state.WAIT_tCWL 0 0 1 0 0 1 
+curr_state.WAIT_tCL 0 1 0 0 0 1 
+curr_state.DATAOUT_READY 1 0 0 0 0 1 
