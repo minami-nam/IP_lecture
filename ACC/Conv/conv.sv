@@ -1,7 +1,57 @@
 
+module unit_tree_adder(
+    input [31:0] value,
+    input [31:0] bias,
+    input clk,
+    input rstn,
+    input in_valid,
+    output in_ready,
+
+    output reg [10:0] out_ps,
+    output out_valid,
+    input out_ready
+);
+    localparam OFF = 1'b0;
+    localparam ON = 1'b1;
+
+    reg [10:0] list_partial[0:2];
+    wire unit_output_ready[0:2];
+
+    reg [24:0] bias_reg[0:2];
 
 
-`define FPGA
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+            
+        end
+        else begin
+            
+        end
+    end
+
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+            
+        end
+        else begin
+            
+        end
+    end
+
+
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+            
+        end
+        else begin
+            
+        end
+    end
+
+endmodule
+
+
+`define SIM
 
 module unit_3mac(
     input [23:0] line_value,
@@ -12,6 +62,7 @@ module unit_3mac(
     output in_ready,
 
     output reg [23:0] out_value,
+    output reg [9:0] out_partial_sum,
     output out_valid,
     input out_ready
 );  
@@ -81,13 +132,22 @@ module unit_3mac(
         end
     end
 
-    assign out_valid = (out_ready & on_send) ? ON : OFF;
+    assign out_valid = on_send ? ON : OFF;
 
     always @(posedge clk or negedge rstn) begin
-        if (!rstn) out_value <= 24'h00_0000;
+        if (!rstn) begin
+            out_value <= 24'h00_0000;
+            out_partial_sum <= 10'h000;
+        end
         else begin
-            if (on_calc) out_value <= {mul[0], mul[1], mul[2]};
-            else out_value <= 24'h00_0000;
+            if (on_calc) begin
+                out_value <= {mul[0], mul[1], mul[2]};
+                out_partial_sum <= (mul[0] + mul[1]+ mul[2]);
+            end
+            else begin
+                out_value <= 24'h00_0000;
+                out_partial_sum <= 10'h000;
+            end
         end
     end
 
@@ -101,6 +161,7 @@ module unit_3mac(
             get_en = 0;
             on_calc = 0;
             on_send = 0;
+            out_partial_sum = 0;
         end
     `endif
 endmodule

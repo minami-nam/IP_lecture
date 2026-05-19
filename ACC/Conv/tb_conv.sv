@@ -30,6 +30,7 @@ module tb_unit_3mac;
     logic [23:0] out_value;
     logic out_valid;
     logic out_ready; 
+    logic [9:0] out_partial_sum;
 
     localparam OFF = 1'b0;
     localparam ON = 1'b1;
@@ -83,6 +84,7 @@ module tb_unit_3mac;
             
             $display("the %3dth test done.", (rest+1));
             $display("result 0 : %8h, result 1 : %8h, result 2 : %8h", out_value[7:0], out_value[15:8], out_value[23:16]);
+            $display("Partial Sum : %8h", out_partial_sum);
             rest <= rest+1;
         end 
     end

@@ -86,6 +86,18 @@
  
 ---
 
+### 6. AXI4 Full Controller 제작
+> **"Latency 감소 및 Throughput 개선을 목표로 Controller 제작 및 AXI Verification IP Testbench 제작"**
+- **Main Idea**
+  - Read : Bank를 고려하여  Master의 AR Request 내부 ARADDR 신호의 특정 Bit를 감지하여 Slave에게 보내는 Request의 순서를 변경.
+  - Write : Data가 일관성 없이 무작위로 쓰이는 것이 아닌, Locality 혹은 특정 규칙을 가지고 쓰기가 진행된다는 특성을 이용하여 Queue Cache 내부에 들어온 AW Request들의 특성을 감지하여 적절한 Strategy 중 하나를 고르는 Priority Scheduler를 제작. 이를 통해 Backpressure를 완화시켜 Write 관련 Cycle 및 Stall과 같은 성능 지표들의 향상. (FIFO 대비 평균 20%, 최대 90%).
+
+  - 자세한 내용 및 Source Code는 [Thesis_SoC_Project](https://github.com/minami_nam/thesis_soc_project)를 참고.
+
+
+
+---
+
 ## 📚 Tech Stack & Skills
 
 | 분류 | 기술 및 도구 |
