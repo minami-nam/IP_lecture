@@ -57,11 +57,11 @@
 
 | Before (원본 이미지) | After (모델 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/datasets/inference/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
+| ![입력](/잡다한것/datasets/readme_img/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
 
 | Before (TV Loss 적용 전) | After (TV Loss 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![적용](/잡다한것/saved_results/base_50_gaussian_with_tvloss/('1.png',).png)|
+| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![적용](/잡다한것/saved_results/readme_img/('1.png',).png)|
 
 | 전체적인 Model Diagram |
 | :---: |
