@@ -336,7 +336,7 @@ def summarize_public_result(lookup: PublicDataLookup, requested_fields: object =
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Search Gov24 public service data through data.go.kr.")
     parser.add_argument("query", help="검색할 민원 또는 공공서비스 이름")
-    parser.add_argument("--api-key", default="a9dfd16d0db509dc3fb4aa9ae9c56477a4dede63351d6f9fdcca280559ba8b71", help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
+    parser.add_argument("--api-key", default="", help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
     parser.add_argument("--per-page", type=int, default=DEFAULT_PER_PAGE)
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT_SECONDS)
     parser.add_argument("--json", action="store_true", help="구조화된 JSON으로 출력합니다.")

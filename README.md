@@ -96,7 +96,14 @@
 
 
 ---
-
+### 7. 민원 안내 AI 챗봇 제작
+> **"경량 AI 모델 Fine-Tuning 및 Agent Tool 제작"**
+- **작업 내역**
+ - Qwen 2.5 1.5B Instruct 모델을 3060 12GB 환경에서 Fine Tuning 하여, 한국어 학습을 추가적으로 진행. 
+ - 데이터셋 확보를 위하여, Database 생성 및 Database 기반 Dataset을 생성하고, 이를 Pytorch를 이용하여 LoRA 기반 학습 진행.
+ - 경량 모델 특유의 부족한 사용자의 질문 속 맥락 파악 능력 및 응답 속도 개선을 위한 키워드 기반 Routing 제작.
+ - 단순히 Database에서 데이터를 읽는 것 뿐만 아니라, OpenAPI를 통한 공공데이터에 접속하여 정보 검색 가능.
+ - 최종적으로 6GB VRAM 환경에서 모델을 구동하여 정상적으로 민원 안내를 진행 할 수 있게 설계.
 ---
 
 ## 📚 Tech Stack & Skills

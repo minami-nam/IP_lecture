@@ -139,7 +139,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--evidence-temperature", type=float, default=0.0)
     parser.add_argument("--enable-public-data", action="store_true", default=True, help="DB 답변이 불확실할 때 공공데이터포털 API를 보조 조회합니다.")
     parser.add_argument("--disable-public-data", dest="enable_public_data", action="store_false", help="공공데이터포털 API 보조 조회를 끕니다.")
-    parser.add_argument("--public-data-api-key", default="a9dfd16d0db509dc3fb4aa9ae9c56477a4dede63351d6f9fdcca280559ba8b71", help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
+    parser.add_argument("--public-data-api-key", default="", help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
     parser.add_argument("--public-data-timeout", type=float, default=5.0)
     return parser
 
