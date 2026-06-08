@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>진주시 민원 안내 챗봇</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="chat">
+        <header class="topbar">
+          <div>
+            <h1>진주시 민원 안내 챗봇</h1>
+            <p>Qwen 2.5 1.5B Instruct 기반 민원 안내 챗봇입니다. 민원 업무명, 창구, 수수료를 간단히 물어보세요. </p>
+          </div>
+          <div class="actions">
+            <button id="themeButton" class="secondary" type="button" title="다크 모드 전환">다크 모드</button>
+            <button id="evidenceToggle" class="secondary" type="button" title="조회 근거 표시 전환">근거 숨김</button>
+            <button id="clearButton" class="secondary" type="button" title="대화 지우기">초기화</button>
+          </div>
+        </header>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="composer">
+          <input
+            id="messageInput"
+            autocomplete="off"
+            placeholder="예: 영화상영관 변경 신고 수수료 얼마야?"
+            aria-label="질문 입력"
+          />
+          <button id="sendButton" type="submit">전송</button>
+        </form>
+      </section>
+
+      <aside class="evidence">
+        <div class="panel-title">조회 근거</div>
+        <pre id="evidenceBox">질문을 보내면 선택 업무와 후보가 표시됩니다.</pre>
+      </aside>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
