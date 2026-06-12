@@ -150,6 +150,62 @@ button:disabled {
   color: white;
 }
 
+.message.assistant {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.debug-panel {
+  width: min(720px, 82%);
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.debug-title {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.debug-candidates {
+  max-height: 220px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.feedback-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.feedback-button {
+  min-width: 70px;
+  height: 30px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+.feedback-button.positive {
+  background: #15803d;
+}
+
+.feedback-button.negative {
+  background: #b91c1c;
+}
+
+.feedback-status {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .composer {
   display: grid;
   grid-template-columns: 1fr 82px;

@@ -23,6 +23,8 @@ HEADER_ALIASES = {
     "fee_raw": ("수수료여부", "수수료"),
     "reception_fee_raw": ("접수수수료", "수수료금액", "금액"),
     "license_tax_raw": ("등록면허세여부", "등록면허세", "면허세여부"),
+    "department": ("처리부서", "처리 부서", "담당 부서", "담당부서"),
+    "special_note": ("특이사항", "비고", "안내사항"),
 }
 
 
@@ -34,6 +36,16 @@ class RawServiceRow:
     fee_raw: str
     reception_fee_raw: str = ""
     license_tax_raw: str = ""
+    department: str = ""
+    special_note: str = ""
+
+
+@dataclass(frozen=True)
+class DepartmentLocation:
+    floor: str
+    department: str
+    normalized_department: str
+    source_row: int
 
 
 def normalize_space(value: object) -> str:
@@ -152,6 +164,32 @@ def read_service_rows_from_xlsx(path: Path, sheet_name: Optional[str] = None) ->
                 fee_raw=get_value(values, header_map, "fee_raw"),
                 reception_fee_raw=get_value(values, header_map, "reception_fee_raw"),
                 license_tax_raw=get_value(values, header_map, "license_tax_raw"),
+                department=get_value(values, header_map, "department"),
+                special_note=get_value(values, header_map, "special_note"),
+            )
+        )
+    return rows
+
+
+def read_department_locations_from_xlsx(path: Path | None) -> list[DepartmentLocation]:
+    if not path or not path.is_file():
+        return []
+
+    rows: list[DepartmentLocation] = []
+    current_floor = ""
+    for row_no, values in read_sheet_rows(path):
+        floor = normalize_space(values[0]) if len(values) > 0 else ""
+        department = normalize_space(values[1]) if len(values) > 1 else ""
+        if floor:
+            current_floor = floor
+        if not current_floor or not department:
+            continue
+        rows.append(
+            DepartmentLocation(
+                floor=current_floor,
+                department=department,
+                normalized_department=normalize_key(department),
+                source_row=row_no,
             )
         )
     return rows
@@ -214,6 +252,32 @@ def parse_license_tax_status(license_tax_raw: str) -> tuple[str, str]:
     )
 
 
+def parse_special_note(note: str, department: str = "") -> dict[str, object]:
+    raw = normalize_space(note)
+    explicit_department = normalize_space(department)
+    referral_department = explicit_department
+    unattended_available = "무인민원발급기" in raw
+    identity_required = "본인확인" in raw
+
+    if not referral_department and re.fullmatch(r"[가-힣A-Za-z0-9·\s]+과", raw):
+        referral_department = raw
+
+    special_types: list[str] = []
+    if referral_department:
+        special_types.append("department_referral")
+    if unattended_available:
+        special_types.append("unattended_issuer")
+    if identity_required:
+        special_types.append("identity_verification")
+
+    return {
+        "department": referral_department,
+        "special_type": ",".join(special_types),
+        "unattended_available": int(unattended_available),
+        "identity_required": int(identity_required),
+    }
+
+
 def load_alias_map(path: Path) -> dict[str, list[str]]:
     if not path.is_file():
         return {}
@@ -237,6 +301,7 @@ def create_schema(conn: sqlite3.Connection) -> None:
         PRAGMA foreign_keys = ON;
 
         DROP TABLE IF EXISTS aliases;
+        DROP TABLE IF EXISTS department_locations;
         DROP TABLE IF EXISTS services;
 
         CREATE TABLE services (
@@ -245,6 +310,8 @@ def create_schema(conn: sqlite3.Connection) -> None:
             category TEXT,
             window TEXT NOT NULL,
             department TEXT,
+            department_floor TEXT,
+            window_floor TEXT,
             fee_status TEXT NOT NULL CHECK (fee_status IN ('required', 'not_required', 'conditional', 'unknown')),
             reception_fee TEXT,
             fee_note TEXT,
@@ -252,6 +319,10 @@ def create_schema(conn: sqlite3.Connection) -> None:
             license_tax_note TEXT,
             document_note TEXT,
             status_note TEXT,
+            special_note TEXT,
+            special_type TEXT,
+            unattended_available INTEGER NOT NULL DEFAULT 0,
+            identity_required INTEGER NOT NULL DEFAULT 0,
             source_file TEXT NOT NULL,
             source_row INTEGER NOT NULL,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -267,31 +338,52 @@ def create_schema(conn: sqlite3.Connection) -> None:
             UNIQUE(service_id, normalized_alias)
         );
 
+        CREATE TABLE department_locations (
+            department_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            floor TEXT NOT NULL,
+            department TEXT NOT NULL,
+            normalized_department TEXT NOT NULL UNIQUE,
+            source_file TEXT NOT NULL,
+            source_row INTEGER NOT NULL
+        );
+
         CREATE INDEX idx_services_name ON services(service_name);
         CREATE INDEX idx_services_window ON services(window);
+        CREATE INDEX idx_services_department ON services(department);
+        CREATE INDEX idx_department_locations_normalized ON department_locations(normalized_department);
         CREATE INDEX idx_aliases_normalized ON aliases(normalized_alias);
         """
     )
 
 
 def insert_service(conn: sqlite3.Connection, row: RawServiceRow, source_file: str) -> str:
-    service_id = make_service_id(row.service_name)
+    service_name = row.service_name
+    service_id = make_service_id(service_name)
+    if conn.execute("SELECT 1 FROM services WHERE service_id = ?", (service_id,)).fetchone():
+        service_id = make_service_id(f"{service_name} {row.source_row}")
+    if conn.execute("SELECT 1 FROM services WHERE service_name = ?", (service_name,)).fetchone():
+        service_name = f"{service_name} ({row.source_row}행)"
     fee_status, fee_note = parse_fee_status(row.fee_raw, row.reception_fee_raw)
     license_tax_status, license_tax_note = parse_license_tax_status(row.license_tax_raw)
     reception_fee = "" if is_empty_amount(row.reception_fee_raw) else normalize_space(row.reception_fee_raw)
+    special = parse_special_note(row.special_note, row.department)
     conn.execute(
         """
         INSERT INTO services (
             service_id, service_name, category, window, department,
+            department_floor, window_floor,
             fee_status, reception_fee, fee_note, license_tax_status, license_tax_note,
-            document_note, status_note, source_file, source_row
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            document_note, status_note, special_note, special_type,
+            unattended_available, identity_required, source_file, source_row
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             service_id,
-            row.service_name,
+            service_name,
             None,
             row.window,
+            special["department"] or None,
+            None,
             None,
             fee_status,
             reception_fee,
@@ -300,11 +392,108 @@ def insert_service(conn: sqlite3.Connection, row: RawServiceRow, source_file: st
             license_tax_note,
             "구비서류와 보완 필요 여부는 담당부서 확인이 필요합니다.",
             "처리 가능 여부와 세부 기준은 민원 내용에 따라 달라질 수 있습니다.",
+            normalize_space(row.special_note),
+            special["special_type"],
+            special["unattended_available"],
+            special["identity_required"],
             source_file,
             row.source_row,
         ),
     )
     return service_id
+
+
+def insert_department_locations(conn: sqlite3.Connection, locations: list[DepartmentLocation], source_file: str) -> None:
+    for location in locations:
+        conn.execute(
+            """
+            INSERT OR IGNORE INTO department_locations (
+                floor, department, normalized_department, source_file, source_row
+            ) VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                location.floor,
+                location.department,
+                location.normalized_department,
+                source_file,
+                location.source_row,
+            ),
+        )
+
+
+def department_key_from_window(window: str) -> str:
+    normalized = normalize_space(window)
+    match = re.match(r"([가-힣A-Za-z0-9·\s]+?과)", normalized)
+    if match:
+        return normalize_key(match.group(1))
+    return normalize_key(normalized)
+
+
+def apply_service_floors(conn: sqlite3.Connection) -> None:
+    location_rows = conn.execute("SELECT normalized_department, floor FROM department_locations").fetchall()
+    floors_by_department = {row["normalized_department"]: row["floor"] for row in location_rows}
+    if not floors_by_department:
+        return
+
+    rows = conn.execute("SELECT service_id, window, department FROM services").fetchall()
+    for row in rows:
+        department_key = normalize_key(row["department"] or "")
+        window_key = department_key_from_window(row["window"] or "")
+        conn.execute(
+            """
+            UPDATE services
+            SET department_floor = ?,
+                window_floor = ?
+            WHERE service_id = ?
+            """,
+            (
+                floors_by_department.get(department_key),
+                floors_by_department.get(window_key),
+                row["service_id"],
+            ),
+        )
+
+
+def merge_related_special_notes(conn: sqlite3.Connection) -> None:
+    rows = conn.execute(
+        """
+        SELECT service_id, service_name, department, special_note, special_type,
+               unattended_available, identity_required
+        FROM services
+        """
+    ).fetchall()
+    groups: dict[str, list[sqlite3.Row]] = {}
+    for row in rows:
+        groups.setdefault(normalize_key(row["service_name"]), []).append(row)
+
+    for group in groups.values():
+        if len(group) < 2:
+            continue
+        departments = [normalize_space(row["department"]) for row in group if normalize_space(row["department"])]
+        notes = [normalize_space(row["special_note"]) for row in group if normalize_space(row["special_note"])]
+        special_types = []
+        for row in group:
+            for value in normalize_space(row["special_type"]).split(","):
+                if value and value not in special_types:
+                    special_types.append(value)
+        unattended_available = int(any(row["unattended_available"] for row in group))
+        identity_required = int(any(row["identity_required"] for row in group))
+        department = departments[0] if departments else None
+        special_note = " / ".join(dict.fromkeys(notes))
+        special_type = ",".join(special_types)
+        for row in group:
+            conn.execute(
+                """
+                UPDATE services
+                SET department = COALESCE(department, ?),
+                    special_note = ?,
+                    special_type = ?,
+                    unattended_available = ?,
+                    identity_required = ?
+                WHERE service_id = ?
+                """,
+                (department, special_note, special_type, unattended_available, identity_required, row["service_id"]),
+            )
 
 
 def insert_alias(conn: sqlite3.Connection, service_id: str, alias: str, source: str) -> None:
@@ -320,22 +509,85 @@ def insert_alias(conn: sqlite3.Connection, service_id: str, alias: str, source: 
     )
 
 
+OPTION_SPLIT_PATTERN = re.compile(r"\s*(?:/|,|·|및|또는|와|과)\s*")
+
+
+def split_option_text(text: str) -> list[str]:
+    options = [normalize_space(part) for part in OPTION_SPLIT_PATTERN.split(text) if normalize_space(part)]
+    return [option for option in options if len(normalize_key(option)) >= 2]
+
+
+def alias_variants(alias: str) -> list[str]:
+    base = normalize_space(alias)
+    if not base:
+        return []
+
+    variants: list[str] = []
+
+    def add(value: str) -> None:
+        value = normalize_space(value)
+        if value and value not in variants:
+            variants.append(value)
+
+    add(base)
+    replacements = {
+        "재교부": "재발급",
+        "갱신": "재발급",
+        "개시": "개업",
+        "신규": "개업",
+        "축조": "설치",
+        "영업의 ": "영업 ",
+        "신고사항": "신고 사항",
+    }
+    for source, target in replacements.items():
+        if source in base:
+            add(base.replace(source, target))
+        if target in base:
+            add(base.replace(target, source))
+    if "(" in base and ")" in base:
+        without_parentheses = normalize_space(re.sub(r"\([^)]*\)", " ", base))
+        add(without_parentheses)
+        for inner in re.findall(r"\(([^)]*)\)", base):
+            inner = normalize_space(re.sub(r"^(일명|약칭)\s*", "", inner))
+            if inner:
+                add(inner)
+                add(f"{inner} {without_parentheses}")
+                add(f"{without_parentheses} {inner}")
+                for option in split_option_text(inner):
+                    add(f"{option} {without_parentheses}")
+                    add(f"{without_parentheses} {option}")
+                    add(base.replace(f"({inner})", option))
+    for match in re.finditer(r"[0-9A-Za-z가-힣]+(?:/[0-9A-Za-z가-힣]+)+", base):
+        grouped = match.group(0)
+        for option in split_option_text(grouped):
+            add(base.replace(grouped, option))
+    compact = normalize_space(base.replace(" ", ""))
+    if compact != base:
+        add(compact)
+    return variants
+
+
 def derived_service_aliases(service_name: str) -> list[str]:
     aliases = []
     base = normalize_space(service_name)
     suffixes = ("관련 문의", "관련 민원", "문의", "민원", "관련")
+    aliases.extend(alias_variants(base))
     for suffix in suffixes:
         if base.endswith(suffix):
             stripped = normalize_space(base[: -len(suffix)])
             if stripped:
-                aliases.append(stripped)
+                aliases.extend(alias_variants(stripped))
 
+    stop_suffixes = (" 신청", " 신고", " 발급", " 등록", " 허가", " 관련")
+    generic_short_aliases = {"사업개업", "사업개시", "영업개업", "영업개시", "변경", "등록"}
     for alias in list(aliases):
-        compact = normalize_space(alias.replace(" ", ""))
-        if compact and compact != alias:
-            aliases.append(compact)
+        for suffix in stop_suffixes:
+            if alias.endswith(suffix):
+                short = normalize_space(alias[: -len(suffix)])
+                if len(normalize_key(short)) >= 4 and normalize_key(short) not in generic_short_aliases:
+                    aliases.extend(alias_variants(short))
 
-    return list(dict.fromkeys(aliases))
+    return list(dict.fromkeys(alias for alias in aliases if alias != base and normalize_key(alias) not in generic_short_aliases))
 
 
 def alias_match_score(text: str, service_name: str) -> float:
@@ -373,14 +625,21 @@ def resolve_alias_service_id(alias: str, service_ids: dict[str, str], min_score:
 
 
 def build_database(xlsx_path: Path, alias_path: Path, db_path: Path) -> None:
+    build_database_with_locations(xlsx_path, alias_path, db_path, Path("data/층별_과분포도.xlsx"))
+
+
+def build_database_with_locations(xlsx_path: Path, alias_path: Path, db_path: Path, floors_path: Path | None = None) -> None:
     rows = read_service_rows_from_xlsx(xlsx_path)
     alias_map = load_alias_map(alias_path)
+    department_locations = read_department_locations_from_xlsx(floors_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     if db_path.exists():
         db_path.unlink()
 
     with sqlite3.connect(db_path) as conn:
+        conn.row_factory = sqlite3.Row
         create_schema(conn)
+        insert_department_locations(conn, department_locations, floors_path.name if floors_path else "")
         service_ids: dict[str, str] = {}
         for row in rows:
             service_id = insert_service(conn, row, xlsx_path.name)
@@ -392,26 +651,32 @@ def build_database(xlsx_path: Path, alias_path: Path, db_path: Path) -> None:
             for alias in derived_service_aliases(row.service_name):
                 insert_alias(conn, service_id, alias, "service_name_derived")
 
+        merge_related_special_notes(conn)
+        apply_service_floors(conn)
+
         for service_name, aliases in alias_map.items():
-            service_id = service_ids.get(service_name)
+            service_id = service_ids.get(service_name) or resolve_alias_service_id(service_name, service_ids, min_score=0.45)
             inserted = 0
             for alias in aliases:
                 alias_service_id = service_id or resolve_alias_service_id(alias, service_ids)
                 if not alias_service_id:
                     continue
-                insert_alias(conn, alias_service_id, alias, alias_path.name)
+                for variant in alias_variants(alias):
+                    insert_alias(conn, alias_service_id, variant, alias_path.name)
                 inserted += 1
             if not service_id and not inserted:
                 print(f"[warn] alias service not found in xlsx: {service_name}")
 
         service_count = conn.execute("SELECT COUNT(*) FROM services").fetchone()[0]
         alias_count = conn.execute("SELECT COUNT(*) FROM aliases").fetchone()[0]
-        print(f"[db] created={db_path} services={service_count} aliases={alias_count}")
+        floor_count = conn.execute("SELECT COUNT(*) FROM department_locations").fetchone()[0]
+        print(f"[db] created={db_path} services={service_count} aliases={alias_count} department_locations={floor_count}")
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build local SQLite DB from department task xlsx.")
     parser.add_argument("--xlsx", default="data/각부서별_업무담당.xlsx")
+    parser.add_argument("--floors", default="data/층별_과분포도.xlsx")
     parser.add_argument("--aliases", default="data/route_aliases.json")
     parser.add_argument("--output", default="data/services.db")
     return parser
@@ -419,7 +684,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_arg_parser().parse_args()
-    build_database(Path(args.xlsx), Path(args.aliases), Path(args.output))
+    build_database_with_locations(Path(args.xlsx), Path(args.aliases), Path(args.output), Path(args.floors))
 
 
 if __name__ == "__main__":

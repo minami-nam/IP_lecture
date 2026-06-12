@@ -57,11 +57,11 @@
 
 | Before (원본 이미지) | After (모델 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/datasets/readme_img/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
+| ![입력](/잡다한것/readme_img/1.png) | ![모델 출력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|
 
 | Before (TV Loss 적용 전) | After (TV Loss 적용 후) |
 | :---: | :---: |
-| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![적용](/잡다한것/saved_results/readme_img/('1.png',).png)|
+| ![입력](/잡다한것/saved_results/base_50_gaussian_with_gradloss/('1.png',).png)|| ![적용](/잡다한것/readme_img/('1.png',).png)|
 
 | 전체적인 Model Diagram |
 | :---: |
@@ -99,11 +99,14 @@
 ### 7. 민원 안내 AI 챗봇 제작
 > **"경량 AI 모델 Fine-Tuning 및 Agent Tool 제작"**
 - **작업 내역**
- - Qwen 2.5 1.5B Instruct 모델을 3060 12GB 환경에서 Fine Tuning 하여, 한국어 학습을 추가적으로 진행. 
- - 데이터셋 확보를 위하여, Database 생성 및 Database 기반 Dataset을 생성하고, 이를 Pytorch를 이용하여 LoRA 기반 학습 진행.
- - 경량 모델 특유의 부족한 사용자의 질문 속 맥락 파악 능력 및 응답 속도 개선을 위한 키워드 기반 Routing 제작.
- - 단순히 Database에서 데이터를 읽는 것 뿐만 아니라, OpenAPI를 통한 공공데이터에 접속하여 정보 검색 가능.
- - 최종적으로 6GB VRAM 환경에서 모델을 구동하여 정상적으로 민원 안내를 진행 할 수 있게 설계.
+ - Qwen 2.5 1.5B Instruct 모델을 3060 12GB 환경에서 Fine Tuning 하여, 한국어 학습을 추가적으로 진행.     
+ - 데이터셋 확보를 위하여, Database 생성 및 Database 기반 Dataset을 생성하고, 이를 Pytorch를 이용하여 LoRA 기반 학습 진행.      
+ - 경량 모델 특유의 부족한 사용자의 질문 속 맥락 파악 능력 및 응답 속도 개선을 위한 키워드 기반 Routing 제작, 디버그 모드를 활용하여 Routing 결과를 사용자로부터 피드백 받을 수 있게 설계.       
+ - 단순히 Database에서 데이터를 읽는 것 뿐만 아니라, Agent Tool을 제작하여 공공데이터 OpenAPI 및 정부24 데이터를 읽을 수 있게 설계함.    
+ - 최종적으로 6GB VRAM 환경에서 모델을 구동하여 정상적으로 민원 안내를 진행 할 수 있게 설계. (설정에 따라 달라질 수 있음) 
+
+- **Main Idea**
+ - "LLM에게 너무 많은 것을 학습시키는 것보다, 경량화된 LLM 모델을 사용하여 학습 소요 시간을 줄이면서도 정교화된 Tool들을 제작하여 답변의 성능을 끌어올려보자"는 아이디어를 기반으로 제작을 진행하였습니다. Langchain이나 PydanticAI와 같은 라이브러리를 사용하면 더욱 간편하게 설계를 할 수도 있었겠지만, 최대한 Pytorch만을 이용하여 제작해보자는 생각이 들어, Codex를 사용하여 제작하였습니다. Codex에 완전히 의존하는 바이브 코딩 방법을 사용한 것이 아니고, Codex가 수정한 Code를 검수하면서 제가 원하는 방향대로 Code를 수정하였습니다.     
 ---
 
 ## 📚 Tech Stack & Skills

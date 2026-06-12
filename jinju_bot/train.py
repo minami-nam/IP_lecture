@@ -41,20 +41,23 @@ class TrainConfig:
     response_column: str = "response"
     system_column: str = "system"
 
-    max_length: int = 512
+    max_length: int = 768
     batch_size: int = 1
     grad_accum_steps: int = 8
     epochs: int = 5
     max_steps: Optional[int] = None
-    learning_rate: float = 1e-4
+    learning_rate: float = 2e-4
     weight_decay: float = 0.01
     warmup_ratio: float = 0.03
     max_grad_norm: float = 1.0
-    seed: int = 38
+    seed: int = 32
 
-    eval_ratio: float = 0.05
-    log_interval: int = 10
+    eval_ratio: float = 0.01
+    log_interval: int = 5
     eval_interval: int = 50
+    eval_max_rows: Optional[int] = 1000
+    eval_max_batches: Optional[int] = None
+    eval_batch_size: Optional[int] = None
     save_interval: int = 100
     num_workers: int = 0
     mixed_precision: str = "auto"
@@ -73,6 +76,7 @@ class TrainConfig:
     route_candidate_limit: int = 20
     route_alias_file: Optional[str] = "data/route_aliases.json"
     metrics_file: Optional[str] = None
+    resume_from_checkpoint: Optional[str] = None
 
     use_lora: bool = True
     lora_r: int = 16
@@ -81,6 +85,9 @@ class TrainConfig:
     lora_target_modules: str = "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
     lora_bias: str = "none"
     lora_task_type: str = "CAUSAL_LM"
+
+
+TRAINING_STATE_FILE = "training_state.pt"
 
 
 class JsonlSFTDataset(Dataset):
@@ -181,6 +188,17 @@ def split_rows_by_service(rows: List[Dict[str, Any]], eval_ratio: float, seed: i
         f"eval_services={len(eval_services)}, eval_ratio={eval_ratio}"
     )
     return train_rows, eval_rows
+
+
+def limit_eval_rows(eval_rows: List[Dict[str, Any]], max_rows: Optional[int], seed: int) -> List[Dict[str, Any]]:
+    if max_rows is None or max_rows <= 0 or len(eval_rows) <= max_rows:
+        return eval_rows
+
+    sampled = eval_rows[:]
+    random.Random(seed).shuffle(sampled)
+    limited = sampled[:max_rows]
+    print(f"[data:eval] limited rows from {len(eval_rows)} to {len(limited)} with eval_max_rows={max_rows}")
+    return limited
 
 
 def normalize_text(value: Any) -> str:
@@ -520,12 +538,23 @@ def apply_lora_if_enabled(model, cfg: TrainConfig):
             raise ValueError("Quantized training requires LoRA. Use --use-lora with --quantization 4bit or 8bit.")
         return model
 
+    model = prepare_model_for_lora_training(model, cfg)
+    if cfg.resume_from_checkpoint:
+        try:
+            from peft import PeftModel
+        except ImportError as exc:
+            raise RuntimeError("LoRA checkpoint resume requires peft. Install with: pip install peft") from exc
+
+        model = PeftModel.from_pretrained(model, cfg.resume_from_checkpoint, is_trainable=True)
+        print(f"[resume] loaded trainable LoRA adapter from {cfg.resume_from_checkpoint}")
+        model.print_trainable_parameters()
+        return model
+
     try:
         from peft import LoraConfig, get_peft_model
     except ImportError as exc:
         raise RuntimeError("LoRA training requires peft. Install with: pip install peft") from exc
 
-    model = prepare_model_for_lora_training(model, cfg)
     lora_config = LoraConfig(
         r=cfg.lora_r,
         lora_alpha=cfg.lora_alpha,
@@ -562,7 +591,7 @@ def lr_at_step(step: int, total_steps: int, warmup_steps: int, base_lr: float) -
     return base_lr * 0.5 * (1.0 + math.cos(math.pi * progress))
 
 
-def evaluate(model, loader: DataLoader, device: torch.device) -> float:
+def evaluate(model, loader: DataLoader, device: torch.device, max_batches: Optional[int] = None) -> float:
     require_torch()
     if len(loader) == 0:
         return float("nan")
@@ -576,6 +605,8 @@ def evaluate(model, loader: DataLoader, device: torch.device) -> float:
             output = model(**batch)
             total_loss += float(output.loss.detach().cpu())
             total_batches += 1
+            if max_batches is not None and max_batches > 0 and total_batches >= max_batches:
+                break
     model.train()
     return total_loss / max(1, total_batches)
 
@@ -586,6 +617,72 @@ def save_model(output_dir: str, model, tokenizer, cfg: TrainConfig, step: int) -
     tokenizer.save_pretrained(output_dir)
     with open(os.path.join(output_dir, "train_config.json"), "w", encoding="utf-8") as f:
         json.dump({**asdict(cfg), "step": step}, f, ensure_ascii=False, indent=2)
+
+
+def checkpoint_state_path(checkpoint_dir: str) -> str:
+    return os.path.join(checkpoint_dir, TRAINING_STATE_FILE)
+
+
+def torch_load_checkpoint(path: str) -> Dict[str, Any]:
+    try:
+        return torch.load(path, map_location="cpu", weights_only=False)
+    except TypeError:
+        return torch.load(path, map_location="cpu")
+
+
+def collect_rng_state() -> Dict[str, Any]:
+    state: Dict[str, Any] = {
+        "python": random.getstate(),
+        "torch": torch.get_rng_state(),
+    }
+    if torch.cuda.is_available():
+        state["cuda"] = torch.cuda.get_rng_state_all()
+    return state
+
+
+def restore_rng_state(state: Dict[str, Any]) -> None:
+    if not state:
+        return
+    if "python" in state:
+        random.setstate(state["python"])
+    if "torch" in state:
+        torch.set_rng_state(state["torch"])
+    if torch.cuda.is_available() and "cuda" in state:
+        torch.cuda.set_rng_state_all(state["cuda"])
+
+
+def save_training_state(output_dir: str, optimizer, scaler, step: int, epoch: int) -> None:
+    os.makedirs(output_dir, exist_ok=True)
+    state = {
+        "step": step,
+        "epoch": epoch,
+        "optimizer": optimizer.state_dict(),
+        "scaler": scaler.state_dict(),
+        "rng_state": collect_rng_state(),
+    }
+    torch.save(state, checkpoint_state_path(output_dir))
+    print(f"[checkpoint] saved training state={checkpoint_state_path(output_dir)}")
+
+
+def load_training_state(checkpoint_dir: str, optimizer, scaler) -> tuple[int, int]:
+    state_path = checkpoint_state_path(checkpoint_dir)
+    if not os.path.isfile(state_path):
+        print(f"[resume:warn] no {TRAINING_STATE_FILE} found at {checkpoint_dir}; model weights will resume but optimizer/scaler will start fresh")
+        return 0, 0
+
+    state = torch_load_checkpoint(state_path)
+    optimizer_state = state.get("optimizer")
+    if optimizer_state:
+        optimizer.load_state_dict(optimizer_state)
+    scaler_state = state.get("scaler")
+    if scaler_state:
+        scaler.load_state_dict(scaler_state)
+    restore_rng_state(state.get("rng_state", {}))
+
+    step = int(state.get("step", 0))
+    epoch = int(state.get("epoch", 0))
+    print(f"[resume] loaded training state from {state_path}: step={step}, epoch={epoch + 1}")
+    return step, epoch
 
 
 def resolve_metrics_file(cfg: TrainConfig) -> str:
@@ -632,6 +729,8 @@ def build_loaders(cfg: TrainConfig, tokenizer):
         if not routes:
             raise ValueError("No route entries found. Route training requires rows with window/service tags.")
 
+    eval_rows = limit_eval_rows(eval_rows, cfg.eval_max_rows, cfg.seed)
+
     train_rows = prepare_rows_for_task(train_rows, routes, cfg, "train")
     eval_rows = prepare_rows_for_task(eval_rows, routes, cfg, "eval")
     print_data_summary(train_rows, tokenizer, cfg, "train")
@@ -653,7 +752,7 @@ def build_loaders(cfg: TrainConfig, tokenizer):
     if eval_ds is not None:
         eval_loader = DataLoader(
             eval_ds,
-            batch_size=cfg.batch_size,
+            batch_size=cfg.eval_batch_size or cfg.batch_size,
             shuffle=False,
             num_workers=cfg.num_workers,
             collate_fn=collate,
@@ -667,9 +766,10 @@ def train(cfg: TrainConfig) -> None:
     set_seed(cfg.seed)
     os.makedirs(cfg.output_dir, exist_ok=True)
 
+    model_name_or_path = cfg.resume_from_checkpoint if cfg.resume_from_checkpoint and not cfg.use_lora else cfg.model_name_or_path
     model, tokenizer = load_causal_lm(
         HFModelConfig(
-            model_name_or_path=cfg.model_name_or_path,
+            model_name_or_path=model_name_or_path,
             torch_dtype=cfg.torch_dtype,
             device_map=cfg.device_map,
             trust_remote_code=cfg.trust_remote_code,
@@ -699,7 +799,9 @@ def train(cfg: TrainConfig) -> None:
     autocast_dtype = get_autocast_dtype(cfg)
     scaler = torch.amp.GradScaler('cuda', enabled=(autocast_dtype == torch.float16))
 
-    print(f"[model] {cfg.model_name_or_path}")
+    print(f"[model] {model_name_or_path}")
+    if cfg.resume_from_checkpoint:
+        print(f"[resume] checkpoint={cfg.resume_from_checkpoint}")
     print(f"[quantization] mode={cfg.quantization}, 4bit_compute_dtype={cfg.bnb_4bit_compute_dtype}, 4bit_quant_type={cfg.bnb_4bit_quant_type}, double_quant={cfg.bnb_4bit_use_double_quant}")
     print(f"[lora] enabled={cfg.use_lora}, r={cfg.lora_r}, alpha={cfg.lora_alpha}, targets={cfg.lora_target_modules}")
     print(f"[data] train_batches={len(train_loader)}, eval_batches={len(eval_loader) if eval_loader else 0}")
@@ -708,16 +810,27 @@ def train(cfg: TrainConfig) -> None:
 
     metrics_file = resolve_metrics_file(cfg)
     os.makedirs(os.path.dirname(metrics_file) or ".", exist_ok=True)
-    open(metrics_file, "w", encoding="utf-8").close()
+    if cfg.resume_from_checkpoint and os.path.exists(metrics_file):
+        print(f"[metrics] appending to existing metrics file during resume: {metrics_file}")
+    else:
+        open(metrics_file, "w", encoding="utf-8").close()
     train_metrics: List[Dict[str, Any]] = []
     eval_metrics: List[Dict[str, Any]] = []
 
     model.train()
     optimizer.zero_grad(set_to_none=True)
     step = 0
+    start_epoch = 0
+    if cfg.resume_from_checkpoint:
+        step, start_epoch = load_training_state(cfg.resume_from_checkpoint, optimizer, scaler)
+        start_epoch = min(start_epoch, max(0, cfg.epochs - 1))
+        if step >= total_steps:
+            print(f"[resume] checkpoint step={step} is already >= total_steps={total_steps}; nothing to train")
+            print_training_summary(train_metrics, eval_metrics, metrics_file)
+            return
     started_at = time.time()
 
-    for epoch in range(cfg.epochs):
+    for epoch in range(start_epoch, cfg.epochs):
         for micro_step, batch in enumerate(train_loader, start=1):
             lr = lr_at_step(step, total_steps, warmup_steps, cfg.learning_rate)
             for group in optimizer.param_groups:
@@ -753,7 +866,7 @@ def train(cfg: TrainConfig) -> None:
             optimizer.zero_grad(set_to_none=True)
             step += 1
 
-            if step % cfg.log_interval == 0:
+            if cfg.log_interval > 0 and step % cfg.log_interval == 0:
                 elapsed = max(1e-6, time.time() - started_at)
                 train_loss = loss.item() * cfg.grad_accum_steps
                 metric = {
@@ -768,8 +881,8 @@ def train(cfg: TrainConfig) -> None:
                 append_metric(metrics_file, metric)
                 print(f"[step {step}] epoch={epoch + 1} loss={train_loss:.4f} lr={lr:.2e} elapsed={elapsed:.1f}s")
 
-            if eval_loader and step % cfg.eval_interval == 0:
-                eval_loss = evaluate(model, eval_loader, device)
+            if eval_loader and cfg.eval_interval > 0 and step % cfg.eval_interval == 0:
+                eval_loss = evaluate(model, eval_loader, device, cfg.eval_max_batches)
                 eval_ppl = math.exp(min(eval_loss, 20))
                 metric = {
                     "type": "eval",
@@ -782,15 +895,21 @@ def train(cfg: TrainConfig) -> None:
                 append_metric(metrics_file, metric)
                 print(f"[eval {step}] loss={eval_loss:.4f} ppl={eval_ppl:.2f}")
 
-            if step % cfg.save_interval == 0:
-                save_model(os.path.join(cfg.output_dir, f"step-{step}"), model, tokenizer, cfg, step)
+            if cfg.save_interval > 0 and step % cfg.save_interval == 0:
+                checkpoint_dir = os.path.join(cfg.output_dir, f"step-{step}")
+                save_model(checkpoint_dir, model, tokenizer, cfg, step)
+                save_training_state(checkpoint_dir, optimizer, scaler, step, epoch)
 
             if step >= total_steps:
-                save_model(os.path.join(cfg.output_dir, "final"), model, tokenizer, cfg, step)
+                checkpoint_dir = os.path.join(cfg.output_dir, "final")
+                save_model(checkpoint_dir, model, tokenizer, cfg, step)
+                save_training_state(checkpoint_dir, optimizer, scaler, step, epoch)
                 print_training_summary(train_metrics, eval_metrics, metrics_file)
                 return
 
-    save_model(os.path.join(cfg.output_dir, "final"), model, tokenizer, cfg, step)
+    checkpoint_dir = os.path.join(cfg.output_dir, "final")
+    save_model(checkpoint_dir, model, tokenizer, cfg, step)
+    save_training_state(checkpoint_dir, optimizer, scaler, step, max(0, cfg.epochs - 1))
     print_training_summary(train_metrics, eval_metrics, metrics_file)
 
 
@@ -802,7 +921,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
         if isinstance(default, bool):
             parser.add_argument(arg_name, action=argparse.BooleanOptionalAction, default=default)
         elif default is None:
-            value_type = int if field_name == "max_steps" else str
+            int_fields = {"max_steps", "eval_max_rows", "eval_max_batches", "eval_batch_size"}
+            value_type = int if field_name in int_fields else str
             parser.add_argument(arg_name, type=value_type, default=None)
         else:
             parser.add_argument(arg_name, type=type(default), default=default)

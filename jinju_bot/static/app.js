@@ -5,12 +5,26 @@ const sendButton = document.querySelector("#sendButton");
 const clearButton = document.querySelector("#clearButton");
 const themeButton = document.querySelector("#themeButton");
 const evidenceToggle = document.querySelector("#evidenceToggle");
+const debugToggle = document.querySelector("#debugToggle");
 const evidenceBox = document.querySelector("#evidenceBox");
 const shell = document.querySelector(".shell");
+
+const SESSION_STORAGE_KEY = "jinju.sessionId";
+
+function makeSessionId() {
+  if (globalThis.crypto && globalThis.crypto.randomUUID) {
+    return globalThis.crypto.randomUUID();
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
+let sessionId = localStorage.getItem(SESSION_STORAGE_KEY) || makeSessionId();
+localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
 
 const settings = {
   dark: localStorage.getItem("jinju.dark") === "true",
   evidence: localStorage.getItem("jinju.evidence") !== "false",
+  debug: localStorage.getItem("jinju.debug") === "true",
 };
 
 function applySettings() {
@@ -18,7 +32,9 @@ function applySettings() {
   shell.classList.toggle("evidence-hidden", !settings.evidence);
   themeButton.textContent = settings.dark ? "라이트 모드" : "다크 모드";
   evidenceToggle.textContent = settings.evidence ? "근거 숨김" : "근거 표시";
+  debugToggle.textContent = settings.debug ? "디버그 켜짐" : "디버그 꺼짐";
   evidenceToggle.setAttribute("aria-pressed", String(settings.evidence));
+  debugToggle.setAttribute("aria-pressed", String(settings.debug));
   themeButton.setAttribute("aria-pressed", String(settings.dark));
 }
 
@@ -33,6 +49,7 @@ function addMessage(role, text) {
   row.appendChild(bubble);
   messages.appendChild(row);
   messages.scrollTop = messages.scrollHeight;
+  return row;
 }
 
 function formatEvidence(data) {
@@ -41,6 +58,7 @@ function formatEvidence(data) {
   const selected = evidence.selected_service;
   const lines = [
     `응답 모드: ${data.mode || "template"}`,
+    `문맥 사용: ${data.context_used || "없음"}`,
     `의도: ${evidence.intent}`,
     `신뢰도: ${Number(evidence.confidence || 0).toFixed(3)}`,
     `모호 여부: ${evidence.ambiguous ? "예" : "아니오"}`,
@@ -77,13 +95,101 @@ function formatEvidence(data) {
   return lines.join("\n");
 }
 
+function formatDebugCandidates(data) {
+  const matches = data.evidence && data.evidence.matches ? data.evidence.matches : [];
+  if (!matches.length) return "후보 없음";
+  return matches
+    .slice(0, 5)
+    .map((match, index) => {
+      const service = match.service || {};
+      const score = Number(match.score || 0).toFixed(3);
+      const alias = match.matched_alias ? ` / alias: ${match.matched_alias}` : "";
+      return `${index + 1}. ${service.service_name || "이름 없음"} (${score})${alias}`;
+    })
+    .join("\n");
+}
+
+async function sendFeedback(responseId, rating) {
+  const response = await fetch("/api/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ session_id: sessionId, response_id: responseId, rating }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "피드백을 기록하지 못했습니다.");
+  }
+  return data;
+}
+
+function attachDebugPanel(row, data) {
+  if (!settings.debug || !data.response_id) return;
+
+  const panel = document.createElement("div");
+  panel.className = "debug-panel";
+
+  const title = document.createElement("div");
+  title.className = "debug-title";
+  title.textContent = "디버그";
+  panel.appendChild(title);
+
+  const candidates = document.createElement("pre");
+  candidates.className = "debug-candidates";
+  candidates.textContent = `후보군\n${formatDebugCandidates(data)}\n\n실제 답변\n${data.answer}`;
+  panel.appendChild(candidates);
+
+  const actions = document.createElement("div");
+  actions.className = "feedback-actions";
+
+  const status = document.createElement("span");
+  status.className = "feedback-status";
+
+  const goodButton = document.createElement("button");
+  goodButton.className = "feedback-button positive";
+  goodButton.type = "button";
+  goodButton.textContent = "좋아요";
+
+  const badButton = document.createElement("button");
+  badButton.className = "feedback-button negative";
+  badButton.type = "button";
+  badButton.textContent = "싫어요";
+
+  async function submit(rating) {
+    goodButton.disabled = true;
+    badButton.disabled = true;
+    status.textContent = "기록 중...";
+    try {
+      const result = await sendFeedback(data.response_id, rating);
+      status.textContent = result.message || "기록했습니다.";
+    } catch (error) {
+      goodButton.disabled = false;
+      badButton.disabled = false;
+      status.textContent = error.message;
+    }
+  }
+
+  goodButton.addEventListener("click", () => submit("good"));
+  badButton.addEventListener("click", () => submit("bad"));
+
+  actions.appendChild(goodButton);
+  actions.appendChild(badButton);
+  actions.appendChild(status);
+  panel.appendChild(actions);
+  row.appendChild(panel);
+  messages.scrollTop = messages.scrollHeight;
+}
+
 async function sendMessage(message) {
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, session_id: sessionId, debug_mode: settings.debug }),
   });
   const data = await response.json();
+  if (data.session_id) {
+    sessionId = data.session_id;
+    localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+  }
   if (!response.ok) {
     throw new Error(data.error || "응답을 가져오지 못했습니다.");
   }
@@ -98,13 +204,13 @@ form.addEventListener("submit", async (event) => {
   addMessage("user", message);
   input.value = "";
   sendButton.disabled = true;
-  addMessage("assistant", "확인하고 있습니다...");
-  const pending = messages.lastElementChild;
+  const pending = addMessage("assistant", "확인하고 있습니다...");
 
   try {
     const data = await sendMessage(message);
     pending.querySelector(".bubble").textContent = data.answer;
     evidenceBox.textContent = formatEvidence(data);
+    attachDebugPanel(pending, data);
   } catch (error) {
     pending.querySelector(".bubble").textContent = error.message;
   } finally {
@@ -125,8 +231,16 @@ evidenceToggle.addEventListener("click", () => {
   applySettings();
 });
 
+debugToggle.addEventListener("click", () => {
+  settings.debug = !settings.debug;
+  localStorage.setItem("jinju.debug", String(settings.debug));
+  applySettings();
+});
+
 clearButton.addEventListener("click", () => {
   messages.innerHTML = "";
+  sessionId = makeSessionId();
+  localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
   evidenceBox.textContent = "질문을 보내면 선택 업무와 후보가 표시됩니다.";
   input.focus();
 });

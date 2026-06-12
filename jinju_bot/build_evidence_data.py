@@ -7,9 +7,9 @@ from pathlib import Path
 from typing import Iterable
 
 try:
-    from .tools import ServiceRecord, fee_detail_text, license_tax_detail_text, render_basic_answer, topic_particle
+    from .tools import ServiceRecord, fee_detail_text, license_tax_detail_text, render_basic_answer, special_notice_text, topic_particle
 except ImportError:
-    from tools import ServiceRecord, fee_detail_text, license_tax_detail_text, render_basic_answer, topic_particle
+    from tools import ServiceRecord, fee_detail_text, license_tax_detail_text, render_basic_answer, special_notice_text, topic_particle
 
 
 SYSTEM_PROMPT = (
@@ -42,6 +42,12 @@ def row_to_service(row: sqlite3.Row) -> ServiceRecord:
         status_note=row["status_note"] or "",
         category=row["category"],
         department=row["department"],
+        department_floor=row["department_floor"] or None if "department_floor" in row.keys() else None,
+        window_floor=row["window_floor"] or None if "window_floor" in row.keys() else None,
+        special_note=row["special_note"] or "" if "special_note" in row.keys() else "",
+        special_type=row["special_type"] or "" if "special_type" in row.keys() else "",
+        unattended_available=bool(row["unattended_available"]) if "unattended_available" in row.keys() else False,
+        identity_required=bool(row["identity_required"]) if "identity_required" in row.keys() else False,
         source_file=row["source_file"],
         source_row=row["source_row"],
     )
@@ -56,7 +62,21 @@ def load_services(db_path: Path | str) -> list[ServiceRecord]:
 def load_aliases(db_path: Path | str, service_id: str) -> list[str]:
     with connect(db_path) as conn:
         rows = conn.execute(
-            "SELECT alias FROM aliases WHERE service_id = ? ORDER BY alias_id",
+            """
+            SELECT alias
+            FROM aliases
+            WHERE service_id = ?
+            ORDER BY
+                CASE
+                    WHEN source = 'route_aliases.json' THEN 0
+                    WHEN source = 'service_name_derived' THEN 1
+                    WHEN source = 'service_name_compact' THEN 2
+                    WHEN source = 'service_name' THEN 3
+                    ELSE 4
+                END,
+                length(alias),
+                alias_id
+            """,
             (service_id,),
         ).fetchall()
     return [row["alias"] for row in rows]
@@ -107,11 +127,22 @@ def evidence_license_tax_note(service) -> str:
     return note
 
 
+def floor_answer_target(service: ServiceRecord) -> str:
+    if service.department and service.department_floor:
+        return f"{service.department} {service.department_floor}"
+    if service.department:
+        return service.department
+    if service.window_floor:
+        return service.window_floor
+    return "자료 없음"
+
+
 def evidence_block(service: ServiceRecord, intent: str) -> str:
     return "\n".join(
         [
             f"질문 의도: {intent}",
             f"요청 정보: {intent}",
+            f"target: {floor_answer_target(service)}",
             "모호 여부: 아니오",
             f"선택 업무: {service.service_name}",
             f"담당 창구: {service.window}",
@@ -122,6 +153,12 @@ def evidence_block(service: ServiceRecord, intent: str) -> str:
             f"등록면허세 비고: {evidence_license_tax_note(service)}",
             f"구비서류 비고: {service.document_note or '자료 없음'}",
             f"처리 비고: {service.status_note or '자료 없음'}",
+            f"특이사항: {service.special_note or '자료 없음'}",
+            f"담당부서: {service.department or '자료 없음'}",
+            f"담당부서 층수: {service.department_floor or '자료 없음'}",
+            f"창구 부서 층수: {service.window_floor or '자료 없음'}",
+            f"무인민원발급기 처리 가능: {'예' if service.unattended_available else '아니오'}",
+            f"본인확인 필요: {'예' if service.identity_required else '아니오'}",
         ]
     )
 
@@ -158,15 +195,32 @@ def route_visit_sentence(service: ServiceRecord) -> str:
     return f"방문하실 때는 {service.window}로 가시면 됩니다."
 
 
+def floor_notice_sentence(service: ServiceRecord) -> str:
+    if service.department and service.department_floor:
+        return f"실제 처리는 {service.department}에서 담당하며, {service.department_floor}에 있습니다."
+    if service.department:
+        return f"실제 처리는 {service.department} 담당부서 안내가 필요합니다."
+    if service.window_floor:
+        return f"해당 창구 부서는 {service.window_floor}에 있습니다."
+    return ""
+
+
+def with_floor_notice(service: ServiceRecord, text: str) -> str:
+    notice = floor_notice_sentence(service)
+    if notice and notice not in text:
+        return f"{text} {notice}"
+    return text
+
+
 def route_answers(service: ServiceRecord) -> list[tuple[str, str]]:
     t = topic(service)
     clean_name = clean_service_name(service)
     return [
-        ("direct", f"{t} {service.window}에서 안내받으시면 됩니다."),
-        ("polite", f"{t} {service.window}에서 안내받을 수 있습니다."),
-        ("friendly", f"{route_visit_sentence(service)} {clean_name} 업무로 문의하시면 안내받기 쉽습니다."),
-        ("confirm", f"해당 민원은 {service.window}에서 확인하시면 됩니다. 세부 사항도 같은 곳에서 안내받으시면 됩니다."),
-        ("minami", f"말씀하신 {t} {service.window}에서 안내받으실 수 있습니다."),
+        ("direct", with_floor_notice(service, f"{t} {service.window}에서 안내받으시면 됩니다.")),
+        ("polite", with_floor_notice(service, f"{t} {service.window}에서 안내받을 수 있습니다.")),
+        ("friendly", with_floor_notice(service, f"{route_visit_sentence(service)} {clean_name} 업무로 문의하시면 안내받기 쉽습니다.")),
+        ("confirm", with_floor_notice(service, f"해당 민원은 {service.window}에서 확인하시면 됩니다. 세부 사항도 같은 곳에서 안내받으시면 됩니다.")),
+        ("minami", with_floor_notice(service, f"말씀하신 {t} {service.window}에서 안내받으실 수 있습니다.")),
     ]
 
 
@@ -225,7 +279,7 @@ def documents_answers(service: ServiceRecord) -> list[tuple[str, str]]:
         ("direct", f"{topic(service)} {service.window}에서 안내받으시면 됩니다. {note}"),
         ("polite", f"{service.service_name}의 구비서류는 {service.window}에서 민원 내용에 맞춰 확인하시면 됩니다. {note}"),
         ("friendly", f"서류는 민원 내용에 따라 달라질 수 있습니다. {service.window}에서 {service.service_name} 구비서류를 확인해 주세요."),
-        ("minami", f"구비 서류의 경우, {service.window} 창구가 아닌 민원을 실제 처리하는 시청 내 각 부서 담당자와 통화하시면 더 빨리 답변을 들으실 수 있습니다."),
+        ("minami", f"구비 서류의 경우, {service.window} 가 아닌 민원을 실제 처리하는 시청 내 각 부서 담당자와 통화하시면 더 빨리 답변을 들으실 수 있습니다."),
     ]
 
 
@@ -311,17 +365,40 @@ def combined_answer(service: ServiceRecord, fields: tuple[str, ...]) -> str:
     return f"{topic(service)} " + " ".join(parts)
 
 
+def with_special_notices(service: ServiceRecord, answers: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    notice = special_notice_text(service, ["general"])
+    if not notice:
+        return answers
+    updated = []
+    for style, response in answers:
+        text = response
+        for sentence in notice.split(". "):
+            sentence = sentence.strip()
+            already_has_floor = bool(
+                service.department
+                and service.department_floor
+                and service.department in text
+                and service.department_floor in text
+                and service.department in sentence
+                and service.department_floor in sentence
+            )
+            if sentence and not already_has_floor and sentence not in text:
+                text += f" {sentence if sentence.endswith('.') else sentence + '.'}"
+        updated.append((style, text))
+    return updated
+
+
 def answer_variants(service: ServiceRecord, intent: str) -> list[tuple[str, str]]:
     if intent == "담당 창구 문의":
-        return route_answers(service)
+        return with_special_notices(service, route_answers(service))
     if intent == "수수료 문의":
-        return fee_answers(service)
+        return with_special_notices(service, fee_answers(service))
     if intent == "등록면허세 문의":
-        return license_tax_answers(service)
+        return with_special_notices(service, license_tax_answers(service))
     if intent == "구비서류 문의":
-        return documents_answers(service)
+        return with_special_notices(service, documents_answers(service))
     if intent == "처리 가능 여부 문의":
-        return status_answers(service)
+        return with_special_notices(service, status_answers(service))
     combined_fields = {
         "창구+수수료 문의": ("route", "fee"),
         "창구+등록면허세 문의": ("route", "license_tax"),
@@ -331,14 +408,14 @@ def answer_variants(service: ServiceRecord, intent: str) -> list[tuple[str, str]
     }.get(intent)
     if combined_fields:
         response = combined_answer(service, combined_fields)
-        return [("combined", response)]
-    return route_answers(service)
+        return with_special_notices(service, [("combined", response)])
+    return with_special_notices(service, route_answers(service))
 
 
-def question_variants(service: ServiceRecord, aliases: list[str]) -> Iterable[tuple[str, str]]:
+def question_variants(service: ServiceRecord, aliases: list[str], max_names: int = 8) -> Iterable[tuple[str, str]]:
     names = [service.service_name]
     for alias in aliases:
-        if alias not in names and len(names) < 4:
+        if alias not in names and len(names) < max_names:
             names.append(alias)
 
     route_templates = (
@@ -347,6 +424,12 @@ def question_variants(service: ServiceRecord, aliases: list[str]) -> Iterable[tu
         "{name} 하려면 어느 창구로 가야 하나요?",
         "{name} 어디로 가면 돼?",
         "{name} 담당 창구 알려줘",
+        "{name} 받으려면 어디 가요?",
+        "{name} 하러 왔는데 몇 번 창구야?",
+        "{name} 어디로 안내하면 돼?",
+        "{name} 뽑으려면 어디 가요?",
+        "{name} 떼려면 어디로 가면 돼?",
+        "{name} 출력은 어디서 하나요?",
     )
     fee_templates = (
         "{name} 수수료 있나요?",
@@ -405,6 +488,10 @@ def build_rows(db_path: Path | str) -> list[dict]:
                         "service_name": service.service_name,
                         "intent": intent,
                         "style": style,
+                        "target": floor_answer_target(service),
+                        "department": service.department or "",
+                        "department_floor": service.department_floor or "",
+                        "window_floor": service.window_floor or "",
                         "source": "services.db",
                     }
                 )

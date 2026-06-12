@@ -9,32 +9,69 @@ from threading import Lock
 from urllib.parse import unquote
 
 try:
+    from .feedback_store import DEFAULT_ALIAS_DB_PATH, init_alias_learning_db, record_feedback
     from .infer import build_arg_parser as build_infer_arg_parser
     from .infer import generate_answer, load_model_and_tokenizer
-    from .public_data_search import PublicDataLookup, lookup_public_service, summarize_public_result
-    from .tools import build_evidence, evidence_to_dict, render_basic_answer
+    from .tools import evidence_to_dict, render_basic_answer
+    from .web_context import (
+        ConversationState,
+        get_conversation_state,
+        make_response_id,
+        resolve_evidence_with_context,
+        update_conversation_state,
+    )
+    from .web_external import apply_gov24_answer, apply_public_data_answer, maybe_lookup_gov24, maybe_lookup_public_data
 except ImportError:
+    from feedback_store import DEFAULT_ALIAS_DB_PATH, init_alias_learning_db, record_feedback
     from infer import build_arg_parser as build_infer_arg_parser
     from infer import generate_answer, load_model_and_tokenizer
-    from public_data_search import PublicDataLookup, lookup_public_service, summarize_public_result
-    from tools import build_evidence, evidence_to_dict, render_basic_answer
+    from tools import evidence_to_dict, render_basic_answer
+    from web_context import (
+        ConversationState,
+        get_conversation_state,
+        make_response_id,
+        resolve_evidence_with_context,
+        update_conversation_state,
+    )
+    from web_external import apply_gov24_answer, apply_public_data_answer, maybe_lookup_gov24, maybe_lookup_public_data
 
 
 ROOT = Path(__file__).resolve().parent
 STATIC_DIR = ROOT / "static"
 
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 7860
+DEFAULT_DB_PATH = "data/services.db"
+DEFAULT_ALIAS_DB_PATH = str(DEFAULT_ALIAS_DB_PATH)
+DEFAULT_MODEL_NAME_OR_PATH = "Qwen/Qwen2.5-1.5B-Instruct"
+DEFAULT_ADAPTER_PATH = "checkpoints_evidence_Qwen2.5-1.5B-Instruct/step-500"
+DEFAULT_TORCH_DTYPE = "bf16"
+DEFAULT_QUANTIZATION = "none"
+DEFAULT_BNB_4BIT_COMPUTE_DTYPE = "bf16"
+DEFAULT_BNB_4BIT_QUANT_TYPE = "nf4"
+DEFAULT_EVIDENCE_MAX_NEW_TOKENS = 80
+DEFAULT_EVIDENCE_TEMPERATURE = 0.02
+DEFAULT_PUBLIC_DATA_TIMEOUT = 5.0
+DEFAULT_GOV24_TIMEOUT = 5.0
+DEFAULT_PUBLIC_DATA_API_KEY = ""
+
 
 class ChatHandler(BaseHTTPRequestHandler):
-    db_path = "data/services.db"
+    db_path = DEFAULT_DB_PATH
+    alias_db_path = DEFAULT_ALIAS_DB_PATH
     show_server_logs = True
     use_model = False
     model = None
     tokenizer = None
     infer_args = None
     enable_public_data = False
-    public_data_api_key = ""
-    public_data_timeout = 5.0
+    public_data_api_key = DEFAULT_PUBLIC_DATA_API_KEY
+    public_data_timeout = DEFAULT_PUBLIC_DATA_TIMEOUT
+    enable_gov24 = False
+    gov24_timeout = DEFAULT_GOV24_TIMEOUT
     generation_lock = Lock()
+    sessions: dict[str, ConversationState] = {}
+    sessions_lock = Lock()
 
     def log_message(self, fmt: str, *args) -> None:
         if self.show_server_logs:
@@ -76,126 +113,144 @@ class ChatHandler(BaseHTTPRequestHandler):
         self.send_error(404)
 
     def do_POST(self) -> None:
-        if self.path != "/api/chat":
-            self.send_error(404)
+        if self.path == "/api/chat":
+            self.handle_chat_post()
             return
+        if self.path == "/api/feedback":
+            self.handle_feedback_post()
+            return
+        self.send_error(404)
 
+    def read_json_payload(self) -> dict | None:
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            payload = json.loads(self.rfile.read(length).decode("utf-8"))
-            question = str(payload.get("message", "")).strip()
+            return json.loads(self.rfile.read(length).decode("utf-8"))
         except (ValueError, json.JSONDecodeError):
             self.send_json(400, {"error": "요청 형식이 올바르지 않습니다."})
+            return None
+
+    def handle_chat_post(self) -> None:
+        payload = self.read_json_payload()
+        if payload is None:
             return
+        question = str(payload.get("message", "")).strip()
+        session_id = str(payload.get("session_id") or "").strip() or None
+        debug_mode = bool(payload.get("debug_mode"))
 
         if not question:
             self.send_json(400, {"error": "질문을 입력해 주세요."})
             return
 
-        evidence = build_evidence(question, db_path=self.db_path)
-        public_data = maybe_lookup_public_data(question, evidence)
+        session_id, state = get_conversation_state(self.sessions, self.sessions_lock, session_id)
+        evidence, context_used = resolve_evidence_with_context(question, state, self.db_path, self.alias_db_path)
+        gov24_data = maybe_lookup_gov24(
+            question,
+            evidence,
+            enabled=self.enable_gov24,
+            timeout=self.gov24_timeout,
+        )
+        public_data = maybe_lookup_public_data(
+            question,
+            evidence,
+            enabled=self.enable_public_data,
+            service_key=self.public_data_api_key,
+            timeout=self.public_data_timeout,
+        )
         mode = "model" if self.use_model else "template"
         warning = None
-        if self.use_model:
+        if self.use_model and not context_used:
             try:
                 with self.generation_lock:
                     answer = generate_answer(self.model, self.tokenizer, self.infer_args, question)
             except Exception as exc:
                 answer = render_basic_answer(evidence)
-                warning = f"모델 응답 실패로 DB 답변을 사용했습니다: {exc}"
+                warning = f"모델 응답 실패로 내부 자료 기반 답변을 사용했습니다: {exc}"
                 mode = "template_fallback"
         else:
             answer = render_basic_answer(evidence)
+            if self.use_model and context_used:
+                mode = "template_context"
+        answer = apply_gov24_answer(answer, evidence, gov24_data)
         answer = apply_public_data_answer(answer, evidence, public_data)
+        response_id = make_response_id()
+        evidence_data = evidence_to_dict(evidence)
+        with self.sessions_lock:
+            update_conversation_state(state, response_id, question, answer, evidence, evidence_data, mode, context_used)
         self.send_json(
             200,
             {
                 "answer": answer,
-                "evidence": evidence_to_dict(evidence),
+                "session_id": session_id,
+                "response_id": response_id,
+                "debug_mode": debug_mode,
+                "context_used": context_used,
+                "evidence": evidence_data,
+                "gov24": gov24_data.to_dict() if gov24_data else None,
                 "public_data": public_data.to_dict() if public_data else None,
                 "mode": mode,
                 "warning": warning,
             },
         )
 
+    def handle_feedback_post(self) -> None:
+        payload = self.read_json_payload()
+        if payload is None:
+            return
+        session_id = str(payload.get("session_id") or "").strip()
+        response_id = str(payload.get("response_id") or "").strip()
+        rating = str(payload.get("rating") or "").strip().lower()
+
+        if rating not in {"good", "bad"}:
+            self.send_json(400, {"error": "rating은 good 또는 bad이어야 합니다."})
+            return
+        if not session_id or not response_id:
+            self.send_json(400, {"error": "세션 또는 응답 정보가 없습니다."})
+            return
+
+        with self.sessions_lock:
+            state = self.sessions.get(session_id)
+            response = state.responses.get(response_id) if state else None
+        if not response:
+            self.send_json(404, {"error": "피드백 대상 응답을 찾지 못했습니다."})
+            return
+
+        result = record_feedback(self.alias_db_path, session_id, response_id, rating, response)
+        self.send_json(200, result)
+
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run a small web UI for jinju_bot.")
-    parser.add_argument("--host", default="127.0.0.1")
-    parser.add_argument("--port", type=int, default=7860)
-    parser.add_argument("--db", default="data/services.db")
+    parser.add_argument("--host", default=DEFAULT_HOST)
+    parser.add_argument("--port", type=int, default=DEFAULT_PORT)
+    parser.add_argument("--db", default=DEFAULT_DB_PATH)
+    parser.add_argument("--alias-db", default=DEFAULT_ALIAS_DB_PATH, help="사용자 피드백과 승격 alias를 저장할 별도 SQLite DB입니다.")
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--use-model", action="store_true", help="Load the LoRA model and generate answers through infer.py.")
-    parser.add_argument("--model-name-or-path", default="Qwen/Qwen2.5-1.5B-Instruct")
-    parser.add_argument("--adapter-path", default="checkpoints_evidence_Qwen2.5-1.5B-Instruct/step-1000")
-    parser.add_argument("--torch-dtype", default="bf16")
+    parser.add_argument("--model-name-or-path", default=DEFAULT_MODEL_NAME_OR_PATH)
+    parser.add_argument("--adapter-path", default=DEFAULT_ADAPTER_PATH)
+    parser.add_argument("--torch-dtype", default=DEFAULT_TORCH_DTYPE)
     parser.add_argument("--device-map", default=None)
     parser.add_argument("--trust-remote-code", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument("--quantization", choices=("none", "4bit", "8bit"), default="none")
-    parser.add_argument("--bnb-4bit-compute-dtype", default="bf16")
-    parser.add_argument("--bnb-4bit-quant-type", default="nf4")
+    parser.add_argument("--quantization", choices=("none", "4bit", "8bit"), default=DEFAULT_QUANTIZATION)
+    parser.add_argument("--bnb-4bit-compute-dtype", default=DEFAULT_BNB_4BIT_COMPUTE_DTYPE)
+    parser.add_argument("--bnb-4bit-quant-type", default=DEFAULT_BNB_4BIT_QUANT_TYPE)
     parser.add_argument("--bnb-4bit-use-double-quant", action=argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--evidence-max-new-tokens", type=int, default=80)
-    parser.add_argument("--evidence-temperature", type=float, default=0.0)
+    parser.add_argument("--evidence-max-new-tokens", type=int, default=DEFAULT_EVIDENCE_MAX_NEW_TOKENS)
+    parser.add_argument("--evidence-temperature", type=float, default=DEFAULT_EVIDENCE_TEMPERATURE)
     parser.add_argument("--enable-public-data", action="store_true", default=True, help="DB 답변이 불확실할 때 공공데이터포털 API를 보조 조회합니다.")
     parser.add_argument("--disable-public-data", dest="enable_public_data", action="store_false", help="공공데이터포털 API 보조 조회를 끕니다.")
-    parser.add_argument("--public-data-api-key", default="", help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
-    parser.add_argument("--public-data-timeout", type=float, default=5.0)
+    parser.add_argument("--public-data-api-key", default=DEFAULT_PUBLIC_DATA_API_KEY, help="공공데이터포털 서비스 키. 없으면 DATA_GO_KR_SERVICE_KEY 환경변수를 사용합니다.")
+    parser.add_argument("--public-data-timeout", type=float, default=DEFAULT_PUBLIC_DATA_TIMEOUT)
+    parser.add_argument("--enable-gov24", action="store_true", default=True, help="DB 답변이 불확실하거나 공식 최신 자료가 필요할 때 정부24를 직접 조회합니다.")
+    parser.add_argument("--disable-gov24", dest="enable_gov24", action="store_false", help="정부24 직접 조회를 끕니다.")
+    parser.add_argument("--gov24-timeout", type=float, default=DEFAULT_GOV24_TIMEOUT)
     return parser
-
-
-def is_public_data_lookup_needed(question, evidence) -> bool:
-    service = evidence.selected_service
-
-    if any(word in question for word in ("공공데이터", "정부24", "인터넷", "최신", "공식자료", "API")):
-        return True
-    if not service or evidence.ambiguous:
-        return True
-    requested = set(evidence.requested_fields)
-
-    if "fee" in requested and service.fee_status == "unknown":
-        return True
-    if "documents" in requested and not service.document_note:
-        return True
-    if "status" in requested and not service.status_note:
-        return True
-    return False
-
-
-def public_data_query(question: str, evidence) -> str:
-    service = evidence.selected_service
-    if evidence.ambiguous or not service:
-        return question
-    return service.service_name
-
-
-def maybe_lookup_public_data(question: str, evidence) -> PublicDataLookup | None:
-    if not ChatHandler.enable_public_data or not is_public_data_lookup_needed(question, evidence):
-        return None
-    return lookup_public_service(
-        public_data_query(question, evidence),
-        service_key=ChatHandler.public_data_api_key,
-        timeout=ChatHandler.public_data_timeout,
-    )
-
-
-def apply_public_data_answer(answer: str, evidence, public_data: PublicDataLookup | None) -> str:
-    if not public_data:
-        return answer
-    if not public_data.ok or not public_data.result:
-        if evidence.ambiguous and public_data.enabled:
-            return f"{answer} 공공데이터에서도 바로 일치하는 결과를 찾지 못했습니다."
-        return answer
-
-    public_summary = summarize_public_result(public_data, evidence.requested_fields)
-    if evidence.ambiguous or not evidence.selected_service:
-        return f"Local DB에서는 정확한 업무를 특정하기 어렵습니다. 대신 {public_summary}"
-    return f"{answer} 추가로 {public_summary}"
 
 
 def build_web_infer_args(args: argparse.Namespace) -> argparse.Namespace:
     infer_args = build_infer_arg_parser().parse_args([])
     infer_args.services_db = args.db
+    infer_args.alias_db = args.alias_db
     infer_args.template_only = not args.use_model
     infer_args.show_evidence = False
     infer_args.model_name_or_path = args.model_name_or_path
@@ -215,12 +270,16 @@ def build_web_infer_args(args: argparse.Namespace) -> argparse.Namespace:
 def main() -> None:
     args = build_arg_parser().parse_args()
     ChatHandler.db_path = args.db
+    ChatHandler.alias_db_path = args.alias_db
+    init_alias_learning_db(args.alias_db)
     ChatHandler.show_server_logs = not args.quiet
     ChatHandler.use_model = args.use_model
     ChatHandler.infer_args = build_web_infer_args(args)
     ChatHandler.enable_public_data = args.enable_public_data
     ChatHandler.public_data_api_key = args.public_data_api_key
     ChatHandler.public_data_timeout = args.public_data_timeout
+    ChatHandler.enable_gov24 = args.enable_gov24
+    ChatHandler.gov24_timeout = args.gov24_timeout
     if args.use_model:
         print("[web] loading model; this can take a while...")
         try:
